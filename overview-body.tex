@@ -1,213 +1,188 @@
-\chapter*{Overview of Scheme}
+\chapter*{Schemeの概観}
 
-This paper gives an overview of 
-the small language of \rsevenrs.
-The purpose of this overview is to explain
-enough about the basic concepts of the language to facilitate
-understanding of the \rsevenrs{} report, which is
-organized as a reference manual.  Consequently, this overview is
-not a complete introduction to the language, nor is it precise
-in all respects or normative in any way.
+この文章は \rsevenrs の小さな言語の概観について述べます。
+この概要の目的は、リファレンスマニュアルとして編成されている
+\rsevenrs{} の理解を手助けするために、言語の基本概念について十分な説明をすることです。
+その目的のため、この概要は言語の完全な入門書ではありませんし、
+すべての事柄や基準について、いかなる意味でも正確に述べているわけではありません。
 
-\vest Following Algol, Scheme is a statically scoped programming
-language.  Each use of a variable is associated with a lexically
-apparent binding of that variable.
+\vest Algolに倣い、Schemeは静的なスコープを持つプログラミング言語です。
+変数はその変数の字句的に見えている束縛に関連付けられます。
 
-\vest Scheme has latent as opposed to manifest types.  Types
-are associated with objects (also called values) rather than
-with variables.  (Some authors refer to languages with latent types as
-untyped, weakly typed or dynamically typed languages.)  Other languages with
-latent types are Python, Ruby, Smalltalk, and other dialects of Lisp.  Languages
-with manifest types (sometimes referred to as strongly typed or
-statically typed languages) include Algol 60, C, C\#, Java, Haskell, and ML.
+\vest Schemeは暗黙の型を持つ言語です。
+これは明示的な型と反対の概念です。
+型は変数ではなくオブジェクト (値とも呼ばれます) に紐付けられます。
+(暗黙な型を持つ言語のことを、型を持たない言語、弱い型を持つ言語、動的な型を持つ言語などと呼ぶ人もいます。)
+暗黙な型を持つ言語は他にPython、Ruby、Smalltalkなどがあります。
+他のLisp方言もそうです。
+明示的な型を持つ言語
+(強い型を持つ言語や静的な型を持つ言語と呼ばれることもあります)
+にはAlgol 60、C、C\#、Java、Haskell、MLなどがあります。
 
-\vest All objects created in the course of a Scheme computation, including
-procedures and continuations, have unlimited extent.
-No Scheme object is ever destroyed.  The reason that
-implementations of Scheme do not (usually!) run out of storage is that
-they are permitted to reclaim the storage occupied by an object if
-they can prove that the object cannot possibly matter to any future
-computation.  Other languages in which most objects have unlimited
-extent include C\#, Java, Haskell, most Lisp dialects, ML, Python,
-Ruby, and Smalltalk.
+\vest Schemeの計算中に作成されるすべてのオブジェクトは無限の寿命を持ちます。
+手続きや継続もそれに含まれます。
+Schemeのオブジェクトは破棄されることはありません。
+Scheme処理系が(通常は!)記憶領域を使い切ることが無いのは、
+あるオブジェクトが将来のいかなる計算にも影響を与える可能性がないと保証できる場合に、
+そのオブジェクトが占有している記憶領域を回収することが出来るためです。
+ほとんどのオブジェクトが無限の寿命を持つ言語には、
+C\#、Java、Haskell、ほとんどのLisp方言、ML、Python、Ruby、Smalltalkなどがあります。
 
-Implementations of Scheme must be properly tail-recursive.
-This allows the execution of an iterative computation in constant space,
-even if the iterative computation is described by a syntactically
-recursive procedure.  Thus with a properly tail-recursive implementation,
-iteration can be expressed using the ordinary procedure-call
-mechanics, so that special iteration constructs are useful only as
-syntactic sugar.
+Scheme処理系は、正しく末尾再帰を行えることが要求されます。
+これにより、繰り返し計算が構文的には再帰手続きとして記述されていても、
+その繰り返し計算を一定の空間内で実行することが可能になります。
+処理系が正しく末尾再帰を行うことにより、
+通常の手続き呼び出しを用いて繰り返しを表現することができます。
+そのため、特殊な繰り返し構文は構文糖衣としての価値しかありません。
 
-\vest Scheme was one of the first languages to support procedures as
-objects in their own right.  Procedures can be created dynamically,
-stored in data structures, returned as results of procedures, and so
-on.  Other languages with these properties include Common Lisp,
-Haskell, ML, Ruby, and Smalltalk.
+\vest Schemeはオブジェクトとしての手続きをサポートした最初の言語のひとつです。
+手続きは動的に作成したり、データ構造に格納したり、
+手続きの結果として返したりすることが出来ます。
+このような特徴を持つ言語にはCommon Lisp、Haskell、ML、Ruby、Smalltalkなどがあります。
 
-\vest One distinguishing feature of Scheme is that continuations, which
-in most other languages only operate behind the scenes, also have
-``first-class'' status.  First-class continuations are useful for implementing a
-wide variety of advanced control constructs, including non-local exits,
-backtracking, and coroutines.
+\vest Scheme特有の機能のひとつに、第一級の地位を持つ継続があります。
+これは、他のほとんどの言語では、水面下にしか存在しないものです。
+第一級の継続を利用することで、非局所脱出、バックトラッキング、コルーチンなど、
+幅広い様々な高度な制御構造を実装出来ます。
 
-In Scheme, the argument expressions of a procedure call are evaluated
-before the procedure gains control, whether the procedure needs the
-result of the evaluation or not.  C, C\#, Common Lisp, Python,
-Ruby, and Smalltalk are other languages that always evaluate argument
-expressions before invoking a procedure.  This is distinct from the
-lazy-evaluation semantics of Haskell, or the call-by-name semantics of
-Algol 60, where an argument expression is not evaluated unless its
-value is needed by the procedure.
+Schemeでは、手続き呼び出しの引数の式は、手続きが制御を得る前に、
+必要とされるか否かに関わらず、評価されます。
+C、C\#、Common Lisp、Python、Ruby、Smalltalkなどが手続き呼び出しの前に必ず引数式を評価する言語の例です。
+これは、手続きが必要としない限り引数が評価されないHaskellの遅延評価の意味論や
+Algol 60の名前渡しの意味論とはまったく異なるものです。
 
-Scheme's model of arithmetic provides a rich set of numerical types
-and operations on them.  Furthermore, it distinguishes \textit{exact}
-and \textit{inexact} numbers: Essentially, an exact number
-object corresponds to a number exactly, and an inexact number
-is the result of a computation that involved rounding or other approximations.
+Schemeの数値計算モデルには豊富な数値型とその演算子が用意されています。
+さらに、\textit{正確}な数値と\textit{不正確}な数値を区別しています。
+原則として、正確な数値オブジェクトは正確にあるひとつの数値に対応するもので、
+不正確な数値は丸めやその他の近似を伴った計算の結果です。
 
-\chapter{Basic types}
+\chapter{基本的な型}
 
-Scheme programs manipulate \textit{objects}, which are also referred
-to as \textit{values}.
-Scheme objects are organized into sets of values called \textit{types}.
-This chapter gives an overview of the fundamentally important types of the
-Scheme language.  
+Schemeのプログラムは\textit{オブジェクト}を操作します(\textit{値}と呼ばれることもあります)。
+Schemeのオブジェクトは\textit{型}と呼ばれる値の集合に分類されます。
+この章ではScheme言語の基礎となる重要な型の概観を述べます。
 
 \begin{note}
-  As Scheme is latently typed, the use of the term \textit{type} in
-  the Scheme context differs from the use of the term in the context of other
-  languages, particularly those with manifest typing.
+  Schemeは暗黙の型を持つので、Schemeの文脈における用語\textit{型}の用途は、
+  他の言語、特に明示的な型を持つ言語における文脈での用途とは異なります。
 \end{note}
 
-\paragraph{Numbers}
+\paragraph{数値}
 
-Scheme supports a rich variety of numerical data types, including
-integers of arbitrary precision, rational numbers, complex numbers, and
-inexact numbers of various kinds.  
+Schemeは幅広い豊富な数値データ型をサポートしています。
+任意精度の整数、分数、複素数や様々な型の不正確な数値などがあります。
 
-\paragraph{Booleans}
+\paragraph{ブーリアン}
 
-A boolean is a truth value, and can be either
-true or false.  In Scheme, the object for ``false'' is written
-\schfalse{}.  The object for ``true'' is written \schtrue{}.  In
-most places where a truth value is expected, however, any object different from
-\schfalse{} counts as true.
+ブーリアンは真偽値です。
+真または偽のいずれかとなります。
+Schemeでは、``偽''のオブジェクトは \schfalse{} と書きます。
+``真''のオブジェクトは \schtrue{} と書きます。
+しかし、真偽値を必要とする場所のほとんどで、
+\schfalse{} 以外のあらゆるオブジェクトが真とみなされます。
 
-\paragraph{Pairs and lists}
+\paragraph{ペアとリスト}
 
-A pair is a data structure with two components.  The most common use
-of pairs is to represent (singly linked) lists, where the first
-component (the ``car'') represents the first element of the list, and
-the second component (the ``cdr'') the rest of the list.  Scheme also
-has a distinguished empty list, which is the last cdr in a chain of
-pairs that form a list.
+ペアは2つの部分を持つデータ構造です。
+ペアのほとんどの用途は(単方向連結)リストを表現することです。
+ひとつめの部分(``car'')がリストの最初の要素を表し、
+ふたつめの部分(``cdr'')がリストの残りを表します。
+Schemeにはさらに独立した空リストがあり、
+リストを形成するペアのチェーンの最後の cdr となります。
 
-\paragraph{Symbols}
+\paragraph{シンボル}
 
-A symbol is an object representing a string,
-the symbol's \textit{name}.
-Unlike strings, two symbols whose names are spelled the same
-way are never distinguishable.  Symbols are useful for many applications;
-for instance, they can be used the way enumerated values are used in
-other languages.
+シンボルは文字列を表すオブジェクトです。
+シンボルが表す文字列は、そのシンボルの\textit{名前}と呼ばれます。
+文字列オブジェクトと異なり、同じ綴りの名前を持つ2つのシンボルは区別されません。
+シンボルには多くの活用方法があります。
+例えば、他の言語では列挙型を使うような場面で、シンボルを使うことができます。
 
-In \rsevenrs, unlike \rfivers, symbols and identifiers are case-sensitive.
+\rfivers と異なり、 \rsevenrs ではシンボルおよび識別子の大文字小文字を区別します。
 
-\paragraph{Characters}
+\paragraph{文字}
 
-Scheme characters mostly correspond to textual characters.
-More precisely, they are isomorphic to a subset of the \textit{scalar values} of
-the Unicode standard, with possible implementation-dependent extensions.
+Schemeの文字は文章の文字にほぼ対応します。
+より正確にいうと、Unicode標準の\textit{スカラ値}のサブセットと同じです。
+処理系によってはさらに拡張されている場合もあります。
 
-\paragraph{Strings}
+\paragraph{文字列}
 
-Strings are finite sequences of characters with fixed length and thus
-represent arbitrary Unicode texts.
+文字列は有限の文字の並びで、固定の長さを持ちます。
+すなわち、任意のUnicodeテキストを表します。
 
-\paragraph{Vectors}
+\paragraph{ベクタ}
 
-Vectors, like lists, are linear data structures
-representing finite sequences of arbitrary objects.
-Whereas the elements of a list are accessed
-sequentially through the chain of pairs representing it,
-the elements of a vector are addressed by integer indices.
-Thus, vectors are more appropriate than
-lists for random access to elements.
+ベクタは、リストのように、任意のオブジェクトの有限の並びを表す線形のデータ構造です。
+リストの要素はそれを表しているペアのチェーンを辿って線形にアクセスされるのに対し、
+ベクタの要素は整数のインデックスでアクセスされます。
+そのため、要素にランダムアクセスする場合は、リストよりベクタの方が適しています。
 
-\paragraph{Bytevectors}
+\paragraph{バイトベクタ}
 
-Bytevectors are similar to vectors, except that their contents
-are \textit{bytes}, exact integers in the range 0 to 255 inclusive.
+バイトベクタはベクタに似ていますが、要素が\textit{バイト}である点が異なります。
+つまり、0～255の範囲の正確な整数しか格納できません。
 
-\paragraph{Procedures}
+\paragraph{手続き}
 
-Procedures are values in Scheme.
+Schemeでは手続きは値です。
 
-\paragraph{Records}
+\paragraph{レコード}
 
-Records are structured values, and are
-aggregations of zero or more \textit{fields}, each of which holds a single location.
-Records are organized into \textit{record types}.
-A predicate, a constructor, and field accessors and
-mutators can be defined for each record type.
+レコードは構造化された値であり、ゼロ個以上の\textit{フィールド}の集合体です。
+それぞれのフィールドにひとつずつ場所があります。
+レコードは\textit{レコード型}に分類されます。
+述語、構築手続き、フィールド参照手続き、フィールド代入手続きが
+それぞれのレコード型に対して定義されます。
 
-\paragraph{Ports}
+\paragraph{ポート}
 
-Ports represent input and output devices.  To Scheme, an input port is
-a Scheme object that can deliver data upon command, while an output
-port is a Scheme object that can accept data.
+ポートは入出力機器を表します。
+Schemeでは、入力ポートはコマンドに応じてデータを取り出すSchemeオブジェクトであり、
+出力ポートはデータを受け入れるSchemeオブジェクトです。
 
-\chapter{Expressions}
+\chapter{式}
 
-The most important elements of Scheme code are
-\textit{expressions}.  Expressions can be
-\textit{evaluated}, producing a \textit{value} (actually, any number
-of values.)  The most
-fundamental expressions are literal expressions:
+Schemeコードの最も重要な要素が\textit{式}です。
+式は、\textit{評価}して\textit{値}を生成することができます。
+最も基礎的な式はリテラル式です:
 
 \begin{scheme}
 \schtrue{} \ev \schtrue
 23 \ev 23%
 \end{scheme}
 
-This notation means that the expression \schtrue{} evaluates to
-\schtrue{}, that is, the value for ``true'',  and that the expression
-{\cf 23} evaluates to a number representing the number 23.
+この表記は式 \schtrue{} が \schtrue{}、つまり``真''を表す値に評価され、
+式 {\cf 23} が23という数を表す数値に評価されることを意味しています。
 
-Compound expressions are formed by placing parentheses around their
-subexpressions.  The first subexpression identifies an operation; the
-remaining subexpressions are operands to the operation:
+合成式は部分式のまわりに括弧を置くことで作られます。
+最初の部分式は演算を区別し、残りの部分式はその演算の被演算子です。
 %
 \begin{scheme}
 (+ 23 42) \ev 65
 (+ 14 (* 23 42)) \ev 980%
 \end{scheme}
 %
-In the first of these examples, {\cf +} is the name of
-the built-in operation for addition, and {\cf 23} and {\cf 42} are the
-operands.  The expression {\cf (+ 23 42)} reads as ``the sum of 23 and
-42''.  Compound expressions can be nested---the second example reads
-as ``the sum of 14 and the product of 23 and 42''.
+最初の例では、{\cf +}は組み込みの加算演算子の名前で、{\cf 23}と{\cf 42}がその被演算子です。
+式 {\cf (+ 23 42)} は``23と42の和''と解釈します。
+合成式は入れ子にできます ---
+ふたつめの例は``23と42の積と14の和''と解釈します。
 
-As these examples indicate, compound expressions in Scheme are always
-written using the same prefix notation.  As
-a consequence, the parentheses are needed to indicate structure.
-Consequently, ``superfluous'' parentheses, which are often permissible in
-mathematical notation and also in many programming languages, are not
-allowed in Scheme.
+これらの例が示すように、Schemeの合成式は常に同じ前置表記を使って書きます。
+必然的に構造を示すために括弧が必要となります。
+そのため、数学の表記や多くのプログラミングで許容されている``不要な''括弧は、Schemeでは許容されません。
 
-As in many other languages, whitespace (including line endings) is not
-significant when it separates subexpressions of an expression, and
-can be used to indicate structure.
+多くのプログラミング言語と同様に、
+それが式の部分式を分割している場合、
+ホワイトスペース(改行も含みます)は重要ではなく、
+構造を表すために使うことができます。
 
-\chapter{Variables and binding}
+\chapter{変数と束縛}
 
-Scheme
-allows identifiers to stand for locations containing values.
-These identifiers are called variables.  In many cases, specifically
-when the location's value is never modified after its creation, it is
-useful to think of the variable as standing for the value directly.
+Schemeでは識別子を用いて値を保持する場所を表すことができます。
+これらの識別子は変数と呼ばれます。
+多くの場合において、特にその場所の値が作成後に変更されることがない場合、
+変数はその値を直接表すものとして考えるのが便利でしょう。
 
 \begin{scheme}
 (let ((x 23)
@@ -215,20 +190,17 @@ useful to think of the variable as standing for the value directly.
   (+ x y)) \ev 65%
 \end{scheme}
 
-In this case, the expression starting with {\cf let} is a binding
-construct.  The parenthesized structure following the {\cf let} lists
-variables alongside expressions: the variable {\cf x} alongside {\cf
-  23}, and the variable {\cf y} alongside {\cf 42}.  The {\cf let}
-expression binds {\cf x} to 23, and {\cf y} to 42.  These bindings are
-available in the \textit{body} of the {\cf let} expression, {\cf (+ x
-  y)}, and only there.
+この場合、{\cf let}で始まる式は束縛構文です。
+{\cf let}の次の括弧で囲まれた部分は、変数と式のリストです。
+変数{\cf x}と{\cf 23}、そして変数{\cf y}と{\cf 42}です。
+{\cf let}式は{\cf x}を23に束縛し、{\cf y}を42に束縛します。
+これらの束縛は{\cf let}式の\textit{本体}の中、つまり {\cf (+ x y)} でのみ有効です。
 
-\chapter{Definitions}
+\chapter{定義}
 
-The variables bound by a {\cf let} expression
-are \textit{local}, because their bindings are visible only in the
-{\cf let}'s body.  Scheme also allows creating top-level bindings for
-identifiers as follows:
+{\cf let}式で束縛された変数は\textit{局所的}です。
+それらの束縛は{\cf let}の本体からのみ見えます。
+以下のようにして識別子に対する最上位の束縛を作ることもできます。
 
 \begin{scheme}
 (define x 23)
@@ -236,19 +208,19 @@ identifiers as follows:
 (+ x y) \ev 65%
 \end{scheme}
 
-(These are actually ``top-level'' in the body of a top-level program or library.)
+(これらは最上位のプログラムまたはライブラリの本体内で実際に``最上位''です。)
 
-The first two parenthesized structures are \textit{definitions}; they
-create top-level bindings, binding {\cf x} to 23 and {\cf y} to 42.
-Definitions are not expressions, and cannot appear in all places
-where an expression can occur.  Moreover, a definition has no value.
+最初の2つの括弧で囲まれた部分は\textit{定義}です。
+これらは{\cf x}を23に、{\cf y}を42に束縛する最上位の束縛を作成します。
+定義は式ではありません。
+式を書けるすべての場所に定義が書けるわけではありません。
+また、定義は値を持ちません。
 
-Bindings follow the lexical structure of the program:  When several
-bindings with the same name exist, a variable refers to the binding
-that is closest to it, starting with its occurrence in the program
-and going from inside to outside, and referring to an outermost
-binding if no
-local binding can be found along the way:
+束縛はプログラムの字句的構造に従います。
+同じ名前の束縛がいくつか存在する場合、変数は最も近い束縛を参照します。
+プログラム中のその変数が現れた場所から始まり、内側から外側へと進み、
+その途中で局所的な束縛が見付からなければ、
+最も外側の束縛を参照します。
 
 \begin{scheme}
 (define x 23)
@@ -261,10 +233,9 @@ local binding can be found along the way:
     (+ x y))) \ev 67%
 \end{scheme}
 
-\chapter{Procedures}
+\chapter{手続き}
 
-Definitions can also be used to define
-procedures:
+定義を使って手続きを定義することもできます。
 
 \begin{scheme}
 (define (f x)
@@ -273,16 +244,14 @@ procedures:
 (f 23) \ev 65%
 \end{scheme}
 
-A procedure is, slightly simplified, an abstraction of an
-expression over objects.  In the example, the first definition defines a procedure
-called {\cf f}.  (Note the parentheses around {\cf f x}, which
-indicate that this is a procedure definition.)  The expression {\cf (f
-  23)} is a procedure call meaning,
-roughly, ``evaluate {\cf (+ x 42)} (the body of the procedure) with
-{\cf x} bound to 23''.
+手続きは、いくらか単純化した、オブジェクトに対する式の抽象化です。
+この例では、ひとつめの定義は{\cf f}という名前の手続きを定義しています。
+{\cf f x}のまわりの括弧は、これが手続き定義であることを表しています。
+式 {\cf (f 23)} は手続きの呼び出しで、だいたい
+``{\cf x} を23に束縛して {\cf (+ x 42)} (手続きの本体です)を評価する''
+のような意味合いです。
 
-As procedures are objects, they can be passed to other
-procedures:
+手続きはオブジェクトなので、他の手続きに渡すことができます。
 %
 \begin{scheme}
 (define (f x)
@@ -294,16 +263,16 @@ procedures:
 (g f 23) \ev 65%
 \end{scheme}
 
-In this example, the body of {\cf g} is evaluated with {\cf p}
-bound to {\cf f} and {\cf x} bound to 23, which is equivalent
-to {\cf (f 23)}, which evaluates to 65.
+この例では、{\cf p}を{\cf f}に束縛し、{\cf x}を23に束縛して、{\cf g}の本体が評価されます。
+これは {\cf (f 23)} と等価であり、すなわち65に評価されます。
 
-In fact, many predefined operations of Scheme are provided not by
-syntax, but by variables whose values are procedures.
-The {\cf +} operation, for example, which receives
-special syntactic treatment in many other languages, is just a regular
-identifier in Scheme, bound to a procedure that adds numbers.  The
-same holds for {\cf *} and many others:
+実のところ、Schemeの定義済み手続きの多くは、
+構文としてではなく、値が手続きである変数として用意されています。
+例えば{\cf +}演算子は、
+他の多くの言語では特別な構文として扱われていますが、
+Schemeでは普通の識別子です。
+単に数値を加算する手続きに束縛されているだけです。
+{\cf *}や他の多くの演算子も同様です。
 
 \begin{scheme}
 (define (h op x y)
@@ -313,51 +282,44 @@ same holds for {\cf *} and many others:
 (h * 23 42) \ev 966%
 \end{scheme}
 
-Procedure definitions are not the only way to create procedures.  A
-{\cf lambda} expression creates a new procedure as an object, with no
-need to specify a name:
+手続き定義は手続きを作る唯一の方法ではありません。
+{\cf lambda}式を使うと、名前を指定する必要なしに、
+オブジェクトとしての新しい手続きを作ることができます。
 
 \begin{scheme}
 ((lambda (x) (+ x 42)) 23) \ev 65%
 \end{scheme}
 
-The entire expression in this example is a procedure call; {\cf
-  (lambda (x) (+ x 42))}, evaluates to a procedure that takes a single
-number and adds 42 to it.
+この例の式全体は手続き呼び出しです。
+{\cf (lambda (x) (+ x 42))} が数値をひとつ取りそれに42を加算する手続きに評価されます。
 
-\chapter{Procedure calls and syntactic keywords}
+\chapter{手続き呼び出しと構文キーワード}
 
-Whereas {\cf (+ 23 42)}, {\cf (f 23)}, and {\cf ((lambda (x) (+ x 42))
-  23)} are all examples of procedure calls, {\cf lambda} and {\cf
-  let} expressions are not.  This is because {\cf let}, even though
-it is an identifier, is not a variable, but is instead a \textit{syntactic
-  keyword}.  A list that has a
-syntactic keyword as its first subexpression obeys special rules determined by
-the keyword.  The {\cf define} identifier in a definition is also a
-syntactic keyword.  Hence, definitions are also not procedure calls.
+{\cf (+ 23 42)} や {\cf (f 23)}、
+{\cf ((lambda (x) (+ x 42))} などがすべて手続き呼び出しの例であるのに対し、
+{\cf lambda}式や{\cf let}式はそうではありません。
+これは{\cf let}が、識別子ではあるものの、変数ではなく\textit{構文キーワード}であるためです。
+最初の部分式に構文キーワードを持つリストは、そのキーワードによって決まる特別な規則に従います。
+定義で使われる{\cf define}識別子も構文キーワードです。
+従って、定義は手続き呼び出しではありません。
 
-The rules for the {\cf lambda} keyword specify that the first
-sublist is a list of parameters, and the remaining sublists are the body of
-the procedure.  In {\cf let} expressions, the first sublist is a list
-of binding specifications, and the remaining sublists constitute a body of
-expressions.
+{\cf lambda}キーワードの規則では、
+最初の部分リストは引数リストで、残りの部分リストは手続きの本体になります。
+{\cf let}式の場合は、
+最初の部分リストは束縛指定のリストで、残りの部分リストは式の本体を構成します。
 
-Procedure calls can be distinguished from these
-\textit{expression types} by
-looking for a syntactic keyword in the first position of a list:
-if the first position does not contain a syntactic keyword, the expression
-is a procedure call.  
-The set of syntactic keywords of Scheme is
-fairly small, which usually makes this task fairly simple.
-It is possible, however, to create new bindings for syntactic keywords.
+こういった\textit{式の形}と手続き呼び出しとは、
+リストの最初の位置に構文キーワードを見つけることで区別されます。
+もし最初の位置に構文キーワードがなければ、その式は手続き呼び出しです。
+Schemeの構文キーワードはとても少なく、この作業は実に簡単になっています。
+しかしながら、新しい構文キーワードに対する束縛を作ることもできます。
 
-\chapter{Assignment}
+\chapter{代入}
 
-Scheme variables bound by definitions or {\cf let} or {\cf lambda}
-expressions are not actually bound directly to the objects specified in the
-respective bindings, but to locations containing these objects.  The
-contents of these locations can subsequently be modified destructively
-via \textit{assignment}:
+定義や{\cf let}、{\cf lambda}で束縛したSchemeの変数は、
+実際にはそれぞれの束縛で指定されたオブジェクトに直接束縛されるわけではありません。
+そうではなく、それらのオブジェクトを保持している場所に束縛されます。
+これらの場所の内容は、その後に\textit{代入}によって破壊的に変更できます。
 %
 \begin{scheme}
 (let ((x 23))
@@ -365,21 +327,18 @@ via \textit{assignment}:
   x) \ev 42%
 \end{scheme}
 
-In this case, the body of the {\cf let} expression consists of two
-expressions which are evaluated sequentially, with the value of the
-final expression becoming the value of the entire {\cf let}
-expression.  The expression {\cf (set! x 42)} is an assignment, saying
-``replace the object in the location referenced by {\cf x} with 42''.
-Thus, the previous value of {\cf x}, 23, is replaced by 42.
+この例では、{\cf let}式の本体には2つの式があります。
+これらは順番に評価され、最後の式の値が{\cf let}式全体の値となります。
+式 {\cf (set! x 42)} は代入です。
+``{\cf x}が参照している場所のオブジェクトを42に置き換えなさい''という意味です。
+つまり、{\cf x}の以前の値23は、42に置き換えられます。
 
-\chapter{Derived syntax and macros}
+\chapter{派生構文とマクロ}
 
-Many of the expression types specified 
-as part of the \rsevenrs{} small language
-can be translated into more basic expression types.
-For example, a {\cf let} expression can be translated
-into a procedure call and a {\cf lambda} expression.  The following two
-expressions are equivalent:
+\rsevenrs{} の小さな言語の一部として規定されている式の形の多くは、
+より基本的な式の形に変換できます。
+例えば、{\cf let}式は手続き呼び出しと{\cf lambda}式に変換できます。
+以下のふたつの式は等価です:
 %
 \begin{scheme}
 (let ((x 23)
@@ -389,11 +348,10 @@ expressions are equivalent:
 ((lambda (x y) (+ x y)) 23 42) \lev 65%
 \end{scheme}
 
-Syntax expressions like {\cf let} expressions are called \textit{derived}
-because their semantics can be
-derived from that of other kinds of expressions by a syntactic
-transformation.  Some procedure definitions are also derived expressions.  The
-following two definitions are equivalent:
+{\cf let}式のような構文は\textit{派生構文}と呼ばれます。
+その意味論が構文変換により他の形の式から派生しているためです。
+手続きにも派生式として定義されているものがあります。
+以下のふたつの式は等価です:
 
 \begin{scheme}
 (define (f x)
@@ -404,8 +362,8 @@ following two definitions are equivalent:
     (+ x 42)))%
 \end{scheme}
 
-In Scheme, it is possible for a program to create its own derived
-expressions by binding syntactic keywords to macros:
+Schemeでは、構文キーワードをマクロに束縛することで、
+プログラム自身が独自の派生式を作ることができます。
 
 \begin{scheme}
 (define-syntax def
@@ -418,34 +376,32 @@ expressions by binding syntactic keywords to macros:
   (+ x 42))%
 \end{scheme}
 
-The {\cf define-syntax} construct specifies that a parenthesized
-structure matching the pattern {\cf (def f (p ...) body)}, where {\cf
-  f}, {\cf p}, and {\cf body} are pattern variables, is translated to
-{\cf (define (f p ...) body)}.  Thus, the {\cf def} expression appearing in
-the example gets translated to:
+この{\cf define-syntax}式は、
+パターン {\cf (def f (p ...) body)} に一致する括弧で囲まれた構文を
+{\cf (define (f p ...) body)} に変換する、という指定です。
+{\cf f}、{\cf p}、{\cf body}はパターン変数です。
+従って、この例の{\cf def}式は、以下のように変換されます:
 
 \begin{scheme}
 (define (f x)
   (+ x 42))%
 \end{scheme}
 
-The ability to create new syntactic keywords makes Scheme extremely
-flexible and expressive, allowing many of the features
-built into other languages to be implemented directly in Scheme:
-any Scheme programmer can add new expression types.
+新しい構文キーワードを作る能力により、
+Schemeは非常に柔軟で表現力が高い言語となっています。
+他の言語で組み込まれている多くの機能はSchemeで直接実装することができます。
+Schemeプログラマなら誰でも、新しい式の形を追加できるのです。
 
-\chapter{Syntactic data and datum values}
+\chapter{データ構文とデータ値}
 
-\textit{Datum values} constitute a subset of Scheme objects.
-These include booleans, numbers, characters, symbols,
-and strings as well as lists, vectors, and bytevectors whose elements are datum values.  Each
-datum value can be represented textually as a
-\textit{syntactic datum}, which can be written out
-and read back in without loss of information.
-There is in general more than one syntactic datum corresponding to each datum value.
-Moreover, each datum value
-can be trivially translated to a literal expression in a program by
-prepending a {\cf\singlequote} to a corresponding syntactic datum:
+\textit{データ値}はSchemeオブジェクトのサブセットを構成します。
+ブーリアン、数値、文字、シンボル、文字列、
+および要素がデータ値であるリスト、ベクタ、バイトベクタがこれに含まれます。
+それぞれのデータ値は\textit{データ構文}としてテキストで表現することができ、
+情報の損失なしに書き出し、読み戻すことが出来ます。
+それぞれのデータ値に対応するデータ構文は一般的にひとつ以上あります。
+さらに、それぞれのデータ値は対応するデータ構文に
+{\cf\singlequote} を前置することでプログラム内のリテラル式に変換することができます。
 
 \begin{scheme}
 '23 \ev 23
@@ -455,60 +411,48 @@ prepending a {\cf\singlequote} to a corresponding syntactic datum:
 '\#(1 2 3) \ev \#(1 2 3)%
 \end{scheme}
 
-The {\cf\singlequote} shown in the previous examples
-is not needed for representations of literal constants other than
-symbols and lists.
-The syntactic datum {\cf foo} represents a
-symbol with name ``foo'', and {\cf 'foo} is a literal expression with
-that symbol as its value.  {\cf (1 2 3)} is a syntactic datum that 
-represents a list with elements 1, 2, and 3, and {\cf '(1 2 3)} is a literal
-expression with this list as its value.  Likewise, {\cf \#(1 2 3)}
-is a syntactic datum that represents a vector with elements 1, 2 and 3, and
-{\cf '\#(1 2 3)} is the corresponding literal.
+この例のうち、シンボルとリスト以外のリテラル定数表現には {\cf\singlequote} は不要です。
+データ構文 {\cf foo} は名前が``foo''であるシンボルを表し、
+{\cf 'foo} はそのシンボルを値として持つリテラル式です。
+{\cf (1 2 3)} は要素が1、2、3であるリストを表すデータ構文であり、
+{\cf '(1 2 3)} はそのリストを値として持つリテラル式です。
+同様に、
+{\cf \#(1 2 3)} は要素が1、2、3であるベクタを表すデータ構文であり、
+{\cf '\#(1 2 3)} は対応するリテラルです。
 
-Syntactic datums are a superset of Scheme expressions.  Thus, data
-can be used to represent Scheme expressions as data objects.  In
-particular, symbols can be used to represent identifiers.
+データ構文はSchemeの式のスーパーセットです。
+すなわち、データを使ってSchemeの式をデータオブジェクトとして表現することができます。
+特に、シンボルを使って識別子を表現できます。
 
 \begin{scheme}
 '(+ 23 42) \ev (+ 23 42)
 '(define (f x) (+ x 42)) \lev (define (f x) (+ x 42))%
 \end{scheme}
 
-This facilitates writing programs that operate on Scheme source code,
-in particular interpreters and program transformers.
+これは、Schemeのソースコードを操作するプログラム、
+特にインタプリタやプログラム変換器を書く基礎となります。
 
-\chapter{Continuations}
+\chapter{継続}
 
-Whenever a Scheme expression is evaluated there is a
-\textit{continuation} wanting the result of the
-expression.  The continuation represents an entire (default) future
-for the computation.  For example, informally the continuation of {\cf 3}
-in the expression
+Schemeの式を評価するときは常に、その式の結果を欲している\textit{継続}が存在しています。
+継続はその計算の(デフォルトの)未来全体を表現します。
+例えば、以下の式の{\cf 3}の継続は、
 %
 \begin{scheme}
 (+ 1 3)%
 \end{scheme}
 %
-adds 1 to it.  Normally these ubiquitous continuations are hidden
-behind the scenes and programmers do not think much about them.  On
-rare occasions, however, a programmer needs to deal with
-continuations explicitly.  The {\cf call-with-current-continuation}
-procedure allows
-Scheme programmers to do that by creating a procedure that reinstates
-the current continuation.  The {\cf call-with-current-continuation}
-procedure accepts a procedure, calls it immediately with an argument
-that is an \textit{escape procedure}.  This
-escape procedure can then be called with an argument that becomes the
-result of the call to {\cf call-with-current-continuation}.  That is,
-the escape procedure abandons its own continuation, and reinstates the
-continuation of the call to {\cf call-with-current-continuation}.
+それに1を加算することです。
+通常、これらの普遍的に存在している継続は、水面下に隠されており、
+プログラマはそれらについて考えていません。
+しかし、プログラマが明示的に継続を扱う必要のある状況がまれにあります。
+現在の継続を復元する手続きを作成する
+{\cf call-with-current-continuation}
+手続きにより、Schemeプログラマは継続を扱うことが出来ます。
 
-In the following example, an escape procedure representing the
-continuation that adds 1 to its argument is bound to {\cf escape}, and
-then called with 3 as an argument.  The continuation of the call to
-{\cf escape} is abandoned, and instead the 3 is passed to the
-continuation that adds 1:
+以下の例では、引数に1を加算する継続を表す脱出手続きを{\cf escape}に束縛し、
+引数として3を与えてそれを呼び出しています。
+{\cf escape}への呼び出しの継続は放棄され、代わりに1を加算する継続に3が渡されます。
 %
 \begin{scheme}
 (+ 1 (call-with-current-continuation
@@ -516,24 +460,24 @@ continuation that adds 1:
          (+ 2 (escape 3))))) \lev 4%
 \end{scheme}
 %
-An escape procedure has unlimited extent: It can be called after the
-continuation it captured has been invoked, and it can be called
-multiple times.  This makes {\cf call-with-current-continuation}
-significantly more powerful than typical non-local control constructs
-such as exceptions in other languages.
+脱出手続きは無限の寿命を持ちます。
+その継続を補足した呼び出しが戻った後に呼び出すことができ、
+複数回呼び出すことも出来ます。
+これにより {\cf call-with-current-continuation}
+は他の言語の例外処理のような典型的な非局所制御構文に比べて非常に強力なものになっています。
 
-\chapter{Libraries}
+\chapter{ライブラリ}
 
-Scheme code can be organized in components called
-\textit{libraries}.  Each library contains 
-definitions and expressions.  It can import definitions
-from other libraries and export definitions to other libraries.
+Schemeのコードは\textit{ライブラリ}と呼ばれる部品にまとめることができます。
+ライブラリは定義と式を持ち、
+他のライブラリから定義をインポートしたり、
+他のライブラリに定義をエクスポートしたりできます。
 
-The following library called {\cf (hello)} exports a definition called
-{\cf hello-world},  and imports the base library
-and the display library.
-The {\cf hello-world} export is a procedure that displays {\cf Hello World}
-on a separate line:
+以下に示す {\cf (hello)} という名前のライブラリは、
+{\cf hello-world}という名前の定義をエクスポートし、
+baseライブラリとdisplayライブラリをインポートしています。
+エクスポートしている{\cf hello-world}は、
+{\cf Hello World}を表示して改行する手続きです。
 %
 \begin{scheme}
 (define-library (hello)
@@ -546,23 +490,20 @@ on a separate line:
       (newline))))%
 \end{scheme}
 
-\chapter{Programs}
+\chapter{プログラム}
 
-Libraries are invoked by other libraries, but ultimately by a Scheme
-\textit{program}.  Like a library, a
-program contains imports, definitions and expressions, and specifies
-an entry point for execution.  Thus a program defines, via
-the transitive closure of the libraries it imports, a Scheme program.
+ライブラリは他のライブラリから、最終的にはSchemeの\textit{プログラム}から呼び出されます。
+ライブラリ同様に、プログラムはインポート、定義、式を持つことができ、実行の開始点を規定します。
+そのためプログラムは、ライブラリインポートの推移閉包によって、Schemeのプログラムを定義します。
 
-The following program obtains the first argument from the command line
-via the {\cf command-line} procedure from the process-context
-library.
-It then opens the file using {\cf with-input-from-file},
-which causes the file to be the current input port, and
-arranges for it to be closed at the end.
-Next, it calls the {\cf read-line} procedure to read a line of text
-from the file, and then {\cf write-string} and {\cf newline} to
-output the line, then looping until the end of file:
+以下のプログラムは、
+process-contextライブラリの{\cf command-line}手続きを使って、
+コマンドラインから最初の引数を取得します。
+それから{\cf with-input-from-file}を使ってファイルを開きます。
+この手続きはファイルを現在の入力ポートとし、最後に閉じるように調整します。
+次に、{\cf read-line}手続きを呼んでファイルからテキストを1行読み込み、
+そして{\cf write-string}および{\cf newline}でその行を出力し、
+それをファイルの終端まで繰り返します。
 %
 \begin{scheme}
 (import (scheme base)
@@ -578,20 +519,19 @@ output the line, then looping until the end of file:
         (loop (read-line))))))%
 \end{scheme}
 
-\chapter{The REPL}
+\chapter{REPL}
 
-Implementations may provide an interactive session called a
-\defining{REPL} (Read-Eval-Print Loop), where import declarations,
-expressions and definitions can be
-entered and evaluated one at a time.  The REPL starts out
-with the base library imported, and possibly other libraries.
-An implementation may provide a mode of operation in which the REPL
-reads its input from a file.  Such a file is not, in general, the same
-as a program, because it can contain import declarations in places other than
-the beginning.
+処理系によっては \defining{REPL} (Read-Eval-Print Loop)
+と呼ばれる対話環境を用意しているものがあります。
+インポート宣言、式、定義を、一度にひとつずつ入力し、評価できる環境です。
+REPLはbaseライブラリをインポートした状態で開始されます。
+他のライブラリをインポートしている場合もあります。
+REPLにファイルから入力を読み込むモードを用意している処理系もあります。
+そういったファイルは、開始以外の場所にインポート宣言を含むことができ、
+一般的にプログラムと同じではありません。
 
-Here is a short REPL session.  The {\cf >} character represents the REPL's
-prompt for input:
+以下に短いREPLの対話の様子を示します。
+文字 {\cf >} はREPLの入力プロンプトを表しています。
 
 \begin{scheme}
 > ; A few simple things
