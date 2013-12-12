@@ -7,7 +7,7 @@ clean:
 	rm -f *~
 
 cleaner: clean
-	rm -f *.pdf *.aux *.log *.idx *.toc *.out
+	rm -f *.pdf *.aux *.log *.idx *.toc *.out *.dvi
 
 DIFF_SOURCES=basic.tex derive.tex example.tex expr.tex \
 	lex.tex procs.tex prog.tex struct.tex
@@ -30,16 +30,16 @@ intro-ebook.tex: intro.tex
 	sed 's/\\clearextrapart{\(.*\)}/\1/g' $< > $@
 
 r7rs.pdf: $(SOURCES) stdmod.tex
-	pdflatex $<
-	pdflatex $<
+	platex $<
+	dvipdfmx $(basename $<).dvi
 
 overview.pdf: overview.tex overview-body.tex
-	pdflatex $<
-	pdflatex $<
+	platex $<
+	dvipdfmx $(basename $<).dvi
 
 r7rs-ebook.pdf: r7rs-ebook.tex intro-ebook.tex $(SOURCES) stdmod.tex
-	pdflatex $<
-	pdflatex $<
+	platex $<
+	dvipdfmx $(basename $<).dvi
 
 r5diff/%.tex: %.tex
 	hg cat -r 1 $< > r5diff/old-$<
