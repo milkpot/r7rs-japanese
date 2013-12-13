@@ -5,16 +5,14 @@
 
 \topnewpage[{
 \begin{center}   {\huge\bf
-	Revised{\Huge$^{\mathbf{7}}$} Report on the Algorithmic Language \\
-			      \vskip 3pt
-				Scheme}
+アルゴリズム言語Scheme報告書改{\Huge$^{\mathbf{7}}$}}
 
 \vskip 1ex
 $$
 \begin{tabular}{l@{\extracolsep{.5in}}l@{\extracolsep{.5in}}l}
 \multicolumn{3}{c}{A\authorsc{LEX} S\authorsc{HINN},
-J\authorsc{OHN} C\authorsc{OWAN}, \authorsc{AND}
-A\authorsc{RTHUR} A. G\authorsc{LECKLER} (\textit{Editors})} \\
+J\authorsc{OHN} C\authorsc{OWAN}, \authorsc{および}
+A\authorsc{RTHUR} A. G\authorsc{LECKLER} (\textit{編})} \\
 \\
 S\authorsc{TEVEN} G\authorsc{ANZ} &
 A\authorsc{LEXEY} R\authorsc{ADUL} &
@@ -34,17 +32,17 @@ B\authorsc{ENJAMIN} L. R\authorsc{USSEL} &
 \\
 \multicolumn{3}{c}{R\authorsc{ICHARD} K\authorsc{ELSEY},
 W\authorsc{ILLIAM} C\authorsc{LINGER},
-\authorsc{AND} J\authorsc{ONATHAN} R\authorsc{EES}} \\
-\multicolumn{3}{c}{\textit{(Editors, Revised$^{\mathit{5}}$ Report on the Algorithmic Language Scheme)}} \\
+\authorsc{および} J\authorsc{ONATHAN} R\authorsc{EES}} \\
+\multicolumn{3}{c}{\textit{(編, アルゴリズム言語Scheme報告書改$^{\mathit{5}}$)}} \\
 \\
 \multicolumn{3}{c}{M\authorsc{ICHAEL} S\authorsc{PERBER},
 R. K\authorsc{ENT} D\authorsc{YBVIG}, M\authorsc{ATTHEW} F\authorsc{LATT},
-\authorsc{AND} A\authorsc{NTON} \authorsc{VAN} S\authorsc{TRAATEN}} \\
-\multicolumn{3}{c}{\textit{(Editors, Revised$^{\mathit{6}}$ Report on the Algorithmic Language Scheme)}} \\
+\authorsc{および} A\authorsc{NTON} \authorsc{VAN} S\authorsc{TRAATEN}} \\
+\multicolumn{3}{c}{\textit{(編, アルゴリズム言語Scheme報告書改$^{\mathit{6}}$)}} \\
 \end{tabular}
 $$
 \vskip 2ex
-{\it Dedicated to the memory of John McCarthy and Daniel Weinreb}
+{\it John McCarthy および Daniel Weinreb に捧ぐ}
 \vskip 2.6ex
 {\large \bf \today}             % *** DRAFT ***
 \end{center}
@@ -52,52 +50,39 @@ $$
 
 \clearpage
 
-\chapter*{Summary}
+\chapter*{要約}
 
-The report gives a defining description of the programming language
-Scheme.  Scheme is a statically scoped and properly tail recursive
-dialect of the Lisp programming language~\cite{McCarthy} invented by Guy Lewis
-Steele~Jr.\ and Gerald Jay~Sussman.  It was designed to have
-exceptionally clear and simple semantics and few different ways to
-form expressions.  A wide variety of programming paradigms, including
-imperative, functional, and object-oriented styles, find convenient
-expression in Scheme.
+この報告書は、プログラミング言語Schemeの定義的記述を記載しています。
+Schemeは静的なスコープを持ち適切に末尾再帰を行えるLispプログラミング言語~\cite{McCarthy}の方言で、
+Guy Lewis Steele~Jr. および Gerald Jay~Sussman によって発明されました。
+非常に明確でシンプルな意味論を持ち、わずかな構文だけで式を構成できるよう設計されています。
+手続き型、関数型、オブジェクト指向スタイルなど、
+幅広い様々なプログラミングパラダイムがSchemeで簡単に表現できます。
 
-\vest The introduction offers a brief history of the language and of
-the report.
+\vest 導入部では、この言語および報告書の歴史を簡単に述べます。
 
-\vest The first three chapters present the fundamental ideas of the
-language and describe the notational conventions used for describing the
-language and for writing programs in the language.
+\vest 最初の3つの章では、Schemeの基礎となる考え方を示し、
+その言語を説明するため、およびその言語でプログラムを書くために使う記法について述べます。
 
-\vest Chapters~\ref{expressionchapter} and~\ref{programchapter} describe
-the syntax and semantics of expressions, definitions, programs, and libraries.
+\vest \ref{expressionchapter}~章および\ref{programchapter}~章では、
+式、定義、プログラム、ライブラリの構文および意味論について述べます。
 
-\vest Chapter~\ref{builtinchapter} describes Scheme's built-in
-procedures, which include all of the language's data manipulation and
-input/output primitives.
+\vest \ref{builtinchapter}~章ではSchemeの組み込み手続き、
+すなわちSchemeのデータ操作および入出力プリミティブのすべてについて述べます。
 
-\vest Chapter~\ref{formalchapter} provides a formal syntax for Scheme
-written in extended BNF, along with a formal denotational semantics.
-An example of the use of the language follows the formal syntax and
-semantics.
+\vest \ref{formalchapter}~章では、拡張BNF記法で記述されたSchemeの正式な構文を、その記号的意味論と共に掲載します。
+その後にSchemeの使用例も掲載します。
 
-\vest Appendix~\ref{stdlibraries} provides a list of the standard libraries
-and the identifiers that they export.
+\vest 付録~\ref{stdlibraries}には、標準ライブラリとそこからエクスポートされている識別子の一覧を掲載します。
 
-\vest Appendix~\ref{stdfeatures} provides a list of optional but standardized
-implementation feature names.
+\vest 付録~\ref{stdfeatures}には、標準化されているけれどもオプション扱いの、実装特徴名の一覧を掲載します。
 
 
-\vest The report concludes with a list of references and an
-alphabetic index.
+\vest 最後に、参考文献の一覧とアルファベット順の索引を掲載し、この報告書を締めくくります。
 
 \begin{note}
-The editors of the \rfivers\ and \rsixrs\ reports are
-listed as authors of this report in recognition of the substantial
-portions of this report that are copied directly from \rfivers\ and \rsixrs.
-There is no intended implication that those editors, individually or
-collectively, support or do not support this report.
+\rfivers および \rsixrs から相当の部分がこの報告書に直接複写されており、
+そのため \rfivers および \rsixrs の編集者をこの報告書の著者の一覧に掲載しています。
 \end{note}
 
 \todo{expand the summary so that it fills up the column.}
