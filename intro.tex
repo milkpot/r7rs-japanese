@@ -1,34 +1,30 @@
-\clearextrapart{Introduction}
+\clearextrapart{導入}
 
 \label{historysection}
 
-Programming languages should be designed not by piling feature on top of
-feature, but by removing the weaknesses and restrictions that make additional
-features appear necessary.  Scheme demonstrates that a very small number
-of rules for forming expressions, with no restrictions on how they are
-composed, suffice to form a practical and efficient programming language
-that is flexible enough to support most of the major programming
-paradigms in use today.
+プログラミング言語は、機能の上に機能を積み重ねることによってではなく、
+追加の機能が必要とならないように弱点と制限を取り除くことによって設計するべきです。
+組み合わせ方に制限さえなければ、
+式を構成する非常に少数の規則だけで、
+今日使われる主なプログラミングパラダイムのほとんどをサポートするのに
+十分柔軟で実用的かつ効率的なプログラミング言語を
+十分に形作れます。
+Schemeがそれを実証しています。
 
 Scheme
-was one of the first programming languages to incorporate first-class
-procedures as in the lambda calculus, thereby proving the usefulness of
-static scope rules and block structure in a dynamically typed language.
-Scheme was the first major dialect of Lisp to distinguish procedures
-from lambda expressions and symbols, to use a single lexical
-environment for all variables, and to evaluate the operator position
-of a procedure call in the same way as an operand position.  By relying
-entirely on procedure calls to express iteration, Scheme emphasized the
-fact that tail-recursive procedure calls are essentially GOTOs that
-pass arguments, thus allowing a programming style that is both coherent
-and efficient.  Scheme was the first widely used programming language to
-embrace first-class escape procedures, from which all previously known
-sequential control structures can be synthesized.  A subsequent
-version of Scheme introduced the concept of exact and inexact numbers,
-an extension of Common Lisp's generic arithmetic.
-More recently, Scheme became the first programming language to support
-hygienic macros, which permit the syntax of a block-structured language
-to be extended in a consistent and reliable manner.
+はラムダ計算におけるような第一級の手続きを取り入れた最初のプログラミング言語のひとつです。
+それにより動的な型を持つ言語での静的スコープ規則およびブロック構造が有用であることを示しました。
+Schemeは、ラムダ式とシンボルから手続きを独立させ、すべての変数に単一の字句的環境を用い、
+手続き呼び出しにおける演算子の位置を被演算子の位置と同じように評価する、最初の主要なLisp方言です。
+Schemeは、繰り返しを表現するために全面的に手続き呼び出しに依存することにより、
+手続きの末尾呼び出しが本質的には引数を渡すGOTOである、という事実を強調しました。
+それにより一貫性と効率性を両立するプログラミングスタイルが可能となりました。
+Schemeは第一級の脱出手続きを採用した最初の広く使われたプログラミング言語です。
+これによりそれまで知られていた逐次実行の制御構造はすべて合成することが出来るようになりました。
+後のバージョンでは正確な数値および不正確な数値が導入されました。
+これはCommon Lispの汎用算術の拡張です。
+さらに近年では、Schemeは衛生的なマクロをサポートした最初のプログラミング言語になりました。
+これにより一貫性があり信頼できる方法でブロック構造言語の構文を拡張できます。
 \todo{Ramsdell:
 I would like to make a few comments on presentation.  The most
 important comment is about section organization.  Newspaper writers
@@ -49,81 +45,70 @@ the report, and use the first couple of pages to convince the reader
 that the language documented in this report is worth studying.
 }
 
-\subsection*{Background}
+\subsection*{背景}
 
-\vest The first description of Scheme was written in
-1975~\cite{Scheme75}.  A revised report~\cite{Scheme78}
-appeared in 1978, which described the evolution
-of the language as its MIT implementation was upgraded to support an
-innovative compiler~\cite{Rabbit}.  Three distinct projects began in
-1981 and 1982 to use variants of Scheme for courses at MIT, Yale, and
-Indiana University~\cite{Rees82,MITScheme,Scheme311}.  An introductory
-computer science textbook using Scheme was published in
-1984~\cite{SICP}.
+\vest Schemeの最初の記述は1995年に書かれました~\cite{Scheme75}。
+報告書の改定版~\cite{Scheme78}は1978年に出され、
+MITによる実装が革新的なコンパイラをサポートするようアップグレードすると共に、
+言語の進化が述べられました~\cite{Rabbit}。
+1981年および1982年に、MIT、イェール大学、およびインディアナ大学の授業で
+Schemeの亜種を用いるための3つの異なるプロジェクトが始められました~\cite{Rees82,MITScheme,Scheme311}。
+1984年にはSchemeを用いたコンピュータサイエンスの入門用の教科書が出版されました~\cite{SICP}。
 
-\vest As Scheme became more widespread,
-local dialects began to diverge until students and researchers
-occasionally found it difficult to understand code written at other
-sites.
-Fifteen representatives of the major implementations of Scheme therefore
-met in October 1984 to work toward a better and more widely accepted
-standard for Scheme.
-Their report, the RRRS~\cite{RRRS},
-was published at MIT and Indiana University in the summer of 1985.
-Further revision took place in the spring of 1986, resulting in the
-\rthreers~\cite{R3RS}.
-Work in the spring of 1988 resulted in \rfourrs~\cite{R4RS},
-which became the basis for the
-IEEE Standard for the Scheme Programming Language in 1991~\cite{IEEEScheme}.
-In 1998, several additions to the IEEE standard, including high-level
-hygienic macros, multiple return values, and {\cf eval}, were finalized
-as the \rfivers~\cite{R5RS}.
+\vest Schemeはさらに広まり、ローカルな方言が枝分かれし始め、
+学生と研究者がお互いに書いたコードを理解するのがしばしば難しくなってきました。
+そのため、より優れた、より広く受け入れられるSchemeの標準を作るために、
+1984年の10月、15人の主要なScheme処理系の代表者が集まりました。
+彼らの報告書、RRRS~\cite{RRRS}は、1985年の夏にMITおよびインディアナ大学で出版されました。
+1986年の春にさらなる改定が加えられ、\rthreers~\cite{R3RS}が作られました。
+1988年の春の作業では\rfourrs~\cite{R4RS}が作られ、
+これは1991年のSchemeプログラミング言語のIEEE標準~\cite{IEEEScheme}の基礎となりました。
+1998年には、高水準の衛生的マクロ、複数の戻り値、
+およびevalなどいくつかの追加要素がIEEE標準に加えられ、
+\rfivers~\cite{R5RS}としてまとめられました。
 
 \todo{Perhaps flesh out a little and mention the forming of the
  Steering Committee.}
 
-In the fall of 2006, work began on a more ambitious standard,
-including many new improvements and stricter requirements made in the
-interest of improved portability.  The resulting standard, the
-\rsixrs, was completed in August 2007~\cite{R6RS}, and was organized
-as a core language and set of mandatory standard libraries.  
-Several new implementations of Scheme conforming to it were created.
-However, most existing \rfivers{} implementations (even excluding those
-which are essentially unmaintained) did not adopt \rsixrs, or adopted
-only selected parts of it.
+2006年の秋、さらなる野心的な標準を作る作業が始められました。
+それには数多くの新たな改良と、移植性の向上に焦点を置いたより厳密な要求事項が含まれていました。
+その成果である標準 \rsixrs は2007年の8月に完成し~\cite{R6RS}、
+言語のコアと必須の標準ライブラリの集合として編纂されました。
+これに準拠した新たなScheme処理系がいくつも作られました。
+しかしながら、既存の \rsixrs 処理系(実質的にメンテナンスされていないものを除いても)
+は、ほとんど \rsixrs を採用せず、またはその一部だけを選択的に採用したに過ぎませんでした。
 
-In consequence, the Scheme Steering Committee decided in August 2009 to divide the
-standard into two separate but compatible languages --- a ``small''
-language, suitable for educators, researchers, and users of embedded languages,
-focused on \rfivers~compatibility, and a ``large'' language focused
-on the practical needs of mainstream software development,
-intended to become a replacement for \rsixrs.
-The present report describes the ``small'' language of that effort:
-therefore it cannot be considered in isolation as the successor
-to \rsixrs.
+その結果、2009年の8月、Scheme運営委員会は、標準を別々の、しかし互換性のある2つの言語
+--- ``小さな''言語と``大きな''言語に分割する決定を下しました。
+前者は教育者や研究者、埋め込み言語のユーザなどに適したもので、
+\rfivers との互換性に焦点を置いています。
+後者は主流のソフトウェア開発における実用的なニーズに焦点を置いたもので、
+\rsixrs の置き換えとなることを意図しています。
+この報告書はそのうちの``小さな''言語について記述したものです。
+従ってこれ単独で \rsixrs の後継と見なすことはできません。
 
 
 
 \medskip
 
-We intend this report to belong to the entire Scheme community, and so
-we grant permission to copy it in whole or in part without fee.  In
-particular, we encourage implementers of Scheme to use this report as
-a starting point for manuals and other documentation, modifying it as
-necessary.
+この報告書はSchemeコミュニティ全体に属することを意図しています。
+そのため料金不要で全体または一部を複写する許可が与えられています。
+特に、Scheme処理系の作成者がそのマニュアルや他のドキュメントを作る開始点として
+この報告書を使うことを推奨しています。
+必要に応じて修正を加えても構いません。
 
 
 
 
-\subsection*{Acknowledgments}
+\subsection*{謝辞}
 
-We would like to thank the members of the Steering Committee, William
-Clinger, Marc Feeley, Chris Hanson, Jonathan Rees, and Olin Shivers, for
-their support and guidance.
+支援と助言を戴いた運営委員会のメンバー
+William Clinger, Marc Feeley, Chris Hanson, Jonathan Rees, および Olin Shivers
+に感謝の意を表します。
 
-This report is very much a community effort, and we'd like to
-thank everyone who provided comments and feedback, including
-the following people: David Adler, Eli Barzilay, Taylan Ulrich
+この報告書はコミュニティの多大な努力の成果であり、
+以下の人々を含め、コメントやフィードバックを戴いたすべての人に感謝の意を表します:
+David Adler, Eli Barzilay, Taylan Ulrich
 Bay\i{}rl\i/Kammer, Marco Benelli, Pierpaolo Bernardi,
 Peter Bex, Per Bothner, John Boyle, Taylor Campbell, Raffael Cavallaro,
 Ray Dillinger, Biep Durieux, Sztefan Edwards, Helmut Eller, Justin
@@ -140,10 +125,10 @@ Schudy, Bakul Shah, Robert Smith, Arthur Smyles, Michael Sperber, John
 David Stone, Jay Sulzberger, Malcolm Tredinnick, Sam Tobin-Hochstadt,
 Andre van Tonder, Daniel Villeneuve, Denis Washington, Alan Watson,
 Mark H.  Weaver, G\"oran Weinholt, David A. Wheeler, Andy Wingo, James
-Wise, J\"org F. Wittenberger, Kevin A. Wortman, Sascha Ziemann.
+Wise, J\"org F. Wittenberger, Kevin A. Wortman, Sascha Ziemann
 
-In addition we would like to thank all the past editors, and the
-people who helped them in turn: Hal Abelson, Norman Adams, David
+さらに、過去の編集者や彼らを手助けしたすべての人に感謝の意を表します:
+Hal Abelson, Norman Adams, David
 Bartley, Alan Bawden, Michael Blair, Gary Brooks, George Carrette,
 Andy Cromarty, Pavel Curtis, Jeff Dalton, Olivier Danvy, Ken Dickey,
 Bruce Duba, Robert Findler, Andy Freeman, Richard Gabriel, Yekta
@@ -151,16 +136,18 @@ G\"ursel, Ken Haase, Robert Halstead, Robert Hieb, Paul Hudak, Morry
 Katz, Eugene Kohlbecker, Chris Lindblad, Jacob Matthews, Mark Meyer,
 Jim Miller, Don Oxley, Jim Philbin, Kent Pitman, John Ramsdell,
 Guillermo Rozas, Mike Shaff, Jonathan Shapiro, Guy Steele, Julie
-Sussman, Perry Wagle, Mitchel Wand, Daniel Weise, Henry Wu, and Ozan
-Yigit.  We thank Carol Fessenden, Daniel Friedman, and Christopher
-Haynes for permission to use text from the Scheme 311 version 4
-reference manual.  We thank Texas Instruments, Inc.~for permission to
-use text from the {\em TI Scheme Language Reference
-Manual}~\cite{TImanual85}.  We gladly acknowledge the influence of
-manuals for MIT Scheme~\cite{MITScheme}, T~\cite{Rees84}, Scheme
-84~\cite{Scheme84}, Common Lisp~\cite{CLtL}, and Algol 60~\cite{Naur63},
-as well as the following SRFIs:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
-all of which are available at {\cf http://srfi.schemers.org}.
+Sussman, Perry Wagle, Mitchel Wand, Daniel Weise, Henry Wu, および Ozan
+Yigit.
+Scheme 311 バージョン 4 のリファレンスマニュアルから文章の拝借を許可いただいた
+Carol Fessenden, Daniel Friedman, および Christopher Haynes に感謝します。
+{\em TI Scheme Language Reference Manual}~\cite{TImanual85}
+の文章を許可いただいた Texas Instruments, Inc.~に感謝します。
+影響を受けた MIT Scheme~\cite{MITScheme}, T~\cite{Rees84},
+Scheme 84~\cite{Scheme84}, Common Lisp~\cite{CLtL},
+および Algol 60~\cite{Naur63} のマニュアルと共に、
+{\cf http://srfi.schemers.org} で公開されている
+SRFI 0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, および 87
+に感謝の意を表します。
 
 %% \vest We also thank Betty Dexter for the extreme effort she put into
 %% setting this report in \TeX, and Donald Knuth for designing the program
