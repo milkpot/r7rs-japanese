@@ -1,49 +1,39 @@
 % Lexical structure
 
 %%\vfill\eject
-\chapter{Lexical conventions}
+\chapter{字句規約}
 
-This section gives an informal account of some of the lexical
-conventions used in writing Scheme programs.  For a formal syntax of
-Scheme, see section~\ref{BNF}.
+この節ではSchemeのプログラムを書くために用いる字句規約の一部について
+非公式な説明を述べます。
+Schemeの正式な構文は\ref{BNF}~節を参照してください。
 
-\section{Identifiers}
+\section{識別子}
 \label{syntaxsection}
 
-An identifier\mainindex{identifier} is any sequence of letters, digits, and
-``extended identifier characters'' provided that it does not have a prefix
-which is a valid number.  
-However, the  \ide{.} token (a single period) used in the list syntax
-is not an identifier.
+識別子\mainindex{identifier}は、文字、数字、``拡張識別子文字''の任意の並びです。
+ただし有効な数値で始まっていてはいけません。
+また、リスト構文で使う \ide{.} (ピリオドひとつ)は識別子ではありません。
 
-All implementations of Scheme must support the following extended identifier
-characters:
+すべてのScheme処理系は以下の拡張識別子文字をサポートしなければなりません。
 
 \begin{scheme}
 !\ \$ \% \verb"&" * + - . / :\ < = > ? @ \verb"^" \verb"_" \verb"~" %
 \end{scheme}
 
-Alternatively, an identifier can be represented by a sequence of zero or more
-characters enclosed within vertical lines ({\cf $|$}), analogous to
-string literals.  Any character, including whitespace characters, but
-excluding the backslash and vertical line characters,
-can appear verbatim in such an identifier.
-In addition, characters can be
-specified using either an \meta{inline hex escape} or
-the same escapes
-available in strings.
+代わりに、垂直線 ({\cf $|$}) で囲ったゼロ個以上の文字の並びで識別子を表すこともできます。
+これは文字列リテラルの記法に似せたものです。
+この記法では、バックスラッシュと垂直線以外の、
+ホワイトスペースを含む任意の文字を直接書くことができます。
+さらに、\meta{inline hex escape}または文字列内で利用可能なものと同じ
+エスケープシーケンスを使って文字を指定することもできます。
 
-For example, the
-identifier \verb+|H\x65;llo|+ is the same identifier as
-\verb+Hello+, and in an implementation that supports the appropriate
-Unicode character the identifier \verb+|\x3BB;|+ is the same as the
-identifier $\lambda$.
-What is more, \verb+|\t\t|+ and \verb+|\x9;\x9;|+ are the
-same.
-Note that \verb+||+ is a valid identifier that is different from any other
-identifier.
+例えば、識別子 \verb+|H\x65;llo|+ は \verb+Hello+ と同じ識別子です。
+また、識別子 \verb+|\x3BB;|+ は識別子 $\lambda$ と同じです
+(このUnicode文字をサポートしている処理系の場合)。
+さらに言えば、 \verb+|\t\t|+ と \verb+|\x9;\x9;|+ も同じです。
+ちなみに \verb+||+ も有効な識別子で、これは他のいかなる識別子とも異なります。
 
-Here are some examples of identifiers:
+いくつか識別子の例を挙げます。
 
 \begin{scheme}
 ...                      {+}
@@ -55,79 +45,72 @@ q                        V17a
 the-word-recursion-has-many-meanings%
 \end{scheme}
 
-See section~\ref{extendedalphas} for the formal syntax of identifiers.
+識別子の正式な構文は\ref{extendedalphas}~節を参照してください。
 
-\vest Identifiers have two uses within Scheme programs:
+\vest Schemeのプログラムでは識別子に2種類の用途があります。
 \begin{itemize}
-\item Any identifier can be used as a variable\index{variable}
- or as a syntactic keyword\index{syntactic keyword}
-(see sections~\ref{variablesection} and~\ref{macrosection}).
+\item あらゆる識別子は変数\index{variable}として、
+あるいは構文キーワード\index{syntactic keyword}として使うことができます
+(\ref{variablesection}~節および\ref{macrosection}~節を参照)。
 
-\item When an identifier appears as a literal or within a literal
-(see section~\ref{quote}), it is being used to denote a {\em symbol}
-(see section~\ref{symbolsection}).
+\item 識別子がリテラルとして、またはリテラル内に現れることで(\ref{quote}~節を参照)、
+{\em シンボル}を表します(\ref{symbolsection}~節を参照)。
 \end{itemize}
 
-In contrast with earlier revisions of the report~\cite{R5RS}, the
-syntax distinguishes between upper and lower case in
-identifiers and in characters specified using their names.  However, it
-does not distinguish between upper and lower case in numbers,
-nor in \meta{inline hex escapes} used
-in the syntax of identifiers, characters, or strings.
-None of the identifiers defined in this report contain upper-case
-characters, even when they appear to do so as a result
-of the English-language convention of capitalizing the first word of
-a sentence.
+以前のバージョンの報告書\cite{R5RS}と異なり、
+識別子および文字の名前で使われる大文字と小文字は区別されます。
+しかし識別子、文字、文字列構文中の\meta{inline hex escapes}や数値の中では、
+大文字と小文字は区別されません。
+この報告書で定義されている識別子には大文字を含むものはありません。
 
-The following directives give explicit control over case
-folding.
+以下の指令で大文字と小文字の区別を明示的に制御できます。
 
 \begin{entry}{%
 {\cf{}\#!fold-case}\sharpbangindex{fold-case}\\
 {\cf{}\#!no-fold-case}\sharpbangindex{no-fold-case}}
 
-These directives can appear anywhere comments are permitted (see
-section~\ref{wscommentsection}) but must be followed by a delimiter.
-They are treated as comments, except that they affect the reading
-of subsequent data from the same port. The {\cf{}\#!fold-case} directive causes
-subsequent identifiers and character names to be case-folded
-as if by {\cf string-foldcase} (see section~\ref{stringsection}).
-It has no effect on character
-literals.  The {\cf{}\#!no-fold-case} directive
-causes a return to the default, non-folding behavior.
+これらの指令はコメントを書ける場所ならどこにでも書くことができます(\ref{wscommentsection}~節を参照)。
+指令の後にはデリミタを置かなければなりません。
+指令はコメントとして扱われます。
+ただし、同じポートから読み込む後続のデータに影響を与えます。
+{\cf{}\#!fold-case}指令は後続の識別子と文字名の大文字と小文字を区別しないようにします。
+これは{\cf string-foldcase}を適用したかのように扱われます(\ref{stringsection}~節を参照)。
+文字リテラルには影響しません。
+{\cf{}\#!no-fold-case}指令は大文字と小文字を区別するデフォルトの動作に戻します。
 \end{entry}
 
 
 
-\section{Whitespace and comments}
+\section{ホワイトスペースとコメント}
 \label{wscommentsection}
 
-\defining{Whitespace} characters include the space, tab, and newline characters.
-(Implementations may provide additional whitespace characters such
-as page break.)  Whitespace is used for improved readability and
-as necessary to separate tokens from each other, a token being an
-indivisible lexical unit such as an identifier or number, but is
-otherwise insignificant.  Whitespace can occur between any two tokens,
-but not within a token.  Whitespace occurring inside a string
-or inside a symbol delimited by vertical lines
-is significant.
+\defining{ホワイトスペース}には、空白、タブ、改行といった文字が含まれます。
+(処理系によっては改ページのような追加のホワイトスペース文字を用意している場合があります。)
+ホワイトスペースは、可読性を上げるため、
+必要に応じてトークン同士を分離するために使われますが、
+それ以外には意味の無いものです
+(トークンとは、識別子や数値のような、分割できない字句単位のことです)。
+ホワイトスペースは、2つのトークンの間に置くことは出来ますが、
+ひとつのトークンの途中に置くことは出来ません。
+文字列の中や垂直線で区切られたシンボルの中に現れるホワイトスペースは、意味のあるものです。
 
-The lexical syntax includes several comment forms.  
-Comments are treated exactly like whitespace.
+字句構文にはコメントの形式がいくつかあります。
+コメントはホワイトスペースとまったく同様に扱われます。
 
-A semicolon ({\tt;}) indicates the start of a line
-comment.\mainindex{comment}\mainschindex{;}  The comment continues to the
-end of the line on which the semicolon appears.  
+セミコロン ({\tt;}) は一行コメントの開始を表します。\mainindex{comment}\mainschindex{;}
+このコメントはセミコロンが現れた行の終わりまで続きます。
 
-Another way to indicate a comment is to prefix a \hyper{datum}
-(cf.\ section~\ref{datumsyntax}) with {\tt \#;}\sharpindex{;} and optional
-\meta{whitespace}.  The comment consists of
-the comment prefix {\tt \#;}, the space, and the \hyper{datum} together.  This
-notation is useful for ``commenting out'' sections of code.
+コメントを表すもうひとつの方法は、\hyper{datum}
+(\ref{datumsyntax}~節を参照)
+の前に {\tt \#;}\sharpindex{;} を付けることです。
+オプションで\meta{whitespace}を挟むこともできます。
+このコメントは、コメント接頭辞 {\tt \#;}、空白、そして\hyper{datum}から成ります。
+この記法はコードの一部を``コメントアウト''するのに便利です。
 
-Block comments are indicated with properly nested {\tt
-  \#|}\index{#"|@\texttt{\sharpsign\verticalbar}}\index{"|#@\texttt{\verticalbar\sharpsign}}
-and {\tt |\#} pairs.
+ブロックコメントは
+{\tt \#|}\index{#"|@\texttt{\sharpsign\verticalbar}}\index{"|#@\texttt{\verticalbar\sharpsign}}
+および {\tt |\#} の組で表します。
+これはネスト出来ます。
 
 \begin{scheme}
 \#|
@@ -143,99 +126,91 @@ and {\tt |\#} pairs.
 \end{scheme}
 
 
-\section{Other notations}
+\section{その他の表記}
 
 \todo{Rewrite?}
 
-For a description of the notations used for numbers, see
-section~\ref{numbersection}.
+数値に使われる記法の説明は\ref{numbersection}~節を参照してください。
 
 \begin{description}{}{}
 
 \item[{\tt.\ + -}]
-These are used in numbers, and can also occur anywhere in an identifier.
-A delimited plus or minus sign by itself
-is also an identifier.
-A delimited period (not occurring within a number or identifier) is used
-in the notation for pairs (section~\ref{listsection}), and to indicate a
-rest-parameter in a  formal parameter list (section~\ref{lambda}).
-Note that a sequence of two or more periods {\em is} an identifier.
+これらは数値に使われますが、識別子の中の任意の場所でも使うことができます。
+単独のプラス記号およびマイナス記号もまた識別子です。
+単独のピリオド(数値や識別子の中に現れたものでない)はペアの表記に使われます(\ref{listsection}~節)。
+また仮引数リストの残余引数を表すためにも使われます(\ref{lambda}~節)。
+ちなみに2個以上のピリオドの並びは識別子{\em です}。
 
 \item[\tt( )]
-Parentheses are used for grouping and to notate lists
-(section~\ref{listsection}).
+括弧はグループ化のためやリストを表すために使われます
+(\ref{listsection}~節)。
 
 \item[\singlequote]
-The apostrophe (single quote) character is used to indicate literal data (section~\ref{quote}).
+アポストロフィ(シングルクォート)文字は、リテラルデータを表すために使われます(\ref{quote}~節)。
 
 \item[\backquote]
-The grave accent (backquote) character is used to indicate partly constant
-data (section~\ref{quasiquote}).
+グレーブアクセント(バッククォート)文字は、部分的に定数であるデータを表すために使われます
+(\ref{quasiquote}~節)。
 
 \item[\tt, ,@]
-The character comma and the sequence comma at-sign are used in conjunction
-with quasiquotation (section~\ref{quasiquote}).
+コンマおよびコンマ+アットマークの並びは、準引用の中で使われます(\ref{quasiquote}~節)。
 
 \item[\tt"]
-The quotation mark character is used to delimit strings (section~\ref{stringsection}).
+ダブルクォート文字は文字列を区切るために使われます(\ref{stringsection}~節)。
 
 \item[\backwhack]
-Backslash is used in the syntax for character constants
-(section~\ref{charactersection}) and as an escape character within string
-constants (section~\ref{stringsection}) and identifiers
-(section~\ref{extendedalphas}).
+バックスラッシュは文字定数(\ref{charactersection}~節)の構文で使われます。
+また文字列定数(\ref{stringsection}~節)および識別子(\ref{extendedalphas}~節)の中で
+エスケープ文字としても使われます。
 
 % A box used because \verb is not allowed in command arguments.
 \setbox0\hbox{\tt \verb"[" \verb"]" \verb"{" \verb"}"}
 \item[\copy0]
-Left and right square and curly brackets (braces)
-are reserved for possible future extensions to the language.
+角括弧および波括弧は将来の言語の拡張の可能性のために予約されています。
 
-\item[\sharpsign] The number sign is used for a variety of purposes depending on
-the character that immediately follows it:
+\item[\sharpsign]
+井桁は直後の文字によって様々な目的に使われます。
 
 \item[\schtrue{} \schfalse{}]
-These are the boolean constants (section~\ref{booleansection}),
-along with the alternatives \sharpfoo{true} and \sharpfoo{false}.
+これらはブーリアン定数です(\ref{booleansection}~節)。
+さらに\sharpfoo{true}および\sharpfoo{false}も同様です。
 
 \item[\sharpsign\backwhack]
-This introduces a character constant (section~\ref{charactersection}).
+これは文字定数の始まりです(\ref{charactersection}~節)。
 
 \item[\sharpsign\tt(]
-This introduces a vector constant (section~\ref{vectorsection}).  Vector constants
-are terminated by~{\tt)}~.
+これはベクタ定数の始まりです(\ref{vectorsection}~節)。
+ベクタ定数は~{\tt)}~で終わります。
 
 \item[\sharpsign\tt u8(]
-This introduces a bytevector constant (section~\ref{bytevectorsection}).  Bytevector constants
-are terminated by~{\tt)}~.
+これはバイトベクタ定数(\ref{bytevectorsection}~節)の始まりです。
+バイトベクタ定数は~{\tt)}~で終わります。
 
 \item[{\tt\#e \#i \#b \#o \#d \#x}]
-These are used in the notation for numbers (section~\ref{numbernotations}).
+これらは数値を表すために使われます(\ref{numbernotations}~節)。
 
 \item[\tt{\#\hyper{n}= \#\hyper{n}\#}]
-These are used for labeling and referencing other literal data (section~\ref{labelsection}).
+これらは他のリテラルデータの参照やラベル付けに使われます(\ref{labelsection}~節)。
 
 \end{description}
 
-\section{Datum labels}\unsection
+\section{データラベル}\unsection
 \label{labelsection}
 
 \begin{entry}{%
-\pproto{\#\hyper{n}=\hyper{datum}}{lexical syntax}
-\pproto{\#\hyper{n}\#}{lexical syntax}}
+\pproto{\#\hyper{n}=\hyper{datum}}{字句構文}
+\pproto{\#\hyper{n}\#}{字句構文}}
 
-The lexical syntax
-\texttt{\#\hyper{n}=\hyper{datum}} reads the same as \hyper{datum}, but also
-results in \hyper{datum} being labelled by \hyper{n}.
-It is an error if \hyper{n} is not a sequence of digits.
+字句構文 \texttt{\#\hyper{n}=\hyper{datum}} は\hyper{datum}と同様に解釈されますが、
+その結果の\hyper{datum}を\hyper{n}でラベル付けします。
+\hyper{n}が数字の並びでない場合はエラーです。
 
-The lexical syntax \texttt{\#\hyper{n}\#} serves as a reference to some
-object labelled by \texttt{\#\hyper{n}=}; the result is the same
-object as the \texttt{\#\hyper{n}}= 
-(see section~\ref{equivalencesection}). 
+字句構文 \texttt{\#\hyper{n}\#} は \texttt{\#\hyper{n}=}
+でラベル付けされた何らかのオブジェクトへの参照として機能します。
+\texttt{\#\hyper{n}}= と同じオブジェクトが結果となります
+(\ref{equivalencesection}~節を参照)。
 
-Together, these syntaxes permit the notation of
-structures with shared or circular substructure.
+これらの構文を使うと、部分的な共有構造や循環構造を表すことができます。
 
 \begin{scheme}
 (let ((x (list 'a 'b 'c)))
@@ -243,18 +218,15 @@ structures with shared or circular substructure.
   x)                       \ev \#0=(a b c . \#0\#)
 \end{scheme}
 
-The scope of a datum label is the portion of the outermost datum in which it appears
-that is to the right of the label.
-Consequently, a reference \texttt{\#\hyper{n}\#} can occur only after a label
-\texttt{\#\hyper{n}=}; it is an error to attempt a forward reference.  In
-addition, it is an error if the reference appears as the labelled object itself
-(as in \texttt{\#\hyper{n}= \#\hyper{n}\#}),
-because the object labelled by \texttt{\#\hyper{n}=} is not well
-defined in this case.
+データラベルのスコープは、それが現れた最外のデータのうち、そのラベルより右側の部分です。
+従って \texttt{\#\hyper{n}\#} はラベル \texttt{\#\hyper{n}=} より後にだけ現れることができます。
+前方参照を試みることはエラーです。
+また、参照がラベル付けされたオブジェクトそれ自身として現れた場合はエラーです。
+例えば \texttt{\#\hyper{n}= \#\hyper{n}\#} のような場合です。
+この場合 \texttt{\#\hyper{n}=} がラベル付けしているオブジェクトが何であるか不明なためです。
 
-It is an error for a \hyper{program} or \hyper{library} to include
-circular references except in literals.  In particular,
-it is an error for {\cf quasiquote} (section~\ref{quasiquote}) to contain them.
+\hyper{program}または\hyper{library}にリテラル以外の循環参照がある場合はエラーです。
+特に、{\cf quasiquote}(\ref{quasiquote}~節)に循環参照がある場合はエラーです。
 
 \begin{scheme}
 \#1=(begin (display \#\backwhack{}x) \#1\#)
