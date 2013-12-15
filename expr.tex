@@ -1,33 +1,29 @@
-\chapter{Expressions}
+\chapter{式}
 \label{expressionchapter}
 
 \newcommand{\syntax}{{\em Syntax: }}
 \newcommand{\semantics}{{\em Semantics: }}
 
-Expression types are categorized as {\em primitive} or {\em derived}.
-Primitive expression types include variables and procedure calls.
-Derived expression types are not semantically primitive, but can instead
-be defined as macros.
-Suitable syntax definitions of some of the derived expressions are
-given in section~\ref{derivedsection}.
+形式は{\em プリミティブ}または{\em 派生}に分類されます。
+プリミティブ形式は変数や手続き呼び出しなどです。
+派生形式は意味論的にプリミティブでなく、代わりにマクロで定義されているものです。
+\ref{derivedsection}~節にいくつかの派生形式の適切な構文定義が掲載されています。
 
-The procedures {\cf force}, {\cf promise?}, {\cf make-promise}, and {\cf make-parameter}
-are also described in this chapter because they are intimately associated
-with the {\cf delay}, {\cf delay-force}, and {\cf parameterize} expression types.
+{\cf delay}, {\cf delay-force}, および {\cf parameterize} と密接に関連する手続き
+{\cf force}, {\cf promise?}, {\cf make-promise}, および {\cf make-parameter}
+もこの章で説明しています。
 
-\section{Primitive expression types}
+\section{プリミティブ形式}
 \label{primitivexps}
 
-\subsection{Variable references}\unsection
+\subsection{変数参照}\unsection
 
 \begin{entry}{%
 \pproto{\hyper{variable}}{\exprtype}}
 
-An expression consisting of a variable\index{variable}
-(section~\ref{variablesection}) is a variable reference.  The value of
-the variable reference is the value stored in the location to which the
-variable is bound.  It is an error to reference an
-unbound\index{unbound} variable.
+変数\index{variable}(\ref{variablesection}~節)から成る式は変数参照です。
+変数参照の値はその変数が束縛されている場所に格納されている値です。
+束縛されていない\index{unbound}変数を参照することはエラーです。
 
 \begin{scheme}
 (define x 28)
@@ -35,7 +31,7 @@ x   \ev  28%
 \end{scheme}
 \end{entry}
 
-\subsection{Literal expressions}\unsection
+\subsection{リテラル式}\unsection
 \label{literalsection}
 
 \begin{entry}{%
@@ -43,11 +39,10 @@ x   \ev  28%
 \pproto{\singlequote\hyper{datum}}{\exprtype}
 \pproto{\hyper{constant}}{\exprtype}}
 
-{\cf (quote \hyper{datum})} evaluates to \hyper{datum}.\mainschindex{'}
-\hyper{Datum}
-can be any external representation of a Scheme object (see
-section~\ref{externalreps}).  This notation is used to include literal
-constants in Scheme code.
+{\cf (quote \hyper{datum})}は\hyper{datum}に評価されます。\mainschindex{'}
+\hyper{datum}
+には任意のSchemeのオブジェクトの外部表現(\ref{externalreps}~節を参照)を指定できます。
+Schemeのコードにリテラル定数を含めるためにこの記法を使います。
 
 \begin{scheme}%
 (quote a)                     \ev  a
@@ -55,9 +50,8 @@ constants in Scheme code.
 (quote (+ 1 2))               \ev  (+ 1 2)%
 \end{scheme}
 
-{\cf (quote \hyper{datum})} can be abbreviated as
-\singlequote\hyper{datum}.  The two notations are equivalent in all
-respects.
+{\cf (quote \hyper{datum})}は省略して\singlequote\hyper{datum}と書くことが出来ます。
+この2種類の記法はあらゆる点で等価です。
 
 \begin{scheme}
 'a                   \ev  a
@@ -68,9 +62,9 @@ respects.
 ''a                  \ev  (quote a)%
 \end{scheme}
 
-Numerical constants, string constants, character constants, vector
-constants, bytevector constants, and boolean constants evaluate to
-themselves; they need not be quoted.
+数値定数、文字列定数、文字定数、ベクタ定数、バイトベクタ定数、ブーリアン定数は
+それ自身に評価されます。
+クォートする必要はありません。
 
 \begin{scheme}
 '145932    \ev  145932
@@ -87,90 +81,78 @@ themselves; they need not be quoted.
 \schtrue   \ev  \schtrue%
 \end{scheme}
 
-As noted in section~\ref{storagemodel}, it is an error to attempt to alter a constant
-(i.e.~the value of a literal expression) using a mutation procedure like
-{\cf set-car!}\ or {\cf string-set!}.
+\ref{storagemodel}~節で述べたように、
+{\cf set-car!}や{\cf string-set!}のような変更手続きを使用して定数
+(すなわちリテラル式の値)の変更を試みるのはエラーです。
 
 \end{entry}
 
-\subsection{Procedure calls}\unsection
+\subsection{手続き呼び出し}\unsection
 
 \begin{entry}{%
 \pproto{(\hyper{operator} \hyperi{operand} \dotsfoo)}{\exprtype}}
 
-A procedure call is written by enclosing in parentheses an
-expression for the procedure to be called followed by expressions for the arguments to be
-passed to it.  The operator and operand expressions are evaluated (in an
-unspecified order) and the resulting procedure is passed the resulting
-arguments.\mainindex{call}\mainindex{procedure call}
+手続き呼び出しは、呼び出す手続きに対する式に続く渡す引数に対する式を括弧で囲った中に書きます。
+演算子と被演算子の式が評価され(順番は規定されていません)、結果の手続きに結果の引数が渡されます。
+\mainindex{call}\mainindex{procedure call}
 \begin{scheme}%
 (+ 3 4)                          \ev  7
 ((if \schfalse + *) 3 4)         \ev  12%
 \end{scheme}
 
-The procedures in this document are available as the values of variables exported by the
-standard libraries.  For example, the addition and multiplication
-procedures in the above examples are the values of the variables {\cf +}
-and {\cf *} in the base library.  New procedures are created by evaluating \lambdaexp{}s
-(see section~\ref{lambda}).
+この文章に掲載されている手続きは、標準ライブラリからエクスポートされている変数の値として利用可能です。
+例えば、上記の例の加算手続きと乗算手続きは、baseライブラリの変数{\cf +}および{\cf *}の値です。
+\lambdaexp{} (\ref{lambda}~節を参照) を評価することで新しい手続きを作ることが出来ます。
 
-Procedure calls can return any number of values (see \ide{values} in
-section~\ref{proceduresection}).
-Most of the procedures defined in this report return one
-value or, for procedures such as {\cf apply}, pass on the values returned
-by a call to one of their arguments.
-Exceptions are noted in the individual descriptions.
+手続きは任意の個数の値を返すことが出来ます(\ref{proceduresection}~節の\ide{values}を参照)。
+この報告書で定義されている手続きのほとんどは、ひとつの値を返します。
+{\cf apply}のような手続きの場合、引数に渡した手続きを呼び出した戻り値がそのまま返されます。
+例外はそれぞれ個別の説明に記載されています。
 
 
-\begin{note} In contrast to other dialects of Lisp, the order of
-evaluation is unspecified, and the operator expression and the operand
-expressions are always evaluated with the same evaluation rules.
+\begin{note} 他のLisp方言と異なり、評価順は規定されていません。
+また、演算子の式と被演算子の式は常に同じ評価規則で評価されます。
 \end{note}
 
 \begin{note}
-Although the order of evaluation is otherwise unspecified, the effect of
-any concurrent evaluation of the operator and operand expressions is
-constrained to be consistent with some sequential order of evaluation.
-The order of evaluation may be chosen differently for each procedure call.
+評価順は規定されていませんが、
+演算子と被演算子の式を並列的に評価する場合は
+何らかの逐次的な評価順と一貫性を持たなければならないという制約があります。
+評価順は手続き呼び出しのたびに異なっていても構いません。
 \end{note}
 
-\begin{note} In many dialects of Lisp, the empty list, {\tt
-()}, is a legitimate expression evaluating to itself.  In Scheme, it is an error.
+\begin{note} 多くのLisp方言では、空リスト{\tt ()}は自分自身に評価される正当な式です。
+Schemeではエラーです。
 \end{note}
 
 \end{entry}
 
 
-\subsection{Procedures}\unsection
+\subsection{手続き}\unsection
 \label{lamba}
 
 \begin{entry}{%
 \proto{lambda}{ \hyper{formals} \hyper{body}}{\exprtype}}
 
 \syntax
-\hyper{Formals} is a formal arguments list as described below,
-and \hyper{body} is a sequence of zero or more definitions
-followed by one or more expressions.
+\hyper{formals}は後述の仮引数リストです。
+\hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
 
 \semantics
-\vest A \lambdaexp{} evaluates to a procedure.  The environment in
-effect when the \lambdaexp{} was evaluated is remembered as part of the
-procedure.  When the procedure is later called with some actual
-arguments, the environment in which the \lambdaexp{} was evaluated will
-be extended by binding the variables in the formal argument list to
-fresh locations, and the corresponding actual argument values will be stored
-in those locations.
-(A \defining{fresh} location is one that is distinct from every previously
-existing location.)
-Next, the expressions in the
-body of the lambda expression (which, if it contains definitions,
-represents a {\cf letrec*} form --- see section~\ref{letrecstar})
-will be evaluated sequentially in the extended environment.
-The results of the last expression in the body will be returned as
-the results of the procedure call.
+\vest \lambdaexp{}は手続きに評価されます。
+\lambdaexp{}が評価されたときの有効な環境が手続きの一部として記憶されます。
+後ほど手続きがいくつかの実引数を伴って呼び出されると、
+\lambdaexp{}が評価されたときの環境が仮引数リストの変数に新しい場所を束縛することによって拡張され、
+対応する実引数の値がそれらの場所に格納されます。
+(\defining{新しい}場所とは、それまで存在していたどの場所とも異なる場所のことです。)
+次に、ラムダ式の本体の式
+(定義があれば、{\cf letrec*}形式で表されます --- \ref{letrecstar}~節を参照)
+が、その拡張された環境で逐次的に評価されます。
+その本体の最後の式の結果が、その手続き呼び出しの結果として返されます。
+
 
 \begin{scheme}
-(lambda (x) (+ x x))      \ev  {\em{}a procedure}
+(lambda (x) (+ x x))      \ev  {\em{}手続き}
 ((lambda (x) (+ x x)) 4)  \ev  8
 
 (define reverse-subtract
@@ -183,35 +165,30 @@ the results of the procedure call.
 (add4 6)                        \ev  10%
 \end{scheme}
 
-\hyper{Formals} have one of the following forms:
+\hyper{Formals}は以下のいずれかの形です。
 
 \begin{itemize}
 \item {\tt(\hyperi{variable} \dotsfoo)}:
-The procedure takes a fixed number of arguments; when the procedure is
-called, the arguments will be stored in fresh locations
-that are bound to the corresponding variables.
+手続きは固定の個数の引数を取ります。
+手続きが呼ばれたとき、引数は対応する変数に束縛されている新しい場所に格納されます。
 
 \item \hyper{variable}:
-The procedure takes any number of arguments; when the procedure is
-called, the sequence of actual arguments is converted into a newly
-allocated list, and the list is stored in a fresh location
-that is bound to
-\hyper{variable}.
+手続きは任意の個数の引数を取ります。
+手続きが呼ばれたとき、実引数の並びは新しく割り当てられたリストに変換され、
+そのリストが\hyper{variable}に束縛されている新しい場所に格納されます。
 
 \item {\tt(\hyperi{variable} \dotsfoo{} \hyper{variable$_{n}$}\ {\bf.}\
 \hyper{variable$_{n+1}$})}:
-If a space-delimited period precedes the last variable, then
-the procedure takes $n$ or more arguments, where $n$ is the
-number of formal arguments before the period (it is an error if there is not
-at least one).
-The value stored in the binding of the last variable will be a
-newly allocated
-list of the actual arguments left over after all the other actual
-arguments have been matched up against the other formal arguments.
+最後の変数の前にスペースで区切られたピリオドがある場合、
+手続きは$n$個以上の引数を取ります。
+ただし$n$はピリオドの前の仮引数の数です
+(最低ひとつ以上なければエラーです)。
+最後の変数の束縛に格納される値は
+他の仮引数に対して実引数を一致させた後に残った実引数の
+新たに割り当てられたリストになります。
 \end{itemize}
 
-It is an error for a \hyper{variable} to appear more than once in
-\hyper{formals}.
+\hyper{variable}が\hyper{formals}に2回以上現れる場合はエラーです。
 
 \begin{scheme}
 ((lambda x x) 3 4 5 6)          \ev  (3 4 5 6)
@@ -221,30 +198,30 @@ It is an error for a \hyper{variable} to appear more than once in
 
 \end{entry}
 
-Each procedure created as the result of evaluating a \lambdaexp{} is
-(conceptually) tagged
-with a storage location, in order to make \ide{eqv?} and
-\ide{eq?} work on procedures (see section~\ref{equivalencesection}).
+\lambdaexp{} を評価した結果作成された手続きはそれぞれ
+(概念的に)ある記憶領域の位置に紐付けられます。
+それにより手続きに対して\ide{eqv?}および\ide{eq?}を適用することができます
+(\ref{equivalencesection}~節を参照)。
 
 
-\subsection{Conditionals}\unsection
+\subsection{条件判定}\unsection
 
 \begin{entry}{%
 \proto{if}{ \hyper{test} \hyper{consequent} \hyper{alternate}}{\exprtype}
 \rproto{if}{ \hyper{test} \hyper{consequent}}{\exprtype}}  %\/ if hyper = italic
 
 \syntax
-\hyper{Test}, \hyper{consequent}, and \hyper{alternate} are
-expressions.
+\hyper{test}、\hyper{consequent}および\hyper{alternate}は式です。
 
 \semantics
-An {\cf if} expression is evaluated as follows: first,
-\hyper{test} is evaluated.  If it yields a true value\index{true} (see
-section~\ref{booleansection}), then \hyper{consequent} is evaluated and
-its values are returned.  Otherwise \hyper{alternate} is evaluated and its
-values are returned.  If \hyper{test} yields a false value and no
-\hyper{alternate} is specified, then the result of the expression is
-unspecified.
+{\cf if}式は以下のように評価されます。
+まず、\hyper{test}が評価されます。
+その結果が真の値\index{true}であった場合
+(\ref{booleansection}~節を参照)、
+\hyper{consequent}が評価され、その値が返されます。
+そうでなければ\hyper{alternate}が評価され、その値が返されます。
+\hyper{test}の結果が偽の値であり、\hyper{alternate}が指定されていない場合、
+式の結果は規定されていません。
 
 \begin{scheme}
 (if (> 3 2) 'yes 'no)           \ev  yes
@@ -257,19 +234,18 @@ unspecified.
 \end{entry}
 
 
-\subsection{Assignments}\unsection
+\subsection{代入}\unsection
 \label{assignment}
 
 \begin{entry}{%
 \proto{set!}{ \hyper{variable} \hyper{expression}}{\exprtype}}
 
 \semantics
-\hyper{Expression} is evaluated, and the resulting value is stored in
-the location to which \hyper{variable} is bound.  It is an error if \hyper{variable} is not
-bound either in some region\index{region} enclosing the {\cf set!}\ expression
-or else globally.
-The result of the {\cf set!} expression is
-unspecified.
+\hyper{expression}が評価され、
+その結果の値が\hyper{variable}の束縛されている場所に格納されます。
+\hyper{variable}が{\cf set!}式を囲むいずれの有効範囲\index{region}にも
+大域的にも束縛されていなければエラーです。
+{\cf set!}式の結果は規定されていません。
 
 \begin{scheme}
 (define x 2)
@@ -280,43 +256,40 @@ unspecified.
 
 \end{entry}
 
-\subsection{Inclusion}\unsection
+\subsection{インクルード}\unsection
 \label{inclusion}
 \begin{entry}{%
 \proto{include}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}
 \rproto{include-ci}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}}
 
 \semantics
-Both \ide{include} and
-\ide{include-ci} take one or more filenames expressed as string literals,
-apply an implementation-specific algorithm to find corresponding files,
-read the contents of the files in the specified order as if by repeated applications
-of {\cf read},
-and effectively replace the {\cf include} or {\cf include-ci} expression
-with a {\cf begin} expression containing what was read from the files.
-The difference between the two is that \ide{include-ci} reads each file
-as if it began with the {\cf{}\#!fold-case} directive, while \ide{include}
-does not.
+\ide{include}および\ide{include-ci}は両方とも、
+文字列定数として表されたひとつ以上のファイル名を取り、
+処理系固有のアルゴリズムを適用して対応するファイルを検索し、
+{\cf read}を繰り返し適用したかのように順番にそのファイルの内容を読み込み、
+そのファイルから読み込んだ内容を含む{\cf begin}式で、
+その{\cf include}式または{\cf include-ci}式を実質的に置換します。
+この2つの違いは以下のようなものです。
+\ide{include-ci}は各ファイルの先頭に{\cf{}\#!fold-case}指令があるかのように読み込みます。
+\ide{include}はそのようなことをしません。
 
 \begin{note}
-Implementations are encouraged to search for files in the directory
-which contains the including file, and to provide a way for users to
-specify other directories to search.
+処理系は、インクルードする側のファイルがあるディレクトリでファイルを検索することが推奨されます。
+また、ユーザが他の検索ディレクトリを指定するための方法を用意することが推奨されます。
 \end{note}
 
 \end{entry}
 
-\section{Derived expression types}
+\section{派生形式}
 \label{derivedexps}
 
-The constructs in this section are hygienic, as discussed in
-section~\ref{macrosection}.
-For reference purposes, section~\ref{derivedsection} gives syntax definitions
-that will convert most of the constructs described in this section
-into the primitive constructs described in the previous section.
+この節の構文は、\ref{macrosection}~節で述べられてるように、衛生的です。
+リファレンス目的のため、
+この節で説明している構文のほとんどを前の節で説明したプリミティブ構文に変換する構文定義が
+\ref{derivedsection}~節に掲載されています。
 
 
-\subsection{Conditionals}\unsection
+\subsection{条件判定}\unsection
 
 \begin{entry}{%
 \proto{cond}{ \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}
@@ -324,16 +297,15 @@ into the primitive constructs described in the previous section.
 \pproto{=>}{\auxiliarytype}}
 
 \syntax
-\hyper{Clauses} take one of two forms, either
+\hyper{clauses}は、以下のいずれかの形をひとつ以上取ります。
 \begin{scheme}
 (\hyper{test} \hyperi{expression} \dotsfoo)%
 \end{scheme}
-where \hyper{test} is any expression, or
+ただし\hyper{test}は任意の式です。
 \begin{scheme}
 (\hyper{test} => \hyper{expression})%
 \end{scheme}
-The last \hyper{clause} can be
-an ``else clause,'' which has the form
+最後の\hyper{clause}は、以下のような``else節''にすることも出来ます。
 \begin{scheme}
 (else \hyperi{expression} \hyperii{expression} \dotsfoo)\rm.%
 \end{scheme}
@@ -341,28 +313,26 @@ an ``else clause,'' which has the form
 \mainschindex{=>}
 
 \semantics
-A {\cf cond} expression is evaluated by evaluating the \hyper{test}
-expressions of successive \hyper{clause}s in order until one of them
-evaluates to a true value\index{true} (see
-section~\ref{booleansection}).  When a \hyper{test} evaluates to a true
-value, the remaining \hyper{expression}s in its \hyper{clause} are
-evaluated in order, and the results of the last \hyper{expression} in the
-\hyper{clause} are returned as the results of the entire {\cf cond}
-expression.
+{\cf cond}式は以下のように評価されます。
+まず、真の値\index{true}(\ref{booleansection}~節を参照)
+に評価されるまで、一連の\hyper{clause}の\hyper{test}式が順番に評価されます。
+\hyper{test}が真の値に評価されると、
+その\hyper{clause}の中の残りの\hyper{expression}が順に評価され、
+その\hyper{clause}の中の最後の\hyper{expression}の結果が
+{\cf cond}式全体の値として返されます。
 
-If the selected \hyper{clause} contains only the
-\hyper{test} and no \hyper{expression}s, then the value of the
-\hyper{test} is returned as the result.  If the selected \hyper{clause} uses the
-\ide{=>} alternate form, then the \hyper{expression} is evaluated.
-It is an error if its value is not a procedure that accepts one argument.  This procedure is then
-called on the value of the \hyper{test} and the values returned by this
-procedure are returned by the {\cf cond} expression.
+選択された\hyper{clause}が\hyper{test}だけで\hyper{expression}を持たない場合、
+\hyper{test}の値が結果として返されます。
+選択された\hyper{clause}が\ide{=>}代理形を使っている場合、
+まず\hyper{expression}が評価されます。
+その値が引数をひとつ受け取る手続きでなければエラーです。
+\hyper{test}の値に対してその手続きが呼び出され、
+その手続きが返した値が{\cf cond}式から返されます。
 
-If all \hyper{test}s evaluate
-to \schfalse{}, and there is no else clause, then the result of
-the conditional expression is unspecified; if there is an else
-clause, then its \hyper{expression}s are evaluated in order, and the values of
-the last one are returned.
+すべての\hyper{test}が\schfalse{}に評価され、else節がない場合、
+{\cf cond}式の結果は規定されていません。
+else節があれば、その\hyper{expression}が順に評価され、
+その最後の値が返されます。
 
 \begin{scheme}
 (cond ((> 3 2) 'greater)
@@ -384,48 +354,41 @@ the last one are returned.
 \proto{case}{ \hyper{key} \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}}
 
 \syntax
-\hyper{Key} can be any expression.  Each \hyper{clause} has
-the form
+\hyper{key}は任意の式を指定できます。
+それぞれの\hyper{clause}は以下の形です。
 \begin{scheme}
 ((\hyperi{datum} \dotsfoo) \hyperi{expression} \hyperii{expression} \dotsfoo)\rm,%
 \end{scheme}
-where each \hyper{datum} is an external representation of some object.
-It is an error if any of the \hyper{datum}s are the same anywhere in the expression.
-Alternatively, a \hyper{clause} can be of the form
+ただしそれぞれの\hyper{datum}は何らかのオブジェクトの外部表現です。
+式の中に同じ\hyper{datum}がふたつ以上ある場合はエラーです。
+また、\hyper{clause}は以下の形も指定できます。
 \begin{scheme}
 ((\hyperi{datum} \dotsfoo) => \hyper{expression})%
 \end{scheme}
-The last \hyper{clause} can be an ``else clause,'' which has one of the forms
+最後の\hyper{clause}は以下のいずれかの形を持つ``else節''に出来ます。
 \begin{scheme}
 (else \hyperi{expression} \hyperii{expression} \dotsfoo)
-\end{scheme}
-or
-\begin{scheme}
 (else => \hyper{expression})\rm.%
 \end{scheme}
 \schindex{else}
 
 \semantics
-A {\cf case} expression is evaluated as follows.  \hyper{Key} is
-evaluated and its result is compared against each \hyper{datum}.  If the
-result of evaluating \hyper{key} is the same (in the sense of
-{\cf eqv?}; see section~\ref{eqv?}) to a \hyper{datum}, then the
-expressions in the corresponding \hyper{clause} are evaluated in order
-and the results of the last expression in the \hyper{clause} are
-returned as the results of the {\cf case} expression.
+{\cf case}式は以下のように評価されます。
+\hyper{key}が評価され、その結果が各々の\hyper{datum}と比較されます。
+\hyper{key}の評価結果が\hyper{datum}と等しい
+({\cf eqv?}の意味で; \ref{eqv?}~節を参照)
+場合、対応する\hyper{clause}内の式が順番に評価され、
+その\hyper{clause}の最後の式の結果が{\cf case}式の結果として返されます。
 
-If the result of
-evaluating \hyper{key} is different from every \hyper{datum}, then if
-there is an else clause, its expressions are evaluated and the
-results of the last are the results of the {\cf case} expression;
-otherwise the result of the {\cf case} expression is unspecified.
+\hyper{key}の評価結果がどの\hyper{datum}とも異なる場合、
+else節があれば、その式が評価され、その最後の結果が{\cf case}式の結果になります。
+そうでなければ、{\cf case}式の結果は規定されていません。
 
-If the selected \hyper{clause} or else clause uses the
-\ide{=>} alternate form, then the \hyper{expression} is evaluated.
-It is an error if its value is not a procedure accepting one argument.
-This procedure is then
-called on the value of the \hyper{key} and the values returned by this
-procedure are returned by the {\cf case} expression.
+選択された\hyper{clause}またはelse節が\ide{=>}代理形を使っている場合、
+まず\hyper{expression}が評価されます。
+その値がひとつの引数を受け取る手続きでなければエラーです。
+\hyper{key}の値に対してその手続きが呼び出され、
+その手続きが返した値が{\cf case}式から返されます。
 
 \begin{scheme}
 (case (* 2 3)
@@ -447,12 +410,11 @@ procedure are returned by the {\cf case} expression.
 \proto{and}{ \hyperi{test} \dotsfoo}{\exprtype}}
 
 \semantics
-The \hyper{test} expressions are evaluated from left to right, and if
-any expression evaluates to \schfalse{} (see
-section~\ref{booleansection}), then \schfalse{} is returned.  Any remaining
-expressions are not evaluated.  If all the expressions evaluate to
-true values, the values of the last expression are returned.  If there
-are no expressions, then \schtrue{} is returned.
+\hyper{test}式が左から右に評価され、
+いずれかの式が\schfalse{}に評価されると、そこで\schfalse{}が返されます。
+残りの式は評価されません。
+すべての式が真の値に評価された場合、その最後の式の値が返されます。
+式がひとつも無い場合、\schtrue{}を返します。
 
 \begin{scheme}
 (and (= 2 2) (> 2 1))           \ev  \schtrue
@@ -468,11 +430,12 @@ are no expressions, then \schtrue{} is returned.
 \proto{or}{ \hyperi{test} \dotsfoo}{\exprtype}}
 
 \semantics
-The \hyper{test} expressions are evaluated from left to right, and the value of the
-first expression that evaluates to a true value (see
-section~\ref{booleansection}) is returned.  Any remaining expressions
-are not evaluated.  If all expressions evaluate to \schfalse{}
-or if there are no expressions, then \schfalse{} is returned.
+\hyper{test}式が左から右に評価され、
+真の値(\ref{booleansection}~節を参照)
+に評価された最初の式の値が返されます
+残りの式は評価されません。
+すべての式が\schfalse{}に評価された場合、
+または式がひとつもない場合、\schfalse{}を返します。
 
 \begin{scheme}
 (or (= 2 2) (> 2 1))            \ev  \schtrue
@@ -488,12 +451,12 @@ or if there are no expressions, then \schfalse{} is returned.
 \proto{when}{ \hyper{test} \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
 
 \syntax
-The \hyper{test} is an expression.
+\hyper{test}は式です。
 
 \semantics
-The test is evaluated, and if it evaluates to a true value,
-the expressions are evaluated in order.  The result of the {\cf when}
-expression is unspecified.
+\hyper{test}が評価され、それが真の値に評価された場合、
+\hyper{expression}が順番に評価されます。
+{\cf when}式の戻り値は規定されていません。
 
 \begin{scheme}
 (when (= 1 1.0)
@@ -507,12 +470,12 @@ expression is unspecified.
 \proto{unless}{ \hyper{test} \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
 
 \syntax
-The \hyper{test} is an expression.
+\hyper{test}は式です。
 
 \semantics
-The test is evaluated, and if it evaluates to \schfalse{},
-the expressions are evaluated in order.  The result of the {\cf unless}
-expression is unspecified.
+\hyper{test}が評価され、それが\schfalse{}に評価された場合、
+\hyper{expression}が順番に評価されます。
+{\cf unless}式の戻り値は規定されていません。
 
 \begin{scheme}
 (unless (= 1 1.0)
@@ -526,19 +489,16 @@ expression is unspecified.
 \proto{cond-expand}{ \hyperi{ce-clause} \hyperii{ce-clause} \dotsfoo}{\exprtype}}
 
 \syntax
-The \ide{cond-expand} expression type
-provides a way to statically
-expand different expressions depending on the
-implementation.  A
-\hyper{ce-clause} takes the following form:
+\ide{cond-expand}形式は処理系に依存して異なる式に静的に展開される方法を提供します。
+\hyper{ce-clause}節は以下の形を取ります。
 
 {\tt(\hyper{feature requirement} \hyper{expression} \dotsfoo)}
 
-The last clause can be an ``else clause,'' which has the form
+最後の節は以下の形の``else節''に出来ます。
 
 {\tt(else \hyper{expression} \dotsfoo)}
 
-A \hyper{feature requirement} takes one of the following forms:
+\hyper{feature requirement}は以下の形のいずれかひとつを取ります。
 
 \begin{itemize}
 \item {\tt\hyper{feature identifier}}
@@ -549,71 +509,66 @@ A \hyper{feature requirement} takes one of the following forms:
 \end{itemize}
 
 \semantics
-Each implementation maintains a list of feature identifiers which are
-present, as well as a list of libraries which can be imported.  The
-value of a \hyper{feature requirement} is determined by replacing
-each \hyper{feature identifier} and {\tt(library \hyper{library name})}
-on the implementation's lists with \schtrue, and all other feature
-identifiers and library names with \schfalse, then evaluating the
-resulting expression as a Scheme boolean expression under the normal
-interpretation of {\cf and}, {\cf or}, and {\cf not}.
+各処理系は、インポート可能なライブラリのリストと同様に、
+存在する特徴識別子のリストを管理しています。
+それぞれの\hyper{feature identifier}および{\tt(library \hyper{library name})}を、
+それが処理系の持つリストにある場合は \schtrue、ない場合は \schfalse に置き換え、
+その結果の式を{\cf and}, {\cf or}, {\cf not}の通常の解釈の下で
+Schemeのブーリアン式として評価することによって、
+\hyper{feature requirement}の値が決定されます。
 
-A \ide{cond-expand} is then expanded by evaluating the
-\hyper{feature requirement}s of successive \hyper{ce-clause}s
-in order until one of them returns \schtrue.  When a true clause is
-found, the corresponding \hyper{expression}s are expanded to a
-{\cf begin}, and the remaining clauses are ignored.
-If none of the \hyper{feature requirement}s evaluate to \schtrue, then
-if there is an else clause, its \hyper{expression}s are
-included.  Otherwise, the behavior of the \ide{cond-expand} is unspecified.
-Unlike {\cf cond}, {\cf cond-expand} does not depend on the value
-of any variables.
+次に、一連の\hyper{ce-clause}の\hyper{feature requirement}が、
+\schtrue を返すまで順番に評価されます。
+真の値が見つかったら、対応する\hyper{expression}が{\cf begin}に展開されます。
+残りの節は無視されます。
+どの\hyper{feature requirement}も \schtrue に評価されない場合、
+else節があれば、その\hyper{expression}が含まれます。
+そうでなければ、\ide{cond-expand}の動作は規定されていません。
+{\cf cond}と異なり、{\cf cond-expand}は何の変数の値にも依存しません。
 
-The exact features provided are implementation-defined, but for
-portability a core set of features is given in
 appendix~\ref{stdfeatures}.
+用意されている正確な特徴は処理系定義ですが、
+移植性のために特徴の中核となる集合が付録~\ref{stdfeatures}掲載されています。
 
 \end{entry}
 
-\subsection{Binding constructs}
+\subsection{束縛構文}
 \label{bindingsection}
 
-The binding constructs {\cf let}, {\cf let*}, {\cf letrec}, {\cf letrec*},
-{\cf let-values}, and {\cf let*-values}
-give Scheme a block structure, like Algol 60.  The syntax of the first four
-constructs is identical, but they differ in the regions\index{region} they establish
-for their variable bindings.  In a {\cf let} expression, the initial
-values are computed before any of the variables become bound; in a
-{\cf let*} expression, the bindings and evaluations are performed
-sequentially; while in {\cf letrec} and {\cf letrec*} expressions,
-all the bindings are in
-effect while their initial values are being computed, thus allowing
-mutually recursive definitions.
-The {\cf let-values} and {\cf let*-values} constructs are analogous to {\cf let} and {\cf let*}
-respectively, but are designed to handle multiple-valued expressions, binding
-different identifiers to the returned values.
+束縛構文
+{\cf let}, {\cf let*}, {\cf letrec}, {\cf letrec*}, {\cf let-values}, {\cf let*-values}
+はAlgol 60のようなブロック構造をSchemeにもたらします。
+最初の4つは同じ構文ですが、
+それらが確立する変数束縛の有効範囲\index{region}が異なっています。
+{\cf let}式では、どの変数が束縛されるよりも前に初期値が計算されます。
+{\cf let*}式では、束縛と評価が逐次的に行われます。
+{\cf letrec}式および{\cf letrec*}式では、
+初期値が計算されている間もすべての束縛が有効であり、
+これによって相互再帰を定義することが出来ます。
+{\cf let-values}構文および{\cf let*-values}構文は
+それぞれ{\cf let}および{\cf let*}に似たものですが、
+多値の式を処理できるよう設計されており、
+その戻り値をそれぞれ異なる識別子に束縛できます。
 
 \begin{entry}{%
 \proto{let}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
-\hyper{Bindings} has the form
+\hyper{bindings}は以下の形を取ります。
 \begin{scheme}
 ((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
 \end{scheme}
-where each \hyper{init} is an expression, and \hyper{body} is a
-sequence of zero or more definitions followed by a
-sequence of one or more expressions as described in section~\ref{lambda}.  It is
-an error for a \hyper{variable} to appear more than once in the list of variables
-being bound.
+それぞれの\hyper{init}は式で、
+\hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\ref{lambda}~節も参照してください。
+束縛される変数のリストに同じ\hyper{variable}がふたつ以上現れた場合はエラーです。
 
 \semantics
-The \hyper{init}s are evaluated in the current environment (in some
-unspecified order), the \hyper{variable}s are bound to fresh locations
-holding the results, the \hyper{body} is evaluated in the extended
-environment, and the values of the last expression of \hyper{body}
-are returned.  Each binding of a \hyper{variable} has \hyper{body} as its
-region.\index{region}
+\hyper{init}が現在の環境で(何らかの規定されていない順番で)評価され、
+その結果を格納した新しい場所に\hyper{variable}が束縛され、
+その拡張された環境で\hyper{body}が評価され、
+\hyper{body}の最後の式の値が返されます。
+各\hyper{variable}の束縛は\hyper{body}をその有効範囲として持ちます。\index{region}
 
 \begin{scheme}
 (let ((x 2) (y 3))
@@ -625,7 +580,7 @@ region.\index{region}
     (* z x)))                   \ev  35%
 \end{scheme}
 
-See also ``named {\cf let},'' section \ref{namedlet}.
+\ref{namedlet}節の``名前付き{\cf let}''も参照してください。
 
 \end{entry}
 
@@ -635,21 +590,19 @@ See also ``named {\cf let},'' section \ref{namedlet}.
 
 \nobreak
 \syntax
-\hyper{Bindings} has the form
+\hyper{bindings}は以下の形を取ります。
 \begin{scheme}
 ((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
 \end{scheme}
-and \hyper{body} is a sequence of
-zero or more definitions followed by
-one or more expressions as described in section~\ref{lambda}.
+\hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\ref{lambda}~節も参照してください。
 
 \semantics
-The {\cf let*} binding construct is similar to {\cf let}, but the bindings are performed
-sequentially from left to right, and the region\index{region} of a binding indicated
-by {\cf(\hyper{variable} \hyper{init})} is that part of the {\cf let*}
-expression to the right of the binding.  Thus the second binding is done
-in an environment in which the first binding is visible, and so on.
-The \hyper{variable}s need not be distinct.
+{\cf let*}束縛構文は{\cf let}と同様ですが、束縛が左から右に逐次的に行われます。
+{\cf(\hyper{variable} \hyper{init})} によって示される束縛の有効範囲\index{region}は
+{\cf let*}式のその束縛より右側の部分になります。
+そのため、ふたつめの束縛は最初の束縛が見える環境で行われ、以下同様です。
+\hyper{variable}はそれぞれ異なっている必要はありません。
 
 \begin{scheme}
 (let ((x 2) (y 3))
@@ -665,24 +618,22 @@ The \hyper{variable}s need not be distinct.
 \proto{letrec}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
-\hyper{Bindings} has the form
+\hyper{bindings}は以下の形を取ります。
 \begin{scheme}
 ((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
 \end{scheme}
-and \hyper{body} is a sequence of
-zero or more definitions followed by
-one or more expressions as described in section~\ref{lambda}. It is an error for a \hyper{variable} to appear more
-than once in the list of variables being bound.
+\hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\ref{lambda}~節も参照してください。
+束縛される変数のリストに同じ\hyper{variable}がふたつ以上現れた場合はエラーです。
 
 \semantics
-The \hyper{variable}s are bound to fresh locations holding unspecified
-values, the \hyper{init}s are evaluated in the resulting environment (in
-some unspecified order), each \hyper{variable} is assigned to the result
-of the corresponding \hyper{init}, the \hyper{body} is evaluated in the
-resulting environment, and the values of the last expression in
-\hyper{body} are returned.  Each binding of a \hyper{variable} has the
-entire {\cf letrec} expression as its region\index{region}, making it possible to
-define mutually recursive procedures.
+\hyper{variable}が規定されていない値を格納した新しい場所に束縛され、
+その結果の環境で\hyper{init}が(何らかの規定されていない順番で)評価され、
+\hyper{init}の結果がそれぞれ対応する\hyper{varible}に代入され、
+その結果の環境で\hyper{body}が評価され、
+\hyper{body}の最後の式の値が返されます。
+各\hyper{variable}の束縛は{\cf letrec}式全体をその有効範囲として持ちます。\index{region}
+それにより相互再帰手続きを定義することが可能です。
 
 \begin{scheme}
 (letrec ((even?
@@ -699,15 +650,15 @@ define mutually recursive procedures.
 		\ev  \schtrue%
 \end{scheme}
 
-One restriction on {\cf letrec} is very important: if it is not possible
-to evaluate each \hyper{init} without assigning or referring to the value of any
-\hyper{variable}, it is an error.  The
-restriction is necessary because 
-{\cf letrec} is defined in terms of a procedure
-call where a {\cf lambda} expression binds the \hyper{variable}s to the values
-of the \hyper{init}s.
-In the most common uses of {\cf letrec}, all the \hyper{init}s are
-\lambdaexp{}s and the restriction is satisfied automatically.
+{\cf letrec}には非常に重要な制限がひとつあります。
+各\hyper{init}は、どの\hyper{variable}にも代入も参照もせずに評価できなければなりません。
+さもなければエラーです。
+この制限は必要なものです。
+{\cf lambda}式が\hyper{variable}を\hyper{init}の値に束縛する
+手続き呼び出しによって{\cf letrec}が定義されているためです。
+{\cf letrec}のほとんどの用途では、
+\hyper{init}は\lambdaexp{}であり、
+この制限は自動的に満たされます。
 
 \end{entry}
 
@@ -717,32 +668,28 @@ In the most common uses of {\cf letrec}, all the \hyper{init}s are
 \label{letrecstar}
 
 \syntax
-\hyper{Bindings} has the form
+\hyper{bindings}は以下の形を取ります。
 \begin{scheme}
 ((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
 \end{scheme}
-and \hyper{body}\index{body} is a sequence of
-zero or more definitions followed by
-one or more expressions as described in section~\ref{lambda}. It is an error for a \hyper{variable} to appear more
-than once in the list of variables being bound.
+\hyper{body}\index{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\ref{lambda}~節も参照してください。
+束縛される変数のリストに同じ\hyper{variable}がふたつ以上現れた場合はエラーです。
 
 \semantics
-The \hyper{variable}s are bound to fresh locations,
-each \hyper{variable} is assigned in left-to-right order to the
-result of evaluating the corresponding \hyper{init}, the \hyper{body} is
-evaluated in the resulting environment, and the values of the last
-expression in \hyper{body} are returned.
-Despite the left-to-right evaluation and assignment order, each binding of
-a \hyper{variable} has the entire {\cf letrec*} expression as its
-region\index{region}, making it possible to define mutually recursive
-procedures.
+\hyper{variable}が新しい場所に束縛され、
+左から右の順番で\hyper{init}が評価されその結果がそれぞれ対応する\hyper{variable}に代入され、
+その結果の環境で\hyper{body}が評価され、
+\hyper{body}の最後の式が返されます。
+左から右の評価代入の順番にもかかわらず、
+各\hyper{variable}の束縛は{\cf letrec*}式全体をその有効範囲\index{region}として持ちます。
+それにより相互再帰手続きを定義することが可能です。
 
-If it is not possible to evaluate each \hyper{init} without assigning or
-referring to the value of the corresponding \hyper{variable} or the
-\hyper{variable} of any of the bindings that follow it in
-\hyper{bindings}, it is an error.
-Another restriction is that it is an error to invoke the continuation
-of an \hyper{init} more than once.
+各\hyper{init}は対応する\hyper{variable}の値、およびそれより右側の
+どの\hyper{bindings}の\hyper{variable}にも参照も代入もせず評価できなければなりません。
+さもなければエラーです。
+もうひとつ制限があります。
+\hyper{init}の継続を2回以上呼び出すことはエラーです。
 
 \begin{scheme}
 (letrec* ((p
@@ -763,30 +710,28 @@ of an \hyper{init} more than once.
 \proto{let-values}{ \hyper{mv binding spec} \hyper{body}}{\exprtype}}
 
 \syntax
-\hyper{Mv binding spec} has the form
+\hyper{mv binding spec}は以下の形を取ります。
 \begin{scheme}
 ((\hyperi{formals} \hyperi{init}) \dotsfoo)\rm,%
 \end{scheme}
 
-where each \hyper{init} is an expression, and \hyper{body} is
-zero or more definitions followed by a sequence of one or
-more expressions as described in section~\ref{lambda}.  It is an error for a variable to appear more than
-once in the set of \hyper{formals}.
+それぞれの\hyper{init}は式で、
+\hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\ref{lambda}も参照してください。
+\hyper{formals}の集合内に同じ変数がふたつ以上現れた場合はエラーです。
 
 \semantics
-The \hyper{init}s are evaluated in the current environment (in some
-unspecified order) as if by invoking {\cf call-with-values}, and the
-variables occurring in the \hyper{formals} are bound to fresh locations
-holding the values returned by the \hyper{init}s, where the
-\hyper{formals} are matched to the return values in the same way that
-the \hyper{formals} in a {\cf lambda} expression are matched to the
-arguments in a procedure call.  Then, the \hyper{body} is evaluated in
-the extended environment, and the values of the last expression of
-\hyper{body} are returned.  Each binding of a \hyper{variable} has
-\hyper{body} as its region.\index{region}
+\hyper{init}が現在の環境で(何らかの規定されていない順番で)
+{\cf call-with-values}によって呼び出されたかのように評価され、
+\hyper{init}の戻り値を格納した新しい場所に\hyper{formals}内の変数が束縛されます。
+ただし\hyper{formals}は、
+{\cf lambda}式が手続き呼び出しの際に引数を一致させるのと同じ方法で、
+その戻り値を一致させます。
+それから、その拡張された環境で\hyper{body}が評価され、
+\hyper{body}の最後の式の値が返されます。
+それぞれの\hyper{variable}の束縛は\hyper{body}をその有効範囲とします。\index{region}
 
-It is an error if the \hyper{formals} do not match the number of
-values returned by the corresponding \hyper{init}.
+\hyper{init}の返した値の数が対応する\hyper{formals}に一致しない場合はエラーです。
 
 \begin{scheme}
 (let-values (((root rem) (exact-integer-sqrt 32)))
@@ -801,21 +746,21 @@ values returned by the corresponding \hyper{init}.
 
 \nobreak
 \syntax
-\hyper{Mv binding spec} has the form
+\hyper{mv binding spec}は以下の形を取ります。
 \begin{scheme}
 ((\hyper{formals} \hyper{init}) \dotsfoo)\rm,%
 \end{scheme}
-and \hyper{body} is a sequence of zero or more
-definitions followed by one or more expressions as described in section~\ref{lambda}.  In each \hyper{formals},
-it is an error if any variable appears more than once.
+\hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\ref{lambda}も参照してください。
+それぞれの\hyper{formals}において、同じ変数がふたつ以上現れた場合はエラーです。
 
 \semantics
-The {\cf let*-values} construct is similar to {\cf let-values}, but the
-\hyper{init}s are evaluated and bindings created sequentially from
-left to right, with the region of the bindings of each \hyper{formals}
-including the \hyper{init}s to its right as well as \hyper{body}.  Thus the
-second \hyper{init} is evaluated in an environment in which the first
-set of bindings is visible and initialized, and so on.
+{\cf let*-values}構文は{\cf let-values}に似ています。
+\hyper{init}が評価され、左から右に逐次的に束縛が作成されます。
+それぞれの\hyper{formals}の束縛の有効範囲は
+\hyper{body}と同様にその\hyper{init}の右側も含まれます。
+そのため、ふたつめの\hyper{init}はひとつめの束縛の集合が見えて初期化された環境で評価され、
+以下同様です。
 
 \begin{scheme}
 (let ((a 'a) (b 'b) (x 'x) (y 'y))
@@ -829,26 +774,24 @@ set of bindings is visible and initialized, and so on.
 \end{entry}
 
 
-\subsection{Sequencing}\unsection
+\subsection{逐次実行}\unsection
 \label{sequencing}
 
-Both of Scheme's sequencing constructs are named {\cf begin}, but the two
-have slightly different forms and uses:
+Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
+それぞれ微妙に異なった形と用途があります。
 
 \begin{entry}{%
 \proto{begin}{ \hyper{expression or definition} \dotsfoo}{\exprtype}}
 
-This form of {\cf begin} can appear as part of a \hyper{body}, or at the
-outermost level of a \hyper{program}, or at the REPL, or directly nested
-in a {\cf begin} that is itself of this form.
-It causes the contained expressions and definitions to be evaluated
-exactly as if the enclosing {\cf begin} construct were not present.
+この形の{\cf begin}は\hyper{body}の部分、\hyper{program}の最上位、REPL、
+またはこの形の{\cf begin}に直接ネストしている場合に使うことが出来ます。
+囲んでいる{\cf begin}構文が存在しない場合とまったく同様に、
+内部の式および定義が評価されます。
 
 \begin{rationale}
-This form is commonly used in the output of
-macros (see section~\ref{macrosection})
-which need to generate multiple definitions and
-splice them into the context in which they are expanded.
+この形は一般に、
+複数の定義を生成し、それらを展開先の文脈に繋ぎ合わせる必要のある
+マクロの出力で使われます(\ref{macrosection}~節を参照)。
 \end{rationale}
 
 \end{entry}
@@ -856,11 +799,10 @@ splice them into the context in which they are expanded.
 \begin{entry}{%
 \rproto{begin}{ \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
 
-This form of {\cf begin} can be used as an ordinary expression.
-The \hyper{expression}s are evaluated sequentially from left to right,
-and the values of the last \hyper{expression} are returned. This
-expression type is used to sequence side effects such as assignments
-or input and output.
+この形の{\cf begin}は普通の式として使うことができます。
+\hyper{expression}は左から右に逐次的に評価され、
+最後の\hyper{expression}の値が返されます。
+この形式は代入や入出力のような副作用を逐次実行するために使われます。
 
 \begin{scheme}
 (define x 0)
@@ -876,8 +818,8 @@ or input and output.
 
 \end{entry}
 
-Note that there is a third form of {\cf begin} used as a library declaration:
-see section~\ref{librarydeclarations}.
+ちなみに、ライブラリ宣言として使われるみっつめの形式の{\cf begin}があります。
+\ref{librarydeclarations}~節を参照してください。
 
 \subsection{Iteration}%\unsection
 
