@@ -818,10 +818,10 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 
 \end{entry}
 
-ちなみに、ライブラリ宣言として使われるみっつめの形式の{\cf begin}があります。
+ちなみに、ライブラリ宣言として使われる3つめの形式の{\cf begin}があります。
 \ref{librarydeclarations}~節を参照してください。
 
-\subsection{Iteration}%\unsection
+\subsection{繰り返し}%\unsection
 
 \noindent%
 \pproto{(do ((\hyperi{variable} \hyperi{init} \hyperi{step})}{\exprtype}
@@ -831,42 +831,42 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
   \hyper{command} \dotsfoo)}
 
 \syntax
-All of \hyper{init}, \hyper{step}, \hyper{test}, and \hyper{command}
-are expressions.
+\hyper{init}, \hyper{step}, \hyper{test}, \hyper{command}
+はすべて式です。
 
 \semantics
-A {\cf do} expression is an iteration construct.  It specifies a set of variables to
-be bound, how they are to be initialized at the start, and how they are
-to be updated on each iteration.  When a termination condition is met,
-the loop exits after evaluating the \hyper{expression}s.
+{\cf do}式は繰り返し構文です。
+束縛する変数の集合、
+それらがどのように初期化されるか、
+また繰り返しごとにどのように更新されるかを指定します。
+終了条件を満たすと、\hyper{expression}を評価したあとループを抜けます。
 
-A {\cf do} expression is evaluated as follows:
-The \hyper{init} expressions are evaluated (in some unspecified order),
-the \hyper{variable}s are bound to fresh locations, the results of the
-\hyper{init} expressions are stored in the bindings of the
-\hyper{variable}s, and then the iteration phase begins.
+{\cf do}式は以下のように評価されます。
+\hyper{init}式が(何らかの規定されていない順番で)評価され、
+\hyper{variable}が新しい場所に束縛され、
+\hyper{init}式の結果がその\hyper{variable}の束縛に格納され、
+そして繰り返しフェーズが始まります。
 
-\vest Each iteration begins by evaluating \hyper{test}; if the result is
-false (see section~\ref{booleansection}), then the \hyper{command}
-expressions are evaluated in order for effect, the \hyper{step}
-expressions are evaluated in some unspecified order, the
-\hyper{variable}s are bound to fresh locations, the results of the
-\hyper{step}s are stored in the bindings of the
-\hyper{variable}s, and the next iteration begins.
+\vest それぞれの繰り返しは、\hyper{test}を評価することで始まります。
+その結果が偽(\ref{booleansection}~節を参照)であれば、
+\hyper{command}式が順番に評価され、
+\hyper{step}式が何らかの規定されていない順番で評価され、
+\hyper{variable}が新しい場所に束縛され、
+\hyper{step}の結果が\hyper{variable}の束縛に格納され、
+そして次の繰り返しが始まります。
 
-\vest If \hyper{test} evaluates to a true value, then the
-\hyper{expression}s are evaluated from left to right and the values of
-the last \hyper{expression} are returned.  If no \hyper{expression}s
-are present, then the value of the {\cf do} expression is unspecified.
+\vest \hyper{test}が真に評価された場合は、
+\hyper{expression}が左から右に評価されされ、
+最後の\hyper{expression}の値が返されます。
+\hyper{expression}が存在しなければ、{\cf do}式の値は規定されていません。
 
-\vest The region\index{region} of the binding of a \hyper{variable}
-consists of the entire {\cf do} expression except for the \hyper{init}s.
-It is an error for a \hyper{variable} to appear more than once in the
-list of {\cf do} variables.
+\vest \hyper{variable}の束縛の有効範囲\index{region}は
+\hyper{init}を除く{\cf do}式全体から成ります。
+{\cf do}の変数リストに同じ\hyper{variable}がふたつ以上現れた場合はエラーです。
 
-\vest A \hyper{step} can be omitted, in which case the effect is the
-same as if {\cf(\hyper{variable} \hyper{init} \hyper{variable})} had
-been written instead of {\cf(\hyper{variable} \hyper{init})}.
+\vest \hyper{step}は省略できます。
+その場合の効果は{\cf(\hyper{variable} \hyper{init})}の代わりに
+{\cf(\hyper{variable} \hyper{init} \hyper{variable})}と書かれた場合と同じです。
 
 \begin{scheme}
 (do ((vec (make-vector 5))
@@ -887,14 +887,13 @@ been written instead of {\cf(\hyper{variable} \hyper{init})}.
 
 \label{namedlet}
 \semantics
-``Named {\cf let}'' is a variant on the syntax of \ide{let} which provides
-a more general looping construct than {\cf do} and can also be used to express
-recursion.
-It has the same syntax and semantics as ordinary {\cf let}
-except that \hyper{variable} is bound within \hyper{body} to a procedure
-whose formal arguments are the bound variables and whose body is
-\hyper{body}.  Thus the execution of \hyper{body} can be repeated by
-invoking the procedure named by \hyper{variable}.
+``名前付き{\cf let}''は\ide{let}構文の亜種で、
+{\cf do}よりも一般的なループ構文です。
+再帰を表現するために使うことも出来ます。
+普通の{\cf let}と同じ構文と意味論を持ちますが、
+\hyper{variable}が\hyper{body}内で
+仮引数がその束縛された変数で本体が\hyper{body}である手続きに束縛される点が異なります。
+そのため\hyper{variable}という名前の手続きを呼ぶことにより\hyper{body}を繰り返すことが出来ます。
 
 %                                              |  <-- right margin
 \begin{scheme}
@@ -916,7 +915,7 @@ invoking the procedure named by \hyper{variable}.
 \end{entry}
 
 
-\subsection{Delayed evaluation}\unsection
+\subsection{遅延評価}\unsection
 
 \begin{entry}{%
 \proto{delay}{ \hyper{expression}}{lazy library syntax}}
@@ -924,15 +923,13 @@ invoking the procedure named by \hyper{variable}.
 \todo{Fix.}
 
 \semantics
-The {\cf delay} construct is used together with the procedure \ide{force} to
-implement \defining{lazy evaluation} or \defining{call by need}.
-{\tt(delay~\hyper{expression})} returns an object called a
-\defining{promise} which at some point in the future can be asked (by
-the {\cf force} procedure) to evaluate
-\hyper{expression}, and deliver the resulting value.
+{\cf delay}構文は手続き\ide{force}と共に、
+\defining{遅延評価}または\defining{必要渡し}を実装するために使われます。
+{\tt(delay~\hyper{expression})}は\defining{promise}と呼ばれるオブジェクトを返します。
+これは\hyper{expression}を評価してその戻り値を取得するために
+将来のある時点で({\cf force}手続きによって)問い合わせることが出来るオブジェクトです。
 \todo{consider removing unspecified effect}
-The effect of \hyper{expression} returning multiple values
-is unspecified.
+\hyper{expression}が複数の値を返す場合の効果は規定されていません。
 
 \end{entry}
 
@@ -942,34 +939,29 @@ is unspecified.
 \todo{Fix.}
 
 \semantics
-The expression {\cf (delay-force \var{expression})} is conceptually similar to 
-{\cf (delay (force \var{expression}))},
-with the difference that forcing the result
-of {\cf delay-force} will in effect result in a tail call to 
-{\cf (force \var{expression})},
-while forcing the result of
+{\cf (delay-force \var{expression})}式は概念的には
+{\cf (delay (force \var{expression}))}と同様です。
+ただし{\cf delay-force}の結果をforceすると、
+{\cf (force \var{expression})}に末尾呼び出しする点が異なります。
+それに対して
 {\cf (delay (force \var{expression}))}
-might not.  Thus
-iterative lazy algorithms that might result in a long series of chains of
-{\cf delay} and {\cf force}
-can be rewritten using {\cf delay-force} to prevent consuming
-unbounded space during evaluation.
+はそうでない場合があります。
+そのため{\cf delay}と{\cf force}の長いチェーンとなる可能性のある遅延の繰り返しアルゴリズムは、
+{\cf delay-force}を使って書き直すことで、評価中に空間を無制限に消費するのを防くことが出来ます。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{force}{ promise}{lazy library procedure}}
 
-The {\cf force} procedure forces the value of a \var{promise} created
-by \ide{delay}, \ide{delay-force}, or \ide{make-promise}.\index{promise}
-If no value has been computed for the promise, then a value is
-computed and returned.  The value of the promise must be cached (or
-``memoized'') so that if it is forced a second time, the previously
-computed value is returned.
-Consequently, a delayed expression is evaluated using the parameter
-values and exception handler of the call to {\cf force} which first
-requested its value.
-If \var{promise} is not a promise, it may be returned unchanged.
+{\cf force}手続きは\ide{delay}、\ide{delay-force}または\ide{make-promise}
+によって作成された\var{promise}の値を要求します。\index{promise}
+そのプロミスに対する値が計算されていなければ、値が計算されて返されます。
+プロミスの値は二回目要求されたとき以前計算した値を返すために
+キャッシュ(または``メモ化'')されます。
+そのため、遅延式は最初に値を要求した{\cf force}呼び出しの
+パラメータおよび例外ハンドラを用いて評価されます。
+\var{promise}がプロミスでなければ、その値が変更されずに返されます。
 
 \begin{scheme}
 (force (delay (+ 1 2)))   \ev  3
@@ -991,14 +983,12 @@ If \var{promise} is not a promise, it may be returned unchanged.
                                \ev  2%
 \end{scheme}
 
-The following example is a mechanical transformation of a lazy
-stream-filtering algorithm into Scheme.  Each call to a constructor is
-wrapped in {\cf delay}, and each argument passed to a deconstructor is
-wrapped in {\cf force}.  The use of {\cf (delay-force ...)} instead of {\cf
-(delay (force ...))} around the body of the procedure ensures that an
-ever-growing sequence of pending promises does not 
-exhaust available storage,
-because {\cf force} will in effect force such sequences iteratively.
+以下の例は遅延ストリームフィルタリングアルゴリズムを機械的にSchemeに変換したものです。
+構築手続きの呼び出しはそれぞれ{\cf delay}に包まれ、
+参照手続きの引数はそれぞれ{\cf force}に包まれています。
+手続き本体のまわりでは{\cf (delay (force ...))}の代わりに{\cf (delay-force ...)}を使用することで、
+増加してゆく一連の保留中のプロミスが利用可能な記憶領域を使い切らないようにしています。
+これは{\cf force}がそのような一連のプロミスを実質的に繰り返しforceしてくれるためです。
 
 \begin{scheme}
 (define (stream-filter p? s)
@@ -1015,11 +1005,9 @@ because {\cf force} will in effect force such sequences iteratively.
                                \ev 5%
 \end{scheme}
 
-The following examples are not intended to illustrate good programming
-style, as {\cf delay}, {\cf force}, and {\cf delay-force} are mainly intended
-for programs written in the functional style.
-However, they do illustrate the property that only one value is
-computed for a promise, no matter how many times it is forced.
+{\cf delay}、{\cf force}および{\cf delay-force}は主に関数スタイルで書かれるプログラムでの使用が意図されており、
+以下の例は良いプログラミングスタイルを示しているわけではありませんが、
+何度要求されたかに関わらずひとつのプロミスに対してはひとつの値しか計算されないということを示す例になっています。
 
 \begin{scheme}
 (define count 0)
@@ -1036,17 +1024,16 @@ p                     \ev  {\it{}a promise, still}
        (force p))     \ev  6%
 \end{scheme}
 
-Various extensions to this semantics of {\cf delay}, {\cf force} and
-{\cf delay-force} are supported in some implementations:
+処理系によっては{\cf delay}、{\cf force}および{\cf delay-force}のこの意味論に
+様々な拡張が行われている場合があります。
 
 \begin{itemize}
-\item Calling {\cf force} on an object that is not a promise may simply
-return the object.
+\item プロミスでないオブジェクトに対する{\cf force}の呼び出しは、
+単にそのオブジェクトを返す場合があります。
 
-\item It may be the case that there is no means by which a promise can be
-operationally distinguished from its forced value.  That is, expressions
-like the following may evaluate to either \schtrue{} or to \schfalse{},
-depending on the implementation:
+\item プロミスがそのforceされた値といかなる意味でも操作的に区別できない場合があります。
+つまり、以下のような式は処理系によって
+\schtrue{}または\schfalse{}のいずれに評価される場合もあります。
 
 \begin{scheme}
 (eqv? (delay 1) 1)          \ev  \unspecified
@@ -1058,6 +1045,10 @@ the value of a promise is forced by procedures
 that operate only on arguments of a certain type, like {\cf cdr}
 and {\cf *}.  However, procedures that operate uniformly on their
 arguments, like {\cf list}, must not force them.
+\item 処理系は``暗黙のforce''を実装している場合があります。
+{\cf cdr}や{\cf *}のような特定の型の引数にのみ作用する手続きが
+プロミスの値をforceするという機能です。
+しかし、{\cf list}のように引数を一様に処理する手続きはそれらをforceしてはなりません。
 
 \begin{scheme}
 (+ (delay (* 3 7)) 13)  \ev  \unspecified
@@ -1070,52 +1061,46 @@ arguments, like {\cf list}, must not force them.
 \begin{entry}{%
 \proto{promise?} { \var{obj}}{lazy library procedure}}
 
-The {\cf promise?} procedure returns 
-\schtrue{} if its argument is a promise, and \schfalse{} otherwise.  Note
-that promises are not necessarily disjoint from other Scheme types such
-as procedures.
+{\cf promise?}手続きは、その引数がプロミスであれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
+プロミスは他のSchemeの型、例えば手続きなど、と独立している必要はないことに注意してください。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{make-promise} { \var{obj}}{lazy library procedure}}
 
-The {\cf make-promise} procedure returns a promise which, when forced, will return
-\var{obj}.  It is similar to {\cf delay}, but does not delay
-its argument: it is a procedure rather than syntax.
-If \var{obj} is already a promise, it is returned.
+{\cf make-promise}手続きは、forceされたときに\var{obj}を返すプロミスを返します。
+{\cf delay}に似ていますが、引数は遅延されません。
+これは構文ではなく手続きです。
+\var{obj}がすでにプロミスであれば、それが返されます。
 
 \end{entry}
 
-\subsection{Dynamic bindings}\unsection
+\subsection{動的束縛}\unsection
 
-The \defining{dynamic extent} of a procedure call is the time between
-when it is initiated and when it returns.  In Scheme, {\cf
-  call-with-current-continuation} (section~\ref{continuations}) allows
-reentering a dynamic extent after its procedure call has returned.
-Thus, the dynamic extent of a call might not be a single, continuous time
-period.
+手続き呼び出しが開始されてからそれが戻るまでの間の時間を
+手続き呼び出しの\defining{動的有効期間}と呼びます。
+Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
+によって、手続き呼び出しが戻った後も、その動的有効期間に入り直すことが出来ます。
+そのため、呼び出しの動的有効期間は、連続した単一の時間でない場合があります。
 
-This sections introduces \defining{parameter objects}, which can be
-bound to new values for the duration of a dynamic extent.  The set of
-all parameter bindings at a given time is called the \defining{dynamic
-  environment}.
+この節では\defining{パラメータオブジェクト}が導入されます。
+これは動的有効期間に対して新しい値を束縛できるオブジェクトです。
+ある時点でのすべてのパラメータの束縛の集合は\defining{動的環境}と呼ばれます。
 
 \begin{entry}{%
 \proto{make-parameter}{ init}{procedure}
 \rproto{make-parameter}{ init converter}{procedure}}
 
-Returns a newly allocated parameter object,
-which is a procedure that accepts zero arguments and
-returns the value associated with the parameter object.
-Initially, this value is the value of
-{\cf (\var{converter} \var{init})}, or of \var{init}
-if the conversion procedure \var{converter} is not specified.
-The associated value can be temporarily changed
-using {\cf parameterize}, which is described below.
+新しく割り当てられたパラメータオブジェクトを返します。
+パラメータオブジェクトは引数を取らない手続きで、
+そのパラメータオブジェクトに紐付けられた値を返します。
+初期状態では、この値は{\cf (\var{converter} \var{init})}の値、
+変換手続き\var{converter}が指定されていない場合は\var{init}の値です。
+紐付けられた値は以下で述べる{\cf parameterize}を使って一時的に変更することが出来ます。
 
-The effect of passing arguments to a parameter object is
-implementation-dependent.
+パラメータオブジェクトに引数を渡したときの効果は処理系依存です。
 \end{entry}
 
 \begin{entry}{%
@@ -1125,39 +1110,33 @@ implementation-dependent.
 \mainschindex{parameterize}
 
 \syntax
-Both \hyperi{param} and \hyperi{value} are expressions.
+\hyperi{param}および\hyperi{value}は両方とも式です。
 
-\domain{It is an error if the value of any \hyper{param} expression is not a parameter object.}
+\domain{\hyper{param}式の値のいずれかがパラメータオブジェクトでない場合はエラーです。}
 \semantics
-A {\cf parameterize} expression is used to change the values returned by
-specified parameter objects during the evaluation of the body.
+{\cf parameterize}式は、本体を評価する間、
+指定されたパラメータオブジェクトの返す値を変更するために使用します。
 
-The \hyper{param} and \hyper{value} expressions
-are evaluated in an unspecified order.  The \hyper{body} is
-evaluated in a dynamic environment in which calls to the
-parameters return the results of passing the corresponding values
-to the conversion procedure specified when the parameters were created.
-Then the previous values of the parameters are restored without passing
-them to the conversion procedure.
-The results of the last
-expression in the \hyper{body} are returned as the results of the entire
-{\cf parameterize} expression.
+\hyper{param}および\hyper{value}式の評価順序は規定されていません。
+\hyper{body}は新しい動的環境で評価されます。
+その動的環境では、指定されたパラメータが呼ばれると、
+対応する値がパラメータオブジェクト作成時に指定した変換手続きに渡した結果を返します。
+その後、パラメータの以前の値が、変換手続きに渡されずに復元されます。
+\hyper{body}内の最後の式の結果が{\cf parameterize}式全体の結果として返されます。
 
 \begin{note}
-If the conversion procedure is not idempotent, the results of
-{\cf (parameterize ((x (x))) ...)},
-which appears to bind the parameter \var{x} to its current value,
-might not be what the user expects.
+変換手続きが冪等でない場合、
+{\cf (parameterize ((x (x))) ...)}は、
+パラメータ\var{x}を現在の値に束縛しているように見えるものの、
+ユーザが期待する結果にならないかもしれません。
 \end{note}
 
-If an implementation supports multiple threads of execution, then
-{\cf parameterize} must not change the associated values of any parameters
-in any thread other than the current thread and threads created
-inside \hyper{body}.
+処理系がマルチスレッド実行をサポートしている場合、
+{\cf parameterize}は現在のスレッドおよび\hyper{body}の中で生成されたスレッド以外の
+いかなるスレッドのいかなるパラメータに紐づく値も変更してはなりません。
 
-Parameter objects can be used to specify configurable settings for a
-computation without the need to pass the value to every
-procedure in the call chain explicitly.
+パラメータオブジェクトは呼び出しチェーンのすべての手続きに値を明示的に渡す必要なく
+計算に対する変更可能な設定を指定するために使うことが出来ます。
 
 \begin{scheme}
 (define radix
@@ -1183,7 +1162,7 @@ procedure in the call chain explicitly.
 \end{entry}
 
 
-\subsection{Exception handling}\unsection
+\subsection{例外処理}\unsection
 
 \begin{entry}{%
 \pproto{(guard (\hyper{variable}}{\exprtype}
@@ -1194,25 +1173,22 @@ procedure in the call chain explicitly.
 \mainschindex{guard}
 
 \syntax
-Each \hyper{cond clause} is as in the specification of {\cf cond}.
+\hyper{cond clause}は{\cf cond}の仕様に記載されているものと同じです。
 
 \semantics
-The \hyper{body} is evaluated with an exception
-handler that binds the raised object (see \ide{raise} in section~\ref{exceptionsection})
-to \hyper{variable} and, within the scope of
-that binding, evaluates the clauses as if they were the clauses of a
-{\cf cond} expression. That implicit {\cf cond} expression is evaluated with the
-continuation and dynamic environment of the {\cf guard} expression. If every
-\hyper{cond clause}'s \hyper{test} evaluates to \schfalse{} and there
-is no else clause, then
-{\cf raise-continuable} is invoked on the raised object within the dynamic
-environment of the original call to {\cf raise}
-or {\cf raise-continuable}, except that the current
-exception handler is that of the {\cf guard} expression.
+\hyper{body}は例外ハンドラを持った状態で評価されます。
+例外ハンドラでは、
+例外オブジェクト(\ref{exceptionsection}~節の\ide{raise}を参照)
+が\hyper{variable}に束縛され、
+その束縛のスコープ内で、それぞれの節が{\cf cond}式の節であるかのように評価されます。
+暗黙の{\cf cond}式は、{\cf guard}式の継続と動的環境で評価されます。
+すべての\hyper{cond clause}の\hyper{test}が\schfalse{}に評価され、かつelse節が無い場合、
+{\cf raise}または{\cf raise-continuable}の呼び出し元の動的環境で、
+ただし現在の例外ハンドラは{\cf guard}式のものとして、
+その例外オブジェクトに対して{\cf raise-continuable}が呼び出されます。
 
 
-See section~\ref{exceptionsection} for a more complete discussion of
-exceptions.
+例外のより完全な議論は\ref{exceptionsection}~節を参照してください。
 
 \begin{scheme}
 (guard (condition
@@ -1230,7 +1206,7 @@ exceptions.
 \end{entry}
 
 
-\subsection{Quasiquotation}\unsection
+\subsection{準引用}\unsection
 \label{quasiquotesection}
 
 \begin{entry}{%
@@ -1241,26 +1217,24 @@ exceptions.
 \pproto{unquote-splicing}{\auxiliarytype}
 \pproto{\commaatsign}{\auxiliarytype}}
 
-``Quasiquote''\index{backquote} expressions are useful
-for constructing a list or vector structure when some but not all of the
-desired structure is known in advance.  If no
-commas\index{comma} appear within the \hyper{qq template}, the result of
-evaluating
-\backquote\hyper{qq template} is equivalent to the result of evaluating
-\singlequote\hyper{qq template}.  If a comma\mainschindex{,} appears within the
-\hyper{qq template}, however, the expression following the comma is
-evaluated (``unquoted'') and its result is inserted into the structure
-instead of the comma and the expression.  If a comma appears followed
-without intervening whitespace by a commercial at-sign (\atsign),\mainschindex{,@} then it is an error if the following
-expression does not evaluate to a list; the opening and closing parentheses
-of the list are then ``stripped away'' and the elements of the list are
-inserted in place of the comma at-sign expression sequence.  A comma
-at-sign normally appears only within a list or vector \hyper{qq template}.
+``Quasiquote''\index{backquote}式は、
+全部ではないけれど部分的にあらかじめ判っているような
+リストやベクタ構造を構築するのに便利です。
+\hyper{qq template}内にコンマが無ければ、
+\backquote\hyper{qq template}を評価した結果は
+\singlequote\hyper{qq template}を評価した結果と等価です。
+しかし、\hyper{qq template}内にコンマ\mainschindex{,}がある場合、
+コンマに続く式は評価(``反引用'')され、その結果がそのコンマと式の代わりにその構造内に挿入されます。
+コンマにホワイトスペースを挟まずアットマーク(\atsign)\mainschindex{,@}が続いた場合、
+後続の式はリストに評価できなければエラーであり、
+そのリストの開き括弧および閉じ括弧は``剥ぎ取られ''、
+そのリストの要素がコンマ+アットマーク式の並びのあった場所に挿入されます。
+通常、コンマ+アットマークはリストおよびベクタの\hyper{qq template}内にのみ現れます。
 
 \begin{note}
-In order to unquote an identifier beginning with {\cf @}, it is necessary
-to use either an explicit {\cf unquote} or to put whitespace after the comma,
-to avoid colliding with the comma at-sign sequence.
+{\cf @}で始まる識別子を反引用したい場合は、
+明示的に{\cf unquote}を使うか、
+コンマ+アットマークの並びと一致するのを避けるためにコンマの後にホワイトスペースを置く必要があります。
 \end{note}
 
 \begin{scheme}
@@ -1278,11 +1252,10 @@ to avoid colliding with the comma at-sign sequence.
           \lev  (list foo bar baz)%
 \end{scheme}
 
-Quasiquote expressions can be nested.  Substitutions are made only for
-unquoted components appearing at the same nesting level
-as the outermost quasiquote.  The nesting level increases by one inside
-each successive quasiquotation, and decreases by one inside each
-unquotation.
+準引用式はネストできます。
+置換は最も外側の準引用と同じネストレベルに現れた反引用部分にのみ行われます。
+ネストレベルは準引用の内側に入るごとにひとつ上がり、
+反引用の内側に入るごとにひとつ下がります。
 
 \begin{scheme}
 `(a `(b ,(+ 1 2) ,(foo ,(+ 1 3) d) e) f) %
@@ -1293,16 +1266,16 @@ unquotation.
           \lev  (a `(b ,x ,'y d) e)%
 \end{scheme}
 
-A quasiquote expression may return either newly allocated, mutable objects or
-literal structure for any structure that is constructed at run time
-during the evaluation of the expression. Portions that do not need to
-be rebuilt are always literal. Thus,
+準引用式は、式の評価中に実行時に構築される任意の構造について、
+新しく割り当てられた可変オブジェクトを返す場合もあれば、リテラル構造を返す場合もあります。
+再構築する必要のない部分は常にリテラルです。
+つまり、
 
 \begin{scheme}
 (let ((a 3)) `((1 2) ,a ,4 ,'five 6))%
 \end{scheme}
 
-may be treated as equivalent to either of the following expressions:
+これは、以下のいずれかの式と等価なものとして扱われる場合があります。
 
 \begin{scheme}
 `((1 2) 3 4 five 6)
@@ -1312,19 +1285,17 @@ may be treated as equivalent to either of the following expressions:
         (cons a (cons 4 (cons 'five '(6))))))%
 \end{scheme}
 
-However, it is not equivalent to this expression:
+しかし、以下の式とは等価ではありません。
 
 \begin{scheme}
 (let ((a 3)) (list (list 1 2) a 4 'five 6))%
 \end{scheme}
 
-The two notations
- \backquote\hyper{qq template} and {\tt (quasiquote \hyper{qq template})}
- are identical in all respects.
- {\cf,\hyper{expression}} is identical to {\cf (unquote \hyper{expression})},
- and
- {\cf,@\hyper{expression}} is identical to {\cf (unquote-splicing \hyper{expression})}.
-The \ide{write} procedure may output either format.
+2種類の記法\backquote\hyper{qq template}および
+{\tt (quasiquote \hyper{qq template})}は、あらゆる意味において同等です。
+{\cf,\hyper{expression}}は{\cf (unquote \hyper{expression})}と同等であり、
+{\cf,@\hyper{expression}}は{\cf (unquote-splicing \hyper{expression})}と同等です。
+\ide{write}手続きはどちらの書式で出力しても構いません。
 \mainschindex{`}
 
 \begin{scheme}
@@ -1336,9 +1307,8 @@ The \ide{write} procedure may output either format.
 \end{scheme}
 
 
-It is an error if any of the identifiers {\cf quasiquote}, {\cf unquote},
-or {\cf unquote-splicing} appear in positions within a \hyper{qq template}
-otherwise than as described above.
+識別子{\cf quasiquote}、{\cf unquote}、{\cf unquote-splicing}のいずれかが
+上で説明した以外の\hyper{qq template}内の部分に現れた場合はエラーです。
 
 \end{entry}
 
@@ -1348,25 +1318,23 @@ otherwise than as described above.
 \proto{case-lambda}{ \hyper{clause} \dotsfoo}{case-lambda library syntax}}
 
 \syntax
-Each \hyper{clause} is of the form
-(\hyper{formals} \hyper{body}),
-where \hyper{formals} and \hyper{body} have the same syntax
-as in a \lambdaexp.
+それぞれの\hyper{clause}は
+(\hyper{formals} \hyper{body})
+の形を取ります。
+ただし\hyper{formals}および\hyper{body}は \lambdaexp の場合と同じ構文です。
 
 \semantics
-A {\cf case-lambda} expression evaluates to a procedure that accepts
-a variable number of arguments and is lexically scoped in the same
-manner as a procedure resulting from a \lambdaexp. When the procedure
-is called, the first \hyper{clause} for which the arguments agree
-with \hyper{formals} is selected, where agreement is specified as for
-the \hyper{formals} of a \lambdaexp. The variables of \hyper{formals} are
-bound to fresh locations, the values of the arguments are stored in those
-locations, the \hyper{body} is evaluated in the extended environment,
-and the results of \hyper{body} are returned as the results of the
-procedure call.
+{\cf case-lambda}式は可変個の引数を取る手続きに評価され、
+\lambdaexp から返される手続きと同じように字句的スコープを持ちます。
+この手続きが呼ばれると、
+その引数が\hyper{formals}とマッチする最初の\hyper{clause}が選択されます。
+ただしマッチは \lambdaexp の\hyper{formals}に対するものと同様に指定されます。
+\hyper{formals}の変数が新しい場所に束縛され、
+その場所に引数の値が格納され、
+その拡張された環境で\hyper{body}が評価され、
+\hyper{body}の結果がその手続き呼び出しの結果として返されます。
 
-It is an error for the arguments not to agree with
-the \hyper{formals} of any \hyper{clause}.
+引数がどの\hyper{clause}の\hyper{formals}ともマッチしなかった場合はエラーです。
 
 \begin{scheme}
 (define range
@@ -1382,97 +1350,86 @@ the \hyper{formals} of any \hyper{clause}.
 
 \end{entry}
 
-\section{Macros}
+\section{マクロ}
 \label{macrosection}
 
-Scheme programs can define and use new derived expression types,
- called {\em macros}.\mainindex{macro}
-Program-defined expression types have the syntax
+Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生形式を定義して使うことが出来ます。\mainindex{macro}
+プログラムによって定義された形式は以下の構文を持ちます。
 \begin{scheme}
 (\hyper{keyword} {\hyper{datum}} ...)%
 \end{scheme}%
-where \hyper{keyword} is an identifier that uniquely determines the
-expression type.  This identifier is called the {\em syntactic
-keyword}\index{syntactic keyword}, or simply {\em
-keyword}\index{keyword}, of the macro\index{macro keyword}.  The
-number of the \hyper{datum}s, and their syntax, depends on the
-expression type.
+ただし\hyper{keyword}はその形式を唯一に決定する識別子です。
+この識別子は、そのマクロの{\em 構文キーワード}\index{syntactic keyword}、
+または単に{\em キーワード}\index{keyword}と呼ばれます\index{macro keyword}。
+\hyper{datum}の数およびその構文は、その形式に依存します。
 
-Each instance of a macro is called a {\em use}\index{macro use}
-of the macro.
-The set of rules that specifies
-how a use of a macro is transcribed into a more primitive expression
-is called the {\em transformer}\index{macro transformer}
-of the macro.
+マクロの実体化は、そのマクロの{\em 使用}\index{macro use}と呼びます。
+マクロの使用をよりプリミティブな式にどのように変換するかを指定する規則の集合を、
+そのマクロの{\em 変換器}\index{macro transformer}と呼びます。
 
-The macro definition facility consists of two parts:
+マクロ定義機能はふたつの部分から成ります。
 
 \begin{itemize}
-\item A set of expressions used to establish that certain identifiers
-are macro keywords, associate them with macro transformers, and control
-the scope within which a macro is defined, and
+\item 特定の識別子をマクロキーワードとして確立し、
+それをマクロ変換器に紐付け、
+マクロが定義されるスコープを制御するために使う式の集合。
 
-\item a pattern language for specifying macro transformers.
+\item マクロ変換器を指定するためのパターン言語。
 \end{itemize}
 
-The syntactic keyword of a macro can shadow variable bindings, and local
-variable bindings can shadow syntactic bindings.  \index{keyword}  
-Two mechanisms are provided to prevent unintended conflicts:
+マクロの構文キーワードは変数束縛を覆い隠し、
+局所変数束縛は構文束縛を覆い隠します。\index{keyword}
+意図しない衝突を防ぐためにふたつの仕組みがあります。
 
 \begin{itemize}
 
-\item If a macro transformer inserts a binding for an identifier
-(variable or keyword), the identifier will in effect be renamed
-throughout its scope to avoid conflicts with other identifiers.
-Note that a global variable definition may or may not introduce a binding;
-see section~\ref{defines}.
+\item マクロ変換器が識別子(変数またはキーワード)に対する束縛を挿入した場合、
+その識別子は他の識別子との衝突を避けるためにそのスコープにおいて実質的に改名されます。
+グローバル変数の定義は束縛を導入する場合もしない場合もあることに注意してください。
+\ref{defines}~節を参照してください。
 
-\item If a macro transformer inserts a free reference to an
-identifier, the reference refers to the binding that was visible
-where the transformer was specified, regardless of any local
-bindings that surround the use of the macro.
+\item マクロ変換器が識別子の自由参照を挿入した場合、
+その参照は変換器が指定された場所で可視だった束縛を参照します。
+マクロの使用場所のまわりにあるいかなる局所束縛も関係しません。
 
 \end{itemize}
 
-In consequence, all macros
-defined using the pattern language  are ``hygienic'' and ``referentially
-transparent'' and thus preserve Scheme's lexical scoping.~\cite{Kohlbecker86,
+これにより、
+パターン言語を用いて定義されたマクロはすべて``衛生的''かつ``参照透明''であり、
+Schemeの字句的スコープを保っています。\cite{Kohlbecker86,
 hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 \mainindex{hygienic}\mainindex{referentially transparent}
 
-Implementations may provide macro facilities of other types.
+処理系は他の種類のマクロ機能を用意している場合もあります。
 
-\subsection{Binding constructs for syntactic keywords}
+\subsection{構文キーワードの束縛構文}
 \label{bindsyntax}
 
-The {\cf let-syntax} and {\cf letrec-syntax} binding constructs are
-analogous to {\cf let} and {\cf letrec}, but they bind
-syntactic keywords to macro transformers instead of binding variables
-to locations that contain values.  Syntactic keywords can also be
-bound globally or locally with {\cf define-syntax};
-see section~\ref{define-syntax}.
+{\cf let-syntax}および{\cf letrec-syntax}束縛構文は
+{\cf let}および{\cf letrec}に似ていますが、
+値を持つ場所に変数を束縛する代わりに、
+構文キーワードをマクロ変換器に束縛します。
+構文キーワードは{\cf define-syntax}を使って大域的にまたは局所的に束縛することも出来ます。
+\ref{define-syntax}~節を参照してください。
 
 \begin{entry}{%
 \proto{let-syntax}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
-\hyper{Bindings} has the form
+\hyper{bindings}は以下の形を取ります。
 \begin{scheme}
 ((\hyper{keyword} \hyper{transformer spec}) \dotsfoo)%
 \end{scheme}
-Each \hyper{keyword} is an identifier,
-each \hyper{transformer spec} is an instance of {\cf syntax-rules}, and
-\hyper{body} is a sequence of one or more definitions followed
-by one or more expressions.  It is an error
-for a \hyper{keyword} to appear more than once in the list of keywords
-being bound.
+\hyper{keyword}は識別子、
+\hyper{transformer spec}は{\cf syntax-rules}のインスタンスで、
+\hyper{body}はゼロ個以上の定義にひとつ以上の式が続いたものです。
+束縛されるキーワードのリストに同じ\hyper{keyword}が2回以上現れた場合はエラーです。
 
 \semantics
-The \hyper{body} is expanded in the syntactic environment
-obtained by extending the syntactic environment of the
-{\cf let-syntax} expression with macros whose keywords are
-the \hyper{keyword}s, bound to the specified transformers.
-Each binding of a \hyper{keyword} has \hyper{body} as its region.
+{\cf let-syntax}式の構文環境を
+指定した変換器にキーワード\hyper{keyword}を束縛するマクロで拡張することによって得られた構文環境で
+\hyper{body}が展開されます。
+それぞれの\hyper{keyword}の束縛は\hyper{body}をその有効範囲とします。
 
 \begin{scheme}
 (let-syntax ((given-that (syntax-rules ()
@@ -1496,18 +1453,16 @@ Each binding of a \hyper{keyword} has \hyper{body} as its region.
 \proto{letrec-syntax}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
-Same as for {\cf let-syntax}.
+{\cf let-syntax}と同じです。
 
 \semantics
- The \hyper{body} is expanded in the syntactic environment obtained by
-extending the syntactic environment of the {\cf letrec-syntax}
-expression with macros whose keywords are the
-\hyper{keyword}s, bound to the specified transformers.
-Each binding of a \hyper{keyword} has the \hyper{transformer spec}s
-as well as the \hyper{body} within its region,
-so the transformers can
-transcribe expressions into uses of the macros
-introduced by the {\cf letrec-syntax} expression.
+{\cf let-syntax}式の構文環境を
+指定した変換器にキーワード\hyper{keyword}を束縛するマクロで拡張することによって得られた構文環境で
+\hyper{body}が展開されます。
+それぞれの\hyper{keyword}の束縛は
+\hyper{body}と同様に\hyper{transformer spec}もその有効範囲として持ち、
+そのため変換器はその{\cf letrec-syntax}式によって導入されたマクロを使用して
+表現することが出来ます。
 
 \begin{scheme}
 (letrec-syntax
@@ -1532,10 +1487,10 @@ introduced by the {\cf letrec-syntax} expression.
 
 \end{entry}
 
-\subsection{Pattern language}
+\subsection{パターン言語}
 \label{patternlanguage}
 
-A \hyper{transformer spec} has one of the following forms:
+\hyper{transformer spec}は以下のいずれかの形を取ります。
 
 \begin{entry}{%
 \pproto{(syntax-rules (\hyper{literal} \dotsfoo)}{\exprtype}
@@ -1550,18 +1505,15 @@ A \hyper{transformer spec} has one of the following forms:
 \mainschindex{_}
 
 \syntax
-It is an error if any of the \hyper{literal}s, or the \hyper{ellipsis} in the second form,
-is not an identifier.
-It is also an error if
-\hyper{syntax rule} is not of the form
+\hyper{literal}または2番目の形の\hyper{ellipsis}のいずれかが識別子でなければエラーです。
+\hyper{syntax rule}が以下の形でない場合もエラーです。
 \begin{scheme}
 (\hyper{pattern} \hyper{template})%
 \end{scheme}
-The \hyper{pattern} in a \hyper{syntax rule} is a list \hyper{pattern}
-whose first element is an identifier.
+\hyper{syntax rule}内の\hyper{pattern}
+は最初の要素が識別子であるリストです。
 
-A \hyper{pattern} is either an identifier, a constant, or one of the
-following
+\hyper{pattern}は識別子、定数、または以下のいずれかです。
 \begin{scheme}
 (\hyper{pattern} \ldots)
 (\hyper{pattern} \hyper{pattern} \ldots . \hyper{pattern})
@@ -1571,149 +1523,140 @@ following
 \#(\hyper{pattern} \ldots)
 \#(\hyper{pattern} \ldots \hyper{pattern} \hyper{ellipsis} \hyper{pattern} \ldots)%
 \end{scheme}
-and a \hyper{template} is either an identifier, a constant, or one of the following
+\hyper{template}は識別子、定数、または以下のいずれかです。
 \begin{scheme}
 (\hyper{element} \ldots)
 (\hyper{element} \hyper{element} \ldots . \hyper{template})
 (\hyper{ellipsis} \hyper{template})
 \#(\hyper{element} \ldots)%
 \end{scheme}
-where an \hyper{element} is a \hyper{template} optionally
-followed by an \hyper{ellipsis}.
-An \hyper{ellipsis} is the identifier specified in the second form
-of {\cf syntax-rules}, or the default identifier {\cf ...}
-(three consecutive periods) otherwise.\schindex{...}
+ただし\hyper{element}は\hyper{template}であるか、
+\hyper{template}に\hyper{ellipsis}が続いたものです。
+\hyper{ellipsis}は{\cf syntax-rules}の2番目の形で指定された識別子であるか、
+そうでなければデフォルトの識別子 {\cf ...} (連続した3つのピリオド) です。\schindex{...}
 
-\semantics An instance of {\cf syntax-rules} produces a new macro
-transformer by specifying a sequence of hygienic rewrite rules.  A use
-of a macro whose keyword is associated with a transformer specified by
-{\cf syntax-rules} is matched against the patterns contained in the
-\hyper{syntax rule}s, beginning with the leftmost \hyper{syntax rule}.
-When a match is found, the macro use is transcribed hygienically
-according to the template.
+\semantics {\cf syntax-rules}のインスタンスは、
+衛生的な書き換えルールの並びを指定することによって新しいマクロ変換器を生成します。
+{\cf syntax-rules}で指定した変換器に紐付けられたキーワードのマクロを使用すると、
+\hyper{syntax rule}内のパターンに対してマッチされます。
+マッチは最も左の\hyper{syntax rule}から行われます。
+マッチが見つかると、そのマクロ使用はテンプレートに従って衛生的に書き換えられます。
 
-An identifier appearing within a \hyper{pattern} can be an underscore
-({\cf \_}), a literal identifier listed in the list of \hyper{literal}s,
-or the \hyper{ellipsis}.
-All other identifiers appearing within a \hyper{pattern} are
-{\em pattern variables}.
+\hyper{pattern}内に現れる識別子は、
+アンダースコア({\cf \_})、
+\hyper{literal}の一覧にあるリテラル識別子、
+または\hyper{ellipsis}で、
+\hyper{pattern}に現れるそれ以外のすべての識別子は{\em パターン変数}です。
 
-The keyword at the beginning of the pattern in a
-\hyper{syntax rule} is not involved in the matching and
-is considered neither a pattern variable nor a literal identifier.
+\hyper{syntax rule}のパターンの最初の位置にあるキーワードは、
+マッチングに影響せず、パターン変数ともリテラル識別子とも見なされません。
 
-Pattern variables match arbitrary input elements and
-are used to refer to elements of the input in the template.
-It is an error for the same pattern variable to appear more than once in a
-\hyper{pattern}.
+パターン変数は任意の入力要素とマッチし、
+テンプレート内のその入力要素を参照するために使われます。
+ひとつの\hyper{pattern}内に同じパターン変数が2回以上現れた場合はエラーです。
 
-Underscores also match arbitrary input elements but are not pattern variables
-and so cannot be used to refer to those elements.  If an underscore appears
-in the \hyper{literal}s list, then that takes precedence and
-underscores in the \hyper{pattern} match as literals.
-Multiple underscores can appear in a \hyper{pattern}.
+アンダースコアは任意の入力要素とマッチしますが、パターン変数ではなく、
+その要素を参照するために使うことはできません。
+アンダースコアが\hyper{literal}のリストに現れた場合はそれが優先され、
+\hyper{pattern}内のアンダースコアはリテラルとしてマッチされます。
+アンダースコアは\hyper{pattern}内に複数回現れることが出来ます。
 
-Identifiers that appear in \texttt{(\hyper{literal} \dotsfoo)} are
-interpreted as literal
-identifiers to be matched against corresponding elements of the input.
-An element in the input matches a literal identifier if and only if it is an
-identifier and either both its occurrence in the macro expression and its
-occurrence in the macro definition have the same lexical binding, or
-the two identifiers are the same and both have no lexical binding.
+\texttt{(\hyper{literal} \dotsfoo)}内に現れた識別子は
+対応する入力要素に対してマッチさせるためのリテラル識別子として解釈されます。
+入力要素がリテラル識別子にマッチするには、
+その入力要素が識別子であり、
+マクロ式内のそれとマクロ定義内のそれが両方とも同じ字句的束縛を持っているか、
+2つの識別子が同じであり両方とも字句的束縛を持っていない場合に限ります。
 
-A subpattern followed by \hyper{ellipsis} can match zero or more elements of
-the input, unless \hyper{ellipsis} appears in the \hyper{literal}s, in which
-case it is matched as a literal.
+部分パターンに\hyper{ellipsis}が続く場合は、
+ゼロ個以上のその入力要素にマッチされます。
+ただし\hyper{ellipsis}が\hyper{literal}内に現れた場合を除きます。
+その場合はリテラルとしてマッチされます。
 
-More formally, an input expression $E$ matches a pattern $P$ if and only if:
+より正式に言うと、以下の場合に限り入力要素 $E$ はパターン $P$ にマッチします。
 
 \begin{itemize}
-\item $P$ is an underscore ({\cf \_}).
+\item $P$ がアンダースコア ({\cf \_}) である。
 
-\item $P$ is a non-literal identifier; or
+\item $P$ がリテラル識別子でない。または
 
-\item $P$ is a literal identifier and $E$ is an identifier with the same
-      binding; or
+\item $P$ がリテラル識別子であり、 $E$ が同じ束縛を持つ識別子である。または
 
-\item $P$ is a list {\cf ($P_1$ $\dots$ $P_n$)} and $E$ is a
-      list of $n$
-      elements that match $P_1$ through $P_n$, respectively; or
+\item $P$ がリスト {\cf ($P_1$ $\dots$ $P_n$)} であり、 $E$ が $n$ 個の要素を持つリストであり、
+      その要素が $P_1$ から $P_n$ にそれぞれマッチする。または
 
-\item $P$ is an improper list
+\item $P$ が真正でないリスト
       {\cf ($P_1$ $P_2$ $\dots$ $P_n$ . $P_{n+1}$)}
-      and $E$ is a list or
-      improper list of $n$ or more elements that match $P_1$ through $P_n$,
-      respectively, and whose $n$th tail matches $P_{n+1}$; or
+      であり、 $E$ が $n$ 個以上の要素を持つリストであるか真正でないリストであり、
+      その要素が $P_1$ から $P_n$ にそれぞれマッチし、
+      その $n$ 番目の末尾が $P_{n+1}$ にマッチする。または
 
-\item $P$ is of the form
+\item $P$ が
       {\cf ($P_1$ $\dots$ $P_k$ $P_e$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$)}
-      where $E$ is
-      a proper list of $n$ elements, the first $k$ of which match
-      $P_1$ through $P_k$, respectively,
-      whose next $m-k$ elements each match $P_e$,
-      whose remaining $n-m$ elements match $P_{m+1}$ through $P_n$; or
+      の形であり、
+      $E$ が $n$ 個の要素を持つ真正リストであり、
+      その最初の $k$ 個がそれぞれ $P_1$ から $P_k$ にマッチし、
+      続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
+      残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチする。
+      または
 
-\item $P$ is of the form
+\item $P$ が
       {\cf ($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$ . $P_x$)}
-      where $E$ is
-      a list or improper list of $n$ elements, the first $k$ of which match
-      $P_1$ through $P_k$,
-      whose next $m-k$ elements each match $P_e$,
-      whose remaining $n-m$ elements match $P_{m+1}$ through $P_n$,
-      and whose $n$th and final cdr matches $P_x$; or
+      の形であり、
+      $E$ が $n$ 個の要素を持つリストまたは真正でないリストであり、
+      その最初の $k$ 個の要素が $P_1$ から $P_k$ にマッチし、
+      続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
+      残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチし、
+      $n$ 番目の要素である最後の cdr が $P_x$ にマッチする。
+      または
 
-\item $P$ is a vector of the form {\cf \#($P_1$ $\dots$ $P_n$)}
-      and $E$ is a vector
-      of $n$ elements that match $P_1$ through $P_n$; or
+\item $P$ が {\cf \#($P_1$ $\dots$ $P_n$)} の形のベクタであり、
+      $E$ が $n$ 個の要素を持つベクタであり、
+      その要素が $P_1$ から $P_n$ にマッチする。
+      または
 
-\item $P$ is of the form
+\item $P$ が
       {\cf \#($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo $P_n$)}
-      where $E$ is a vector of $n$
-      elements the first $k$ of which match $P_1$ through $P_k$,
-      whose next $m-k$ elements each match $P_e$,
-      and whose remaining $n-m$ elements match $P_{m+1}$ through $P_n$; or
+      の形であり、
+      $E$ が $n$ 個の要素を持つベクタであり、
+      その最初の $k$ 個の要素が $P_1$ から $P_k$ にマッチし、
+      続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
+      残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチする。
+      または
 
-\item $P$ is a constant and $E$ is equal to $P$ in the sense of
-      the {\cf equal?} procedure.
+\item $P$ が定数であり、 $E$ が $P$ と{\cf equal?}手続きの意味において等しい。
 \end{itemize}
 
-It is an error to use a macro keyword, within the scope of its
-binding, in an expression that does not match any of the patterns.
+マクロキーワードを、その束縛のスコープ内において、
+そのパターンのいずれにもマッチしない式で使用することはエラーです。
 
-When a macro use is transcribed according to the template of the
-matching \hyper{syntax rule}, pattern variables that occur in the
-template are replaced by the elements they match in the input.
-Pattern variables that occur in subpatterns followed by one or more
-instances of the identifier
-\hyper{ellipsis} are allowed only in subtemplates that are
-followed by as many instances of \hyper{ellipsis}.
-They are replaced in the
-output by all of the elements they match in the input, distributed as
-indicated.  It is an error if the output cannot be built up as
-specified.
+マクロの使用が\hyper{syntax rule}のマッチしたテンプレートに従って書き換えられる際、
+テンプレート内のパターン変数が入力にマッチした要素に置き換えられます。
+識別子\hyper{ellipsis}がひとつ以上後続する部分パターン内に現れたパターン変数は、
+同じ数の\hyper{ellipsis}が後続する部分テンプレート内でだけ使うことが出来ます。
+入力中にマッチしたすべての要素により、
+指定された通りの現れ方で、出力中のそれらが置き換えられます。
+指定された通りに出力を組み上げられない場合はエラーです。
 
 %%% This description of output construction is very vague.  It should
 %%% probably be formalized, but that is not easy...
 
-Identifiers that appear in the template but are not pattern variables
-or the identifier
-\hyper{ellipsis} are inserted into the output as literal identifiers.  If a
-literal identifier is inserted as a free identifier then it refers to the
-binding of that identifier within whose scope the instance of
-{\cf syntax-rules} appears.
-If a literal identifier is inserted as a bound identifier then it is
-in effect renamed to prevent inadvertent captures of free identifiers.
+テンプレート内に現れたパターン変数でも識別子\hyper{ellipsis}でもない識別子は、
+リテラル識別子として出力中に挿入されます。
+リテラル識別子が自由識別子として挿入される場合は、
+それは{\cf syntax-rules}が現れたスコープ内のその識別子の束縛を参照します。
+リテラル識別子が束縛識別子として挿入された場合は、
+自由識別子の意図しない捕捉を防ぐために、実質的に改名されます。
 
-A template of the form
-{\cf (\hyper{ellipsis} \hyper{template})} is identical to \hyper{template},
-except that
-ellipses within the template have no special meaning.
-That is, any ellipses contained within \hyper{template} are
-treated as ordinary identifiers.
-In particular, the template {\cf (\hyper{ellipsis} \hyper{ellipsis})} produces
-a single \hyper{ellipsis}.
-This allows syntactic abstractions to expand into code containing
-ellipses.
+{\cf (\hyper{ellipsis} \hyper{template})}
+の形のテンプレートは
+\hyper{template}
+と同一です。
+ただしこのテンプレート内では省略記号は特別な意味を持ちません。
+つまり、\hyper{template}内に含まれる省略記号はすべて通常の識別子として扱われます。
+特に、テンプレート {\cf (\hyper{ellipsis} \hyper{ellipsis})} は、
+単一の \hyper{ellipsis} を生成します。
+これにより省略記号を含むコードに展開する構文抽象が可能になります。
 
 \begin{scheme}
 (define-syntax be-like-begin
@@ -1728,26 +1671,28 @@ ellipses.
 (sequence 1 2 3 4) \ev 4%
 \end{scheme}
 
-As an example, if \ide{let} and \ide{cond} are defined as in
-section~\ref{derivedsection} then they are hygienic (as required) and
-the following is not an error.
+例として、
+\ide{let}および\ide{cond}が\ref{derivedsection}~節のように定義されている場合、
+それらは衛生的であり(要求通りです)、以下はエラーとはなりません。
 
 \begin{scheme}
 (let ((=> \schfalse))
   (cond (\schtrue => 'ok)))           \ev ok%
 \end{scheme}
 
-The macro transformer for {\cf cond} recognizes {\cf =>}
-as a local variable, and hence an expression, and not as the
-base identifier {\cf =>}, which the macro transformer treats
-as a syntactic keyword.  Thus the example expands into
+{\cf cond}のマクロ変換器は、
+{\cf =>}が局所変数であり、
+従ってそれは式であり、
+マクロ変換器が構文キーワードとして扱うべきbaseライブラリの識別子{\cf =>}とは異なる、
+ということを認識します。
+そのため上記の例は以下のように展開されます。
 
 \begin{scheme}
 (let ((=> \schfalse))
   (if \schtrue (begin => 'ok)))%
 \end{scheme}
 
-instead of
+以下のようには展開されません。
 
 \begin{scheme}
 (let ((=> \schfalse))
@@ -1755,26 +1700,26 @@ instead of
     (if temp ('ok temp))))%
 \end{scheme}
 
-which would result in an invalid procedure call.
+もしこのように展開された場合、無効な手続き呼び出しが行われてしまうでしょう。
 
 \end{entry}
 
-\subsection{Signaling errors in macro transformers}
+\subsection{マクロ変換器のエラー通知}
 
 
 \begin{entry}{%
 \pproto{(syntax-error \hyper{message} \hyper{args} \dotsfoo)}{\exprtype}}
 \mainschindex{syntax-error}
 
-{\cf syntax-error} behaves similarly to {\cf error} (\ref{exceptionsection}) except that implementations
-with an expansion pass separate from evaluation should signal an error
-as soon as {\cf syntax-error} is expanded.  This can be used as
-a {\cf syntax-rules} \hyper{template} for a \hyper{pattern} that is
-an invalid use of the macro, which can provide more descriptive error
-messages.  \hyper{message} is a string literal, and \hyper{args}
-arbitrary expressions providing additional information.
-Applications cannot count on being able to catch syntax errors with
-exception handlers or guards.
+{\cf syntax-error}は{\cf error} (\ref{exceptionsection})と同様に動作しますが、
+展開のパスと評価のパスが分かれている処理系では
+{\cf syntax-error}が展開されたら直ちにエラーを通知するべきです。
+これはマクロの無効な使用方法である\hyper{pattern}に対する
+{\cf syntax-rules} \hyper{template}として使うことができ、
+より説明的なエラーメッセージを提供することができます。
+\hyper{message}は文字列リテラルで、
+\hyper{args}は追加の情報を提供する任意の式です。
+アプリケーションは例外やガードで構文エラーを捕捉できると考えてはいけません。
 
 \todo{Shinn: This doesn't check all non-identifier cases, think of a better example.}
 
