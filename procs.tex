@@ -1,7 +1,7 @@
 % Initial environment
 
 %\vfill\eject
-\chapter{Standard procedures}
+\chapter{標準手続き}
 \label{initialenv}
 \label{builtinchapter}
 
@@ -9,119 +9,116 @@
 \mainindex{global environment}
 \mainindex{procedure}
 
-This chapter describes Scheme's built-in procedures.  
+この章ではSchemeの組み込み手続きを説明します。
 
-The procedures {\cf force}, {\cf promise?}, and {\cf make-promise} are intimately associated
-with the expression types {\cf delay} and {\cf delay-force}, and are described
-with them in section~\ref{force}.  In the same way, the procedure
-{\cf make-parameter} is intimately associated with the expression type
-{\cf parameterize}, and is described with it in section~\ref{make-parameter}.
+{\cf force}、{\cf promise?}および{\cf make-promise}は
+形式{\cf delay}および{\cf delay-force}と密接に関連しているため、\ref{force}~節で説明しています。
+同様に、手続き{\cf make-parameter}は形式{\cf parameterize}と密接に関連しているため、
+\ref{make-parameter}~節で説明しています。
 
 \todo{consider removing unspecified effect}
-A program can use a global variable definition to bind any variable.  It may
-subsequently alter any such binding by an assignment (see
-section~\ref{assignment}).  These operations do not modify the behavior of
-any procedure defined in this report or imported from a library
-(see section~\ref{libraries}).  Altering any global binding that has
-not been introduced by a definition has an unspecified effect on the
-behavior of the procedures defined in this chapter.
+プログラムは大域変数定義を用いて任意の変数を束縛出来ます。
+それらの束縛は後に代入によって変更される場合があります(\ref{assignment}~節を参照)。
+これらの操作がこの報告書で定義されている手続きの動作を変更することはありません。
+また、ライブラリ(\ref{libraries}~節を参照)からインポートされた手続きの動作を変更することもありません。
+定義によって導入されたものでない大域変数を変更した場合、
+この章で定義されている手続きの動作に与える効果は規定されていません。
 
-When a procedure is said to return a \defining{newly allocated} object,
-it means that the locations in the object are fresh.
+手続きが\defining{新しく割り当てられた}オブジェクトを返すと言うとき、
+それはそのオブジェクトの場所が新しいという意味です。
 
-\section{Equivalence predicates}
+\section{等値述語}
 \label{equivalencesection}
 
-A \defining{predicate} is a procedure that always returns a boolean
-value (\schtrue{} or \schfalse).  An \defining{equivalence predicate} is
-the computational analogue of a mathematical equivalence relation; it is
-symmetric, reflexive, and transitive.  Of the equivalence predicates
-described in this section, {\cf eq?}\ is the finest or most
-discriminating, {\cf equal?}\ is the coarsest, and {\cf eqv?}\ is
-slightly less discriminating than {\cf eq?}.  
+常にブーリアン値(\schtrue{}または\schfalse)を返す手続きを\defining{述語}と呼びます。
+\defining{等値述語}は数学の等値関係をコンピュータ的に真似たものです。
+つまり、対称性を持ち、反射性を持ち、推移的です。
+この節で説明している等値述語は、
+{\cf eq?}が最も細く(最も識別性が高く)、
+{\cf equal?}が最も粗く、
+{\cf eqv?}がその中間です。
 
 
 \begin{entry}{%
 \proto{eqv?}{ \vari{obj} \varii{obj}}{procedure}}
 
-The {\cf eqv?} procedure defines a useful equivalence relation on objects.
-Briefly, it returns \schtrue{} if \vari{obj} and \varii{obj} are
-normally regarded as the same object.  This relation is left slightly
-open to interpretation, but the following partial specification of
-{\cf eqv?} holds for all implementations of Scheme.
+{\cf eqv?}手続きはオブジェクトに対する有用な等値関係を定義します。
+大まかに言うと、{\cf eqv?}は
+\vari{obj}と\varii{obj}が普通に考えて同じオブジェクトである場合に
+\schtrue{}を返します。
+この関係は若干解釈の余地が残されていますが、
+以下に述べる{\cf eqv?}の部分的仕様はすべてのScheme処理系において維持されています。
 
-The {\cf eqv?} procedure returns \schtrue{} if:
+
+{\cf eqv?}は以下の場合に\schtrue{}を返します。
 
 \begin{itemize}
-\item \vari{obj} and \varii{obj} are both \schtrue{} or both \schfalse.
+\item \vari{obj}と\varii{obj}が共に\schtrue{}であるか、共に\schfalse{}である。
 
-\item \vari{obj} and \varii{obj} are both symbols and are the same
-symbol according to the {\cf symbol=?} procedure
-(section~\ref{symbolsection}).
+\item \vari{obj}と\varii{obj}が共にシンボルであり、
+{\cf symbol=?}手続きによれば等しい(\ref{symbolsection}~節)。
 
-\item \vari{obj} and \varii{obj} are both exact numbers and
-are numerically equal (in the sense of {\cf =}).
+\item \vari{obj}と\varii{obj}が共に正確な数値であり、
+({\cf =}の意味で)数値的に等しい。
 
-\item \vari{obj} and \varii{obj} are both inexact numbers such that
-they are numerically equal (in the sense of {\cf =})
-and they yield the same results (in the sense of {\cf eqv?})
-when passed as arguments to any other procedure
-that can be defined as a finite composition of Scheme's standard
-arithmetic procedures, provided it does not result in a NaN value.
+\item \vari{obj}と\varii{obj}が共に不正確な数値であり、
+({\cf =}の意味で)数値的に等しく、
+そしてScheme標準の数値計算手続き(ただしNaN値を返さない場合に限る)
+の有限個の合成関数として定義することの出来る任意の他の手続きに
+引数として渡したときに({\cf eqv?}の意味で)同じ結果を生成する。
 
-\item \vari{obj} and \varii{obj} are both characters and are the same
-character according to the {\cf char=?} procedure
-(section~\ref{charactersection}).
+\item \vari{obj}と\varii{obj}が共に文字であり、
+{\cf char=?}手続きによれば同じ文字である(\ref{charactersection}~節)。
 
-\item \vari{obj} and \varii{obj} are both the empty list.
+\item \vari{obj}と\varii{obj}が共に空リストである。
 
 \item \vari{obj} and \varii{obj} are pairs, vectors, bytevectors, records,
 or strings that denote the same location in the store
 (section~\ref{storagemodel}).
+\item \vari{obj}と\varii{obj}がペア、ベクタ、バイトベクタ、レコードまたは文字列であり、
+同じ格納場所を指し示す(\ref{storagemodel}~節)。
 
-\item \vari{obj} and \varii{obj} are procedures whose location tags are
-equal (section~\ref{lambda}).
+\item \vari{obj}と\varii{obj}が手続きであり、
+同じ場所に紐付けられている(\ref{lambda}~節)。
 \end{itemize}
 
-The {\cf eqv?} procedure returns \schfalse{} if:
+{\cf eqv?}手続きは以下の場合に\schfalse{}を返します。
 
 \begin{itemize}
-\item \vari{obj} and \varii{obj} are of different types
-(section~\ref{disjointness}).
+\item \vari{obj}と\varii{obj}が異なる型である
+(\ref{disjointness}~節)。
 
-\item one of \vari{obj} and \varii{obj} is \schtrue{} but the other is
-\schfalse{}.
+\item \vari{obj}または\varii{obj}の一方が\schtrue{}であり、
+他方が\schfalse{}である。
 
-\item \vari{obj} and \varii{obj} are symbols but are not the same
-symbol according to the {\cf symbol=?} procedure
-(section~\ref{symbolsection}).
+\item \vari{obj}および\varii{obj}がシンボルであるが、
+{\cf symbol=?}手続きによれば同じシンボルではない
+(\ref{symbolsection}~節)。
 
-\item one of \vari{obj} and \varii{obj} is an exact number but the other
-is an inexact number.
+\item \vari{obj}または\varii{obj}の一方が正確な整数であり、
+他方が不正確な整数である。
 
-\item \vari{obj} and \varii{obj} are both exact numbers and
-are numerically unequal (in the sense of {\cf =}).
+\item \vari{obj}と\varii{obj}が共に正確な数値であるが、
+({\cf =}の意味で)数値的に等しくない。
 
-\item \vari{obj} and \varii{obj} are both inexact numbers such that either
-they are numerically unequal (in the sense of {\cf =}),
-or they do not yield the same results (in the sense of {\cf eqv?})
-when passed as arguments to any other procedure
-that can be defined as a finite composition of Scheme's standard
-arithmetic procedures, provided it does not result in a NaN value.
-As an exception, the behavior of {\cf eqv?} is unspecified
-when both \vari{obj} and \varii{obj} are NaN.
+\item \vari{obj}と\varii{obj}が共に不正確な数値であり、
+({\cf =}の意味で)数値的に等しくないか、
+またはScheme標準の数値計算手続き(ただしNaN値を返さない場合に限る)
+の有限個の合成関数として定義することの出来る任意の他の手続きに
+引数として渡したときに({\cf eqv?}の意味で)同じ結果を生成しない。
+例外として、\vari{obj}と\varii{obj}が共にNaNであるとき、
+{\cf eqv?}の動作は規定されていません。
 
-\item \vari{obj} and \varii{obj} are characters for which the {\cf char=?}
-procedure returns \schfalse{}.
+\item \vari{obj}および\varii{obj}が文字であり、
+{\cf char=?}手続きが\schfalse{}を返す。
 
-\item one of \vari{obj} and \varii{obj} is the empty list but the other
-is not.
+\item \vari{obj}または\varii{obj}の一方が空リストであり、他方がそうではない。
 
-\item \vari{obj} and \varii{obj} are pairs, vectors, bytevectors, records,
-or strings that denote distinct locations.
+\item \vari{obj}および\varii{obj}がペア、ベクタ、バイトベクタ、レコードまたは文字列であり、
+その指し示す場所が異なる。
 
-\item \vari{obj} and \varii{obj} are procedures that would behave differently
-(return different values or have different side effects) for some arguments.
+\item \vari{obj}および\varii{obj}が手続きであり、
+何らかの引数に対して異なる動作をする(異なる値を返すか、異なる副作用を持つ)。
 
 \end{itemize}
 
@@ -145,6 +142,9 @@ The following examples illustrate cases in which the above rules do
 not fully specify the behavior of {\cf eqv?}.  All that can be said
 about such cases is that the value returned by {\cf eqv?} must be a
 boolean.
+前述のルールで{\cf eqv?}の動作が完全には規定されていない状況を以下の例に示します。
+そのような場合において言えることは、
+{\cf eqv?}の返す値がブーリアンでなければならない、ということのみです。
 
 \begin{scheme}
 (eqv? "" "")             \ev  \unspecified
@@ -157,15 +157,15 @@ boolean.
 (eqv? +nan.0 +nan.0)     \ev  \unspecified%
 \end{scheme}
 
-Note that {\cf (eqv? 0.0 -0.0)} will return \schfalse{} if negative zero
-is distinguished, and \schtrue{} if negative zero is not distinguished.
+負のゼロが区別されている場合、{\cf (eqv? 0.0 -0.0)}は\schfalse{}を返し、
+負のゼロが区別されていない場合は\schtrue{}を返します。
 
-The next set of examples shows the use of {\cf eqv?}\ with procedures
-that have local state.  The {\cf gen-counter} procedure must return a distinct
-procedure every time, since each procedure has its own internal counter.
-The {\cf gen-loser} procedure, however, returns operationally equivalent procedures each time, since
-the local state does not affect the value or side effects of the
-procedures.  However, {\cf eqv?} may or may not detect this equivalence.
+次の一連の例は、局所的な状態を持つ手続きに対する{\cf eqv?}の使用を示します。
+{\cf gen-counter}手続きは、毎回別々の手続きを返さなければなりません。
+なぜなら、それぞれ別個の内部カウンタが必要であるためです。
+しかし{\cf gen-loser}手続きは、毎回操作的に同等な手続きを返します。
+なぜなら、局所状態がその手続きの値にも副作用にも影響しないためです。
+しかし{\cf eqv?}は、この等しさを検出できる場合もあれば、できない場合もあります。
 
 \begin{scheme}
 (define gen-counter
@@ -196,11 +196,9 @@ procedures.  However, {\cf eqv?} may or may not detect this equivalence.
                         \ev  \schfalse%
 \end{scheme}
 
-Since it is an error to modify constant objects (those returned by
-literal expressions), implementations may
-share structure between constants where appropriate.  Thus
-the value of {\cf eqv?} on constants is sometimes
-implementation-dependent.
+定数オブジェクト(リテラル式によって返される)を変更することはエラーであるので、
+処理系は適切な状況においては定数間で構造を共有する場合があります。
+そのため定数に対する{\cf eqv?}の値は処理系依存になる場合があります。
 
 \begin{scheme}
 (eqv? '(a) '(a))                 \ev  \unspecified
@@ -210,17 +208,16 @@ implementation-dependent.
   (eqv? x x))                    \ev  \schtrue%
 \end{scheme}
 
-The above definition of {\cf eqv?} allows implementations latitude in
-their treatment of procedures and literals:  implementations may
-either detect or fail to detect that two procedures or two literals
-are equivalent to each other, and can decide whether or not to
-merge representations of equivalent objects by using the same pointer or
-bit pattern to represent both.
+上で述べた{\cf eqv?}の定義は手続きおよびリテラルの扱いについて処理系に自由を与えます。
+処理系は、
+2つの手続きや2つのリテラルがお互いに同等であるか検出できてもできなくてもよく、
+2つの同等なオブジェクトの表現を同じビットパターンやポインタを用いて
+マージするかしないかを選ぶことが出来ます。
 
 \begin{note}
-If inexact numbers are represented as IEEE binary floating-point numbers,
-then an implementation of {\cf eqv?} that simply compares equal-sized
-inexact numbers for bitwise equality is correct by the above definition.
+不正確な数値がIEEE二進浮動小数点数値で表現している場合、
+同じサイズの不正確な数値を単純にビットごとの比較で行う{\cf eqv?}の実装は、
+上記の定義によれば、正しいものです。
 \end{note}
 
 \end{entry}
@@ -229,19 +226,18 @@ inexact numbers for bitwise equality is correct by the above definition.
 \begin{entry}{%
 \proto{eq?}{ \vari{obj} \varii{obj}}{procedure}}
 
-The {\cf eq?}\ procedure is similar to {\cf eqv?}\ except that in some cases it is
-capable of discerning distinctions finer than those detectable by
-{\cf eqv?}.  It must always return \schfalse{} when {\cf eqv?}\ also
-would, but may return \schfalse{} in some cases where {\cf eqv?}\ would return \schtrue{}.
+{\cf eq?}手続きは{\cf eqv?}手続きに似ています。
+ただし、いくつかの場合において{\cf eqv?}で検出可能なよりも細かい差異を識別する能力があります。
+{\cf eqv?}が\schfalse{}を返す状況では同様に\schfalse{}を返さなければなりませんが、
+{\cf eqv?}が\schfalse{}を返す状況でも\schtrue{}を返す場合があります。
 
-\vest On symbols, booleans, the empty list, pairs, and records,
-and also on non-empty
-strings, vectors, and bytevectors, {\cf eq?}\ and {\cf eqv?}\ are guaranteed to have the same
-behavior.  On procedures, {\cf eq?}\ must return true if the arguments' location
-tags are equal.  On numbers and characters, {\cf eq?}'s behavior is
-implementation-dependent, but it will always return either true or
-false.  On empty strings, empty vectors, and empty bytevectors, {\cf eq?} may also behave
-differently from {\cf eqv?}.
+\vest シンボル、ブーリアン、空リスト、ペア、レコード、
+および空でない文字列、ベクタ、バイトベクタにおいて、
+{\cf eq?}と{\cf eqv?}は同じ動作をすることが保証されています。
+手続きにおいては、引数の場所の紐付けが同じ場合{\cf eq?}を返します。
+数値および文字においては、{\cf eq?}の動作は処理系依存です。
+ただし、必ず真または偽のどちらかを返します。
+空文字列、空ベクタ、空バイトベクタにおいても、{\cf eq?}と{\cf eqv?}は異なる動作をする場合があります。
 
 \begin{scheme}
 (eq? 'a 'a)                     \ev  \schtrue
@@ -264,12 +260,12 @@ differently from {\cf eqv?}.
 \end{scheme}
 
 
-\begin{rationale} It will usually be possible to implement {\cf eq?}\ much
-more efficiently than {\cf eqv?}, for example, as a simple pointer
-comparison instead of as some more complicated operation.  One reason is
-that it is not always possible to compute {\cf eqv?}\ of two numbers in
-constant time, whereas {\cf eq?}\ implemented as pointer comparison will
-always finish in constant time.
+\begin{rationale}
+通常{\cf eq?}は{\cf eqv?}よりも非常に効率的に実装することが出来ます。
+例えば、{\cf eqv?}がいくらか複雑な操作をする代わりに、{\cf eq?}は単なるポインタの比較で済みます。
+その理由のひとつは、
+2つの数値の{\cf eqv?}を計算することが常に定数時間で出来るわけではないということです。
+それに対してポインタ比較で実装された{\cf eq?}は常に定数時間で処理できます。
 \end{rationale}
 
 \end{entry}
@@ -278,20 +274,18 @@ always finish in constant time.
 \begin{entry}{%
 \proto{equal?}{ \vari{obj} \varii{obj}}{procedure}}
 
-The {\cf equal?} procedure, when applied to pairs, vectors, strings and
-bytevectors, recursively compares them, returning \schtrue{} when the
-unfoldings of its arguments into (possibly infinite) trees are equal
-(in the sense of {\cf equal?})
-as ordered trees, and \schfalse{} otherwise.  It returns the same as
-{\cf eqv?} when applied to booleans, symbols, numbers, characters,
-ports, procedures, and the empty list.  If two objects are {\cf eqv?},
-they must be {\cf equal?} as well.  In all other cases, {\cf equal?}
-may return either \schtrue{} or \schfalse{}.
+{\cf equal?}手続きは、ペア、ベクタ、文字列、バイトベクタに適用された場合、それらを再帰的に比較します。
+それらを(無限長の可能性もある)木構造に展開したとき、
+順序付きの木構造として({\cf equal?}の意味で)等しければ\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
+ブーリアン、シンボル、数値、文字、ポート、手続きおよび空リストに適用されたときは
+{\cf eqv?}と同じです。
+それ以外のすべての状況では、
+{\cf equal?}は\schtrue{}を返す場合も\schfalse{}を返す場合もあります。
 %% Note that records are {\cf equal?} if their record types are the same
 %% and their correspondingly named fields are {\cf equal?}.
 
-Even if its arguments are
-circular data structures, {\cf equal?}\ must always terminate.
+引数が循環データ構造であっても、{\cf equal?}は必ず終了しなければなりません。
 
 \begin{scheme}
 (equal? 'a 'a)                  \ev  \schtrue
@@ -309,8 +303,8 @@ circular data structures, {\cf equal?}\ must always terminate.
 \end{scheme}
 
 \begin{note}
-A rule of thumb is that objects are generally {\cf equal?} if they print
-the same.
+大まかに言って、2つのオブジェクトが同じようにプリントされる場合、
+一般的にそれらは{\cf equal?}です。
 \end{note}
 
 
@@ -318,150 +312,146 @@ the same.
 \end{entry}
 
 
-\section{Numbers}
+\section{数値}
 \label{numbersection}
 \index{number}
 
 \newcommand{\type}[1]{{\it#1}}
 \newcommand{\tupe}[1]{{#1}}
 
-It is important to distinguish between mathematical numbers, the
-Scheme numbers that attempt to model them, the machine representations
-used to implement the Scheme numbers, and notations used to write numbers.
-This report uses the types \type{number}, \type{complex}, \type{real},
-\type{rational}, and \type{integer} to refer to both mathematical numbers
-and Scheme numbers.  
+数学の数値と、
+それをモデル化したSchemeの数値と、
+それを表現するために使われる機械表現と、
+数値を書くために使われる記法を、区別することは重要です。
+この報告書では、
+\type{数値},\type{複素数},\type{実数},\type{有理数},\type{整数}
+といった型を、数学の数値とSchemeの数値の両方を示すために用います。
 
-\subsection{Numerical types}
+\subsection{数値の型}
 \label{numericaltypes}
 \index{numerical types}
 
-\vest Mathematically, numbers are arranged into a tower of subtypes
-in which each level is a subset of the level above it:
+\vest 数学的には、各階がそれより上の階の部分型であるような塔に、数値を編成することが出来ます。
 \begin{tabbing}
-\ \ \ \ \ \ \ \ \ \=\tupe{number} \\
-\> \tupe{complex number} \\
-\> \tupe{real number} \\
-\> \tupe{rational number} \\
-\> \tupe{integer} 
+\ \ \ \ \ \ \ \ \ \=\tupe{数値} \\
+\> \tupe{複素数} \\
+\> \tupe{実数} \\
+\> \tupe{有理数} \\
+\> \tupe{整数} 
 \end{tabbing}
 
-For example, 3 is an integer.  Therefore 3 is also a rational,
-a real, and a complex number.  The same is true of the Scheme numbers
-that model 3.  For Scheme numbers, these types are defined by the
-predicates \ide{number?}, \ide{complex?}, \ide{real?}, \ide{rational?},
-and \ide{integer?}.
+例えば、3は整数です。
+またそれゆえ、3は有理数でもあり、実数でもあり、複素数でもあります。
+これは3をモデル化したSchemeの数値においても同様です。
+Schemeの数値では、述語
+\ide{number?}、\ide{complex?}、\ide{real?}、\ide{rational?}および\ide{integer?}
+により、これらの型が定義されます。
 
-There is no simple relationship between a number's type and its
-representation inside a computer.  Although most implementations of
-Scheme will offer at least two different representations of 3, these
-different representations denote the same integer.
+数値の型とそのコンピュータ内における表現の間には、単純な関係はありません。
+ほとんどのScheme処理系では、3の表現が少なくとも2種類は用意されていますが、
+これらの異なる表現は同じ整数を表しています。
 
-Scheme's numerical operations treat numbers as abstract data, as
-independent of their representation as possible.  Although an implementation
-of Scheme may use multiple internal representations of
-numbers, this ought not to be apparent to a casual programmer writing
-simple programs.
+Schemeの数値計算では、
+数値を可能な限りその表現と独立した抽象的なデータとして扱います。
+Scheme処理系は数値の内部表現を複数用いても構いませんが、
+単純なプログラムを書くカジュアルプログラマーには判らないようにするべきです。
 
-\subsection{Exactness}
+\subsection{正確性}
 
 \mainindex{exactness} \label{exactly}
 
-It is useful to distinguish between numbers that are
-represented exactly and those that might not be.  For example, indexes
-into data structures must be known exactly, as must some polynomial
-coefficients in a symbolic algebra system.  On the other hand, the
-results of measurements are inherently inexact, and irrational numbers
-may be approximated by rational and therefore inexact approximations.
-In order to catch uses of inexact numbers where exact numbers are
-required, Scheme explicitly distinguishes exact from inexact numbers.
-This distinction is orthogonal to the dimension of type.
+正確に表現された数値と、そうでない可能性のある数値の区別は、有用です。
+例えば、データ構造へのインデックスは、
+記号代数系における多項式の係数と同様に、
+正確に判明している必要があります。
+他方、計測の結果などは本質的に不正確であったり、
+無理数などは有理数によって近似された不正確な近似値であったりします。
+正確な数値が必要なところでの不正確な数値の使用を捕えるために、
+Schemeでは正確な数値と不正確な数値を区別しています。
+この区別は型の次元とは直交しています。
 
-A Scheme number is
-\type{exact} if it was written as an exact constant or was derived from
-\tupe{exact} numbers using only \tupe{exact} operations.  A number is
-\type{inexact} if it was written as an inexact constant,
-if it was
-derived using \tupe{inexact} ingredients, or if it was derived using
-\tupe{inexact} operations. Thus \tupe{inexact}ness is a contagious
-property of a number.
-In particular, an \defining{exact complex number} has an exact real part
-and an exact imaginary part; all other complex numbers are \defining{inexact
-complex numbers}.
+Schemeでは、正確な定数として書かれたか、
+\tupe{正確}な演算のみを用いて\tupe{正確}な数値から得られた場合、
+その数値は\type{正確}です。
+不正確な数値として書かれたか、
+\tupe{不正確}な発生源から得られたか、
+\tupe{不正確}な演算を用いて得られた場合、
+その数値は\type{不正確}です。
+従って数値の\tupe{不正確}性は伝染する性質を持ちます。
+特に、\defining{正確な複素数}は正確な実部と正確な虚部を持ち、
+そうでないすべての複素数は\defining{不正確な複素数}です。
 
-\vest If two implementations produce \tupe{exact} results for a
-computation that did not involve \tupe{inexact} intermediate results,
-the two ultimate results will be mathematically equal.  This is
-generally not true of computations involving \tupe{inexact} numbers
-since approximate methods such as floating-point arithmetic may be used,
-but it is the duty of each implementation to make the result as close as
-practical to the mathematically ideal result.
+\vest 2つの処理系がある計算に対して
+\tupe{不正確}な中間結果を生じずに\tupe{正確}な結果を生成する場合、
+その2つの最終結果は数学的に等しくなります。
+このことは\tupe{不正確}な数値を生成する計算では一般に真ではありません。
+浮動小数点計算のような近似的な手法が使われる場合があるためです。
+しかし各々の処理系は数学上の理想的な結果に実用上十分な程度近い結果を生成する義務があります。
 
-\vest Rational operations such as {\cf +} should always produce
-\tupe{exact} results when given \tupe{exact} arguments.
-If the operation is unable to produce an \tupe{exact} result,
-then it may either report the violation of an implementation restriction
-or it may silently coerce its
-result to an \tupe{inexact} value.
-However, {\cf (/~3~4)} must not return the mathematically incorrect value {\cf 0}.
-See section~\ref{restrictions}.
+\vest {\cf +}のような有理数の演算は
+\tupe{正確}な引数が与えられると必ず\tupe{正確}な結果を生成します。
+演算が\tupe{正確}な結果を生成することが出来ない場合は、
+処理系の制限の違反を報告するか、
+その結果を\tupe{不正確}な値に黙って変換しても構いません。
+しかしながら、{\cf (/~3~4)}が数学的に不正確な値である{\cf 0}を返すようなことは許容されません。
+\ref{restrictions}~節を参照してください。
 
-\vest Except for \ide{exact}, the operations described in
-this section must generally return inexact results when given any inexact
-arguments.  An operation may, however, return an \tupe{exact} result if it can
-prove that the value of the result is unaffected by the inexactness of its
-arguments.  For example, multiplication of any number by an \tupe{exact} zero
-may produce an \tupe{exact} zero result, even if the other argument is
-\tupe{inexact}.
+\vest \ide{exact}を除き、
+この節で説明されている演算は一般に、不正確な引数が与えられた場合、不正確な結果を返さなければなりません。
+ただし、その結果の値が引数の不正確性に影響を受けないことが保証できる場合は、
+\tupe{正確}な結果を返しても構いません。
+例えば、\tupe{正確}なゼロにはどんな数値を掛けても、
+たとえそれが\tupe{不正確}な値であっても、
+\tupe{正確}なゼロの結果を生成することが出来ます。
 
-Specifically, the expression {\cf (* 0 +inf.0)} may return {\cf 0},
-or {\cf +nan.0}, or report that inexact numbers are not supported,
-or report that non-rational real numbers are not supported, or fail
-silently or noisily in other implementation-specific ways.
+具体的な例として、
+式 {\cf (* 0 +inf.0)} は
+{\cf 0}を返しても構いませんし、
+{\cf +nan.0}を返しても構いませんし、
+不正確な数値をサポートしていない旨を報告しても構いませんし、
+無理数をサポートしていない旨を報告しても構いませんし、
+黙って死んでも構いませんし、
+あるいは処理系固有の方法で騒がしくエラーを出しても構いません。
 
-\subsection{Implementation restrictions}
+\subsection{処理系の制限}
 
 \index{implementation restriction}\label{restrictions}
 
-\vest Implementations of Scheme are not required to implement the whole
-tower of subtypes given in section~\ref{numericaltypes},
-but they must implement a coherent subset consistent with both the
-purposes of the implementation and the spirit of the Scheme language.
-For example, implementations in which all numbers are \tupe{real},
-or in which non-\tupe{real} numbers are always \tupe{inexact},
-or in which \tupe{exact} numbers are always \tupe{integer},
-are still quite useful.
+\vest Scheme処理系は\ref{numericaltypes}~節で述べている部分型の塔の全体を実装することは要求されていません。
+しかし、処理系の目的とScheme言語の精神の両方を満たす、一貫性のある部分集合を実装しなければなりません。
+例えば、
+すべての数値が\tupe{実数}である処理系、
+\tupe{実数}以外の数値が常に\tupe{不正確}である処理系、
+\tupe{正確}な数値が常に\tupe{整数}である処理系、
+などは依然として非常に有用でしょう。
 
-\vest Implementations may also support only a limited range of numbers of
-any type, subject to the requirements of this section.  The supported
-range for \tupe{exact} numbers of any type may be different from the
-supported range for \tupe{inexact} numbers of that type.  For example,
-an implementation that uses IEEE binary double-precision floating-point numbers to represent all its
-\tupe{inexact} \tupe{real} numbers may also
-support a practically unbounded range of \tupe{exact} \tupe{integer}s
-and \tupe{rational}s
-while limiting the range of \tupe{inexact} \tupe{real}s (and therefore
-the range of \tupe{inexact} \tupe{integer}s and \tupe{rational}s)
-to the dynamic range of the IEEE binary double format.
-Furthermore,
-the gaps between the representable \tupe{inexact} \tupe{integer}s and
-\tupe{rational}s are
-likely to be very large in such an implementation as the limits of this
-range are approached.
+\vest 処理系は、この節の要求を満たす限り、
+任意の型の数値の、ある特定の範囲のみをサポートしても構いません。
+任意の型の\tupe{正確}な数値のサポートされている範囲が
+その型の\tupe{不正確}な数値のサポートされている範囲と異なっていても構いません。
+例えば、
+すべての\tupe{不正確}な\tupe{実数}を表現するためにIEEE二進倍精度浮動小数点数値を採用している処理系では、
+\tupe{不正確}な\tupe{実数}の範囲(ゆえに\tupe{不正確}な\tupe{整数}および\tupe{有理数}の範囲も)が
+IEEE二進倍精度形式のダイナミックレンジに制限されていながら、
+\tupe{正確}な\tupe{整数}と\tupe{有理数}を事実上無制限の範囲でサポートしていて構いません。
+さらに言えば、そのような処理系では、この範囲制限に近づくにつれ、
+表現可能な\tupe{不正確}な\tupe{整数}および\tupe{有理数}の隙間が
+非常に大きくなる可能性があります。
 
-\vest An implementation of Scheme must support exact integers
-throughout the range of numbers permitted as indexes of
-lists, vectors, bytevectors, and strings or that result from computing the length of
-one of these.  The \ide{length}, \ide{vector-length},
-\ide{bytevector-length}, and \ide{string-length} procedures must return an exact
-integer, and it is an error to use anything but an exact integer as an
-index.  Furthermore, any integer constant within the index range, if
-expressed by an exact integer syntax, must be read as an exact
-integer, regardless of any implementation restrictions that apply
-outside this range.  Finally, the procedures listed below will always
-return exact integer results provided all their arguments are exact integers
-and the mathematically expected results are representable as exact integers
-within the implementation:
+\vest Scheme処理系は、
+リスト、ベクタ、バイトベクタ、文字列のインデックスのために、
+およびそれらの長さを計算した結果のために必要な数値の範囲全体に対して、
+正確な整数をサポートしなければなりません。
+\ide{length}、\ide{vector-length}、\ide{bytevector-length}および\ide{string-length}
+手続きは正確な整数を返さなければなりません。
+また、インデックスとして正確な整数以外のものを使用することはエラーです。
+さらに、インデックス範囲内のあらゆる整数定数は、
+この範囲外で適用されるいかなる処理系の制限にも関わらず、
+正確な整数の構文で表現されていれば、
+正確な整数として読めなればなりません。
+最後に、以下の一覧に記載されている手続きは、
+すべての引数が正確な整数でかつ数学的に期待される結果が処理系の範囲内の正確な整数で表現可能ならば、
+必ず正確な整数の結果を返さなければなりません。
 
 \begin{scheme}
 -                     *
@@ -480,42 +470,30 @@ truncate/             truncate-quotient
 truncate-remainder
 \end{scheme}
 
-\vest It is recommended, but not required, that implementations support
-\tupe{exact} \tupe{integer}s and \tupe{exact} \tupe{rational}s of
-practically unlimited size and precision, and to implement the
-above procedures and the {\cf /} procedure in
-such a way that they always return \tupe{exact} results when given \tupe{exact}
-arguments.  If one of these procedures is unable to deliver an \tupe{exact}
-result when given \tupe{exact} arguments, then it may either report a
-violation of an
-implementation restriction or it may silently coerce its result to an
-\tupe{inexact} number; such a coercion can cause an error later.
-Nevertheless, implementations that do not provide \tupe{exact} rational
-numbers should return \tupe{inexact} rational numbers rather than
-reporting an implementation restriction.
+\vest 処理系は、
+事実上無制限の大きさと精度を持つ\tupe{正確}な\tupe{整数}と\tupe{正確}な\tupe{有理数}とサポートし、
+上記の手続きと{\cf /}手続きを\tupe{正確}な引数に対して必ず\tupe{正確}な結果を返すよう実装することが、
+推奨されますが、要求はされません。
+これらの手続きはいずれも、
+\tupe{正確}な引数を与えられたとき\tupe{正確}な結果を返すことが出来なければ、
+処理系の制限の違反を報告しても構いませんし、
+黙ってその結果を\tupe{不正確}な数値に変換しても構いません。
+そのような変換は後のエラーの原因となる可能性があります。
+とはいえ、\tupe{正確}な有理数を用意していない処理系は
+処理系の制限を報告するよりも\tupe{不正確}な有理数を返す方が良いでしょう。
 
-\vest An implementation may use floating-point and other approximate 
-representation strategies for \tupe{inexact} numbers.
-This report recommends, but does not require, that 
-implementations that use
-floating-point representations
-follow the IEEE 754 standard,
-and that implementations using
-other representations should match or exceed the precision achievable
-using these floating-point standards~\cite{IEEE}.
-In particular, the description of transcendental functions in IEEE 754-2008
-should be followed by such implementations, particularly with respect
-to infinities and NaNs.
+\vest 処理系は\tupe{不正確}な数値に対して浮動小数点や他の近似表現戦略を用いても構いません。
+この報告書では IEEE 754 標準に従った浮動小数点表現を用いること、
+他の表現方法を用いる処理系はこの浮動小数点の標準を用いて達成可能な精度と同等かそれを超えることが
+推奨されていますが、要求はされません。
+特に、そのような実装は IEEE 754-2008 の三角関数の記述に、とりわけ無限大とNaNに関して、従うべきです。
 
-Although Scheme allows a variety of written
-notations for
-numbers, any particular implementation may support only some of them.
-For example, an implementation in which all numbers are \tupe{real}
-need not support the rectangular and polar notations for complex
-numbers.  If an implementation encounters an \tupe{exact} numerical constant that
-it cannot represent as an \tupe{exact} number, then it may either report a
-violation of an implementation restriction or it may silently represent the
-constant by an \tupe{inexact} number.
+Schemeは数値に対する様々な書き方を用意していますが、
+処理系はそれらの一部しかサポートしなくても構いません。
+例えば、数値がすべて\tupe{実数}である処理系は、複素数の直交座標表示や極座標表示をサポートする必要はありません。
+処理系が\tupe{正確}な数値として表現できない\tupe{正確}な数値定数に出くわした場合、
+処理系の制限の違反を報告しても構いませんし、
+黙って\tupe{不正確}な数値で表現しても構いません。
 
 \subsection{Implementation extensions}
 \index{implementation extension}
