@@ -495,36 +495,32 @@ Schemeは数値に対する様々な書き方を用意していますが、
 処理系の制限の違反を報告しても構いませんし、
 黙って\tupe{不正確}な数値で表現しても構いません。
 
-\subsection{Implementation extensions}
+\subsection{処理系の拡張}
 \index{implementation extension}
 
-\vest Implementations may provide more than one representation of
-floating-point numbers with differing precisions.  In an implementation
-which does so, an inexact result must be represented with at least
-as much precision as is used to express any of the inexact arguments
-to that operation.  Although it is desirable for potentially inexact
-operations such as {\cf sqrt} to produce \tupe{exact} answers when
-applied to \tupe{exact} arguments, if an \tupe{exact} number is operated
-upon so as to produce an \tupe{inexact} result, then the most precise
-representation available must be used.  For example, the value of {\cf
-(sqrt 4)} should be {\cf 2}, but in an implementation that provides both
-single and double precision floating point numbers it may be the latter
-but must not be the former.
+\vest 処理系によっては2つ以上の異なる精度の浮動小数点数値表現を用意している場合があります。
+そのような処理系では、不正確な結果は少なくともその演算に使われた
+どの不正確引数も表現できるだけの精度を持っていなければなりません。
+{\cf sqrt}のような潜在的に不正確な演算は、
+\tupe{正確}な引数を適用したときは\tupe{正確}な結果を生成することが望ましいものの、
+もし\tupe{正確}な数値を演算して\tupe{不正確}な結果を生成する場合は、
+利用可能な中で最も精度の高い表現を用いなければなりません。
+例えば、 {\cf (sqrt 4)} の値は{\cf 2}となるべきですが、
+単精度と倍精度の浮動小数点数値を両方用意している処理系では、
+後者を用いても構いませんが、前者を用いてはなりません。
 
-It is the programmer's responsibility to avoid using inexact
-number objects with magnitude or significand too large to be
-represented in the implementation.
+その処理系で表現するには大きすぎる絶対値や仮数部を持つ
+不正確な数値オブジェクトの使用を避けるのはプログラマの責任です。
 
-In addition, implementations may
-distinguish special numbers called \tupe{positive infinity},
-\tupe{negative infinity}, \tupe{NaN}, and \tupe{negative zero}.
+さらに、処理系は\tupe{正の無限大}、\tupe{負の無限大}、\tupe{NaN}、および
+\tupe{負のゼロ}といった特別な数値を区別しても構いません。
 
-Positive infinity is regarded as an inexact real (but not rational)
-number that represents an indeterminate value greater than the
-numbers represented by all rational numbers. Negative infinity
-is regarded as an inexact real (but not rational) number that
-represents an indeterminate value less than the numbers represented
-by all rational numbers.
+正の無限大は、
+有理数で表現可能ないかなる数値よりも大きな不定の値を表現する、
+不正確な実数(しかし有理数ではない)と見なされます。
+負の無限大は、不正確な実数
+有理数で表現可能ないかなる数値よりも小さな不定の値を表現する、
+不正確な実数(しかし有理数ではない)と見なされます。
 
 Adding or multiplying an infinite value by any finite real value results
 in an appropriately signed infinity; however, the sum of positive and
@@ -532,19 +528,23 @@ negative infinities is a NaN.  Positive infinity is the reciprocal
 of zero, and negative infinity is the reciprocal of negative zero.
 The behavior of the transcendental functions is sensitive to infinity
 in accordance with IEEE 754.
+無限大の値にいかなる有限の実数を加算および乗算しても、
+その結果は(適切な符号の)無限大となります。
+しかし、正の無限大と負の無限大の和はNaNです。
+正の無限大はゼロの逆数で、負の無限大は負のゼロの逆数です。
+IEEE 754 に従った三角関数の動作は無限大に対して非常に複雑です。
 
-A NaN is regarded as an inexact real (but not rational) number
-so indeterminate that it might represent any real value, including
-positive or negative infinity, and might even be greater than positive
-infinity or less than negative infinity.
-An implementation that does not support non-real numbers may use NaN
-to represent non-real values like {\cf (sqrt -1.0)} and {\cf (asin 2.0)}.
+NaNは、任意の実数を表し得る不定の不正確な実数(しかし有理数ではない)と見なされます。
+これには、正負の無限大や、正の無限大より大きな値、負の無限大より小さな値も含まれます。
+実数以外の数値をサポートしない処理系では、
+{\cf (sqrt -1.0)}や{\cf (asin 2.0)}のような実数でない値を表現するために
+NaNを用いても構いません。
 
-A NaN always compares false to any number, including a NaN.  
-An arithmetic operation where one operand is NaN returns NaN, unless the
-implementation can prove that the result would be the same if the NaN
-were replaced by any rational number.  Dividing zero by zero results in
-NaN unless both zeros are exact.
+NaNはどのような数値と比較しても必ず偽になります。
+NaN自身と比較しても同様です。
+数値演算は引数のいずれかがNaNであればNaNを返します。
+ただしそのNaNをどのような有理数と置き換えても結果は同じであると処理系が保証できる場合を除きます。
+ゼロをゼロで除算すると、両方のゼロが正確でなければ、結果はNaNになります。
 
 %% IEEE 754 specifies multiple NaN values.  Scheme generally does
 %% not care if there is a single value (bit pattern) for NaN,
@@ -552,23 +552,20 @@ NaN unless both zeros are exact.
 %% values, or just one, they are all equivalent in terms of Scheme
 %% computation.
 
-Negative zero is an inexact real value written {\cf -0.0} and is distinct
-(in the sense of {\cf eqv?}) from {\cf 0.0}.  A Scheme implementation
-is not required to distinguish negative zero.  If it does, however, the
-behavior of the transcendental functions is sensitive to the distinction
-in accordance with IEEE 754.
-Specifically, in a Scheme implementing both complex numbers and negative zero,
-the branch cut of the complex logarithm function is such that
-{\cf (imag-part (log -1.0-0.0i))} is $-\pi$ rather than $\pi$.
+負のゼロは、不正確な実数であり、{\cf -0.0}と書かれ、
+({\cf eqv?}の意味で){\cf 0.0}と区別されます。
+Scheme処理系は負のゼロを区別することは要求されません。
+しかし区別する場合は、三角関数の動作は IEEE 754 に従った複雑なものになります。
+特に、複素数と負のゼロを両方サポートするScheme処理系は、
+複素対数関数の分岐を{\cf (imag-part (log -1.0-0.0i))}が$\pi$でなく$-\pi$となるように処理しなければなりません。
 
-Furthermore, the negation of negative zero is ordinary zero and vice
-versa.  This implies that the sum of two or more negative zeros is negative,
-and the result of subtracting (positive) zero from a negative zero is
-likewise negative.  However, numerical comparisons treat negative zero
-as equal to zero.
+さらに、負のゼロに対する負の値は通常のゼロであり、逆も同様です。
+これは、2つ以上の負のゼロの和が負であり、
+負のゼロから(正の)ゼロを引いた結果も同様に負であることを暗黙に示しています。
+しかし、数値的な比較においては、負のゼロとゼロは等しいものとして扱われます。
 
-Note that both the real and the imaginary parts of a complex number
-can be infinities, NaNs, or negative zero.
+ちなみに、複素数の実部と虚部いずれにも
+無限大、NaNまたは負のゼロを取ることが出来ます。
 
 \subsection{Syntax of numerical constants}
 \label{numbernotations}
