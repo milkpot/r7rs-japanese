@@ -522,12 +522,6 @@ Schemeは数値に対する様々な書き方を用意していますが、
 有理数で表現可能ないかなる数値よりも小さな不定の値を表現する、
 不正確な実数(しかし有理数ではない)と見なされます。
 
-Adding or multiplying an infinite value by any finite real value results
-in an appropriately signed infinity; however, the sum of positive and
-negative infinities is a NaN.  Positive infinity is the reciprocal
-of zero, and negative infinity is the reciprocal of negative zero.
-The behavior of the transcendental functions is sensitive to infinity
-in accordance with IEEE 754.
 無限大の値にいかなる有限の実数を加算および乗算しても、
 その結果は(適切な符号の)無限大となります。
 しかし、正の無限大と負の無限大の和はNaNです。
@@ -567,43 +561,38 @@ Scheme処理系は負のゼロを区別することは要求されません。
 ちなみに、複素数の実部と虚部いずれにも
 無限大、NaNまたは負のゼロを取ることが出来ます。
 
-\subsection{Syntax of numerical constants}
+\subsection{数値定数の構文}
 \label{numbernotations}
 
-The syntax of the written representations for numbers is described formally in
-section~\ref{numbersyntax}.  Note that case is not significant in numerical
-constants.
+数値の表現を書くための構文は\ref{numbersyntax}~節で正式に記述されています。
+ちなみに数値定数では大文字小文字は区別されません。
 
-A number can be written in binary, octal, decimal, or
-hexa\-decimal by the use of a radix prefix.  The radix prefixes are {\cf
-\#b}\sharpindex{b} (binary), {\cf \#o}\sharpindex{o} (octal), {\cf
-\#d}\sharpindex{d} (decimal), and {\cf \#x}\sharpindex{x} (hexa\-decimal).  With
-no radix prefix, a number is assumed to be expressed in decimal.
+数値は基数接頭辞を使うことで二進数、八進数、十進数または十六進数で書くことが出来ます。
+基数接頭辞は
+{\cf \#b}\sharpindex{b} (二進数)、
+{\cf \#o}\sharpindex{o} (八進数)、
+{\cf \#d}\sharpindex{d} (十進数)、および
+{\cf \#x}\sharpindex{x} (十六進数) です。
+基数接頭辞が無い場合、数値は十進数で表現されているとみなされます。
 
-A
-numerical constant can be specified to be either \tupe{exact} or
-\tupe{inexact} by a prefix.  The prefixes are {\cf \#e}\sharpindex{e}
-for \tupe{exact}, and {\cf \#i}\sharpindex{i} for \tupe{inexact}.  An exactness
-prefix can appear before or after any radix prefix that is used.  If
-the written representation of a number has no exactness prefix, the
-constant is
-\tupe{inexact} if it contains a decimal point or an
-exponent.
-Otherwise, it is \tupe{exact}.
+数値定数は接頭辞によって\tupe{正確}または\tupe{不正確}のいずれかを指定出来ます。
+\tupe{正確}の接頭辞は{\cf \#e}\sharpindex{e}で
+\tupe{不正確}の接頭辞は{\cf \#i}\sharpindex{i}です。
+正確性接頭辞は基数接頭辞の前でも後でも構いません。
+正確性接頭辞を付けずに数値の表現を書いた場合、
+小数点または指数があればその定数は\tupe{不正確}であり、
+そうでなければ\tupe{正確}です。
 
-In systems with \tupe{inexact} numbers
-of varying precisions it can be useful to specify
-the precision of a constant.  For this purpose,
-implementations may accept numerical constants
-written with an exponent marker that indicates the
-desired precision of the \tupe{inexact}
-representation.  If so, the letter {\cf s}, {\cf f},
-{\cf d}, or {\cf l}, meaning \var{short}, \var{single},
-\var{double}, or \var{long} precision, respectively,
-can be used in place of {\cf e}.
-The default precision has at least as much precision
-as \var{double}, but
-implementations may allow this default to be set by the user.
+様々な精度の\tupe{不正確}な数値を持つシステムでは、
+定数の精度を指定できると有用です。
+このため、処理系は
+\tupe{不正確}な表現の希望精度を指定する指数マーカーが書かれた数値定数
+を受け付けても構いません。
+その場合、文字{\cf e}の場所で、その代わりに
+{\cf s}、{\cf f}、{\cf d}または{\cf l}を使うことができ、
+それぞれ\var{短精度}、\var{単精度}、\var{倍精度}、\var{長精度}を意味しています。
+デフォルトの精度は少なくとも\var{倍精度}以上でなければなりませんが、
+処理系はこのデフォルトをユーザーの設定によって変更できても構いません。
 
 \begin{scheme}
 3.14159265358979F0
@@ -612,40 +601,37 @@ implementations may allow this default to be set by the user.
        {\rm Extend to long ---} .600000000000000%
 \end{scheme}
 
-The numbers positive infinity, negative infinity, and NaN are written
-{\cf +inf.0}, {\cf -inf.0} and {\cf +nan.0} respectively.
-NaN may also be written {\cf -nan.0}.
-The use of signs in the written representation does not necessarily
-reflect the underlying sign of the NaN value, if any.
-Implementations are not required to support these numbers, but if they do,
-they must do so in general conformance with IEEE 754.  However, implementations
-are not required to support signaling NaNs, nor to provide a way to distinguish
-between different NaNs.
+正の無限大、負の無限大、NaNは、それぞれ
+{\cf +inf.0}、{\cf -inf.0}、{\cf +nan.0}と書かれます。
+NaNは{\cf -nan.0}と書かれることもあります。
+書かれた表現の符号の使用は、もしNaN値の内部表現に符号があっても、それを反映する必要はありません。
+処理系はこれらの数値をサポートすることは要求されていませんが、
+サポートする場合は、全般的に IEEE 754 に準拠しなければなりません。
+ただし、処理系は Signaling NaN をサポートしたり
+異なる NaN を区別する方法を用意したりすることは要求されません。
 
-There are two notations provided for non-real complex numbers:
-the \defining{rectangular notation}
-\var{a}{\cf +}\var{b}{\cf i},
-where \var{a} is the real part and \var{b} is the imaginary part;
-and the \defining{polar notation}
-\var{r}{\cf @}$\theta$,
-where \var{r} is the magnitude and $\theta$ is the phase (angle) in radians.
-These are related by the equation
-$a+b\mathrm{i} = r \cos\theta + (r \sin\theta) \mathrm{i}$.
-All of \var{a}, \var{b}, \var{r}, and $\theta$ are real numbers.
+実数でない複素数を表記するための記法が2つあります。
+ひとつは\defining{直交座標表示}で、 \var{a}{\cf +}\var{b}{\cf i} のように表記します。
+ただし\var{a}は実部で、\var{b}は虚部です。
+もうひとつは\defining{極座標表示}で、 \var{r}{\cf @}$\theta$ のように表記します。
+ただし\var{r}は動径、 $\theta$ はラジアンで表した位相(偏角)です。
+これらは
+$a+b\mathrm{i} = r \cos\theta + (r \sin\theta) \mathrm{i}$
+の関係があります。
+\var{a}、\var{b}、\var{r}および $\theta$ はすべて実数です。
 
 
-\subsection{Numerical operations}
+\subsection{数値演算}
 
-The reader is referred to section~\ref{typeconventions} for a summary
-of the naming conventions used to specify restrictions on the types of
-arguments to numerical routines.
-The examples used in this section assume that any numerical constant written
-using an \tupe{exact} notation is indeed represented as an \tupe{exact}
-number.  Some examples also assume that certain numerical constants written
-using an \tupe{inexact} notation can be represented without loss of
-accuracy; the \tupe{inexact} constants were chosen so that this is
-likely to be true in implementations that use IEEE binary doubles to represent
-inexact numbers.
+数値ルーチンの引数の型の制限を指定するために使われる命名規約の要約について
+\ref{typeconventions}~節を参照してください。
+この節の例では\tupe{正確}な表記で書かれた数値定数は常に
+実際\tupe{正確}な数値を表しているものとみなしています。
+また\tupe{不正確}な表記で書かれた特定の数値定数は
+精度を失うことなく表現されているものとみなしています。
+そういった\tupe{不正確}な定数は、
+不正確な数値の表現に IEEE 二進倍精度を採用している処理系で
+その仮定が成立するように選ばれています。
 
 \todo{Scheme provides the usual set of operations for manipulating
 numbers, etc.}
