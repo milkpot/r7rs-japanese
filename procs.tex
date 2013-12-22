@@ -1364,33 +1364,32 @@ $0.0^z$の場合も同様ですが、不正確な結果になります。
 
 \end{entry}
 
-\section{Booleans}
+\section{ブーリアン}
 \label{booleansection}
 
-The standard boolean objects for true and false are written as
-\schtrue{} and \schfalse.\sharpindex{t}\sharpindex{f}  
-Alternatively, they can be written \sharptrue~and \sharpfalse,
-respectively.  What really
-matters, though, are the objects that the Scheme conditional expressions
-({\cf if}, {\cf cond}, {\cf and}, {\cf or}, {\cf when}, {\cf unless}, {\cf do}) treat as
-true\index{true} or false\index{false}.  The phrase ``a true value''\index{true}
-(or sometimes just ``true'') means any object treated as true by the
-conditional expressions, and the phrase ``a false value''\index{false} (or
-``false'') means any object treated as false by the conditional expressions.
+真および偽に対する標準のブーリアンオブジェクトは
+\schtrue{}および\schfalse のように書きます。\sharpindex{t}\sharpindex{f}  
+代わりに、それぞれ\sharptrue および \sharpfalse と書くことも出来ます。
+これらの重要な点はSchemeの条件式
+({\cf if}, {\cf cond}, {\cf and}, {\cf or}, {\cf when}, {\cf unless}, {\cf do})
+が真\index{true}または偽\index{false}として扱うオブジェクトであるということです。
+用語``真の値''\index{true}(または単に``真'')は
+条件式において真として扱われるあらゆるオブジェクトを意味し、
+用語``偽の値''\index{false}(または``偽'')は
+条件式において偽として扱われるあらゆるオブジェクトを意味します。
 
-\vest Of all the Scheme values, only \schfalse{}
-counts as false in conditional expressions.
-All other Scheme values, including \schtrue,
-count as true.
+\vest すべてのSchemeの値のうち、
+\schfalse{}のみが条件式において偽とみなされます。
+\schtrue{}を含め、
+それ以外のすべてのSchemeの値は真とみなされます。
 
 \begin{note}
-Unlike some other dialects of Lisp,
-Scheme distinguishes \schfalse{} and the empty list \index{empty list}
-from each other and from the symbol \ide{nil}.
+他のLisp方言と異なり、
+Schemeでは\schfalse{}と空リスト\index{empty list}はお互いに区別され、
+またシンボル\ide{nil}とも区別されます。
 \end{note}
 
-\vest Boolean constants evaluate to themselves, so they do not need to be quoted
-in programs.
+\vest ブーリアン定数はそれ自身に評価されるため、プログラム中で引用する必要はありません。
 
 \begin{scheme}
 \schtrue         \ev  \schtrue
@@ -1402,8 +1401,9 @@ in programs.
 \begin{entry}{%
 \proto{not}{ obj}{procedure}}
 
-The {\cf not} procedure returns \schtrue{} if \var{obj} is false, and returns
-\schfalse{} otherwise.
+{\cf not}手続きは
+\var{obj}が偽の場合\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (not \schtrue)   \ev  \schfalse
@@ -1421,8 +1421,8 @@ The {\cf not} procedure returns \schtrue{} if \var{obj} is false, and returns
 \begin{entry}{%
 \proto{boolean?}{ obj}{procedure}}
 
-The {\cf boolean?} predicate returns \schtrue{} if \var{obj} is either \schtrue{} or
-\schfalse{} and returns \schfalse{} otherwise.
+{\cf boolean?}述語は\var{obj}が\schtrue{}または\schfalse{}の場合
+\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (boolean? \schfalse)  \ev  \schtrue
@@ -1435,8 +1435,9 @@ The {\cf boolean?} predicate returns \schtrue{} if \var{obj} is either \schtrue{
 \begin{entry}{%
 \proto{boolean=?}{ \vari{boolean} \varii{boolean} \variii{boolean} \dotsfoo}{procedure}}
 
-Returns \schtrue{} if all the arguments are booleans and all 
-are \schtrue{} or all are \schfalse{}.
+引数がすべてブーリアンで、
+すべて\schtrue{}であるかすべて\schfalse{}であれば、
+\schtrue{}を返します。
 
 \end{entry}
  
