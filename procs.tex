@@ -1277,16 +1277,16 @@ $0.0^z$の場合も同様ですが、不正確な結果になります。
 
 \medskip
 
-\subsection{Numerical input and output}
+\subsection{数値の入出力}
 
 \begin{entry}{%
 \proto{number->string}{ z}{procedure}
 \rproto{number->string}{ z radix}{procedure}}
 
-\domain{It is an error if \vr{radix} is not one of 2, 8, 10, or 16.}
-The procedure {\cf number\coerce{}string} takes a
-number and a radix and returns as a string an external representation of
-the given number in the given radix such that
+\domain{\vr{radix}が2、8、10、16のいずれでもなければエラーです。}
+手続き{\cf number\coerce{}string}は数値と基数を取り、
+以下の式を満たすような指定した基数における指定した数値の外部表現を、
+文字列として返します。
 \begin{scheme}
 (let ((number \vr{number})
       (radix \vr{radix}))
@@ -1295,30 +1295,27 @@ the given number in the given radix such that
                                         radix)
                         radix)))%
 \end{scheme}
-is true.  It is an error if no possible result makes this expression true.
-If omitted, \vr{radix} defaults to 10.
+この式を満たせる結果が存在しない場合はエラーです。
+\vr{radix}を省略した場合のデフォルト値は10です。
 
-If \vr{z} is inexact, the radix is 10, and the above expression
-can be satisfied by a result that contains a decimal point,
-then the result contains a decimal point and is expressed using the
-minimum number of digits (exclusive of exponent and trailing
-zeroes) needed to make the above expression
-true~\cite{howtoprint,howtoread};
-otherwise the format of the result is unspecified.
+\vr{z}が不正確で、基数が10で、かつ小数点を含む結果によって上記の式が満たせる場合、
+その結果は小数点を含み、
+上記の式を満たすために必要な最小限の桁数(指数と末尾のゼロを除く)
+で表現されます~\cite{howtoprint,howtoread}。
+そうでない場合、結果の書式は規定されていません。
 
-The result returned by {\cf number\coerce{}string}
-never contains an explicit radix prefix.
+{\cf number\coerce{}string}の戻り値が明示的な基数接頭辞を持つことはありません。
 
 \begin{note}
-The error case can occur only when \vr{z} is not a complex number
-or is a complex number with a non-rational real or imaginary part.
+エラーの状況は、\vr{z}が複素数でないか、
+実部または虚部が有理数でない複素数の場合にのみ、発生する可能性があります。
 \end{note}
 
 \begin{rationale}
-If \vr{z} is an inexact number and
-the radix is 10, then the above expression is normally satisfied by
-a result containing a decimal point.  The unspecified case
-allows for infinities, NaNs, and unusual representations.
+\vr{z}が不正確な数値かつ基数が10の場合、
+上記の式は通常、小数点を含む結果によって満たすことが出来ます。
+規定されていない結果は
+無限大、NaN、あるいは普通でない表現の場合に許容されます。
 \end{rationale}
 
 \end{entry}
@@ -1329,16 +1326,16 @@ allows for infinities, NaNs, and unusual representations.
 \rproto{string->number}{ string radix}{procedure}}
 
 
-Returns a number of the maximally precise representation expressed by the
-given \vr{string}.
-\domain{It is an error if \vr{radix} is not 2, 8, 10, or 16.}
-If supplied, \vr{radix} is a default radix that will be overridden
-if an explicit radix prefix is present in \vr{string} (e.g. {\tt "\#o177"}).  If \vr{radix}
-is not supplied, then the default radix is 10.  If \vr{string} is not
-a syntactically valid notation for a number, or would result in a
-number that the implementation cannot represent, then {\cf string->number}
-returns \schfalse{}.
-An error is never signaled due to the content of \vr{string}.
+\vr{string}によって表現された最大限に正確な表現の数値を返します。
+\domain{\vr{radix}が2、8、10、16のいずれでもなければエラーです。}
+\vr{radix}が指定された場合、それがデフォルトの基数となります。
+これは\vr{string}に明示的な基数接頭辞 (例えば {\tt "\#o177"})
+があればオーバーライドされます。
+\vr{radix}が指定されなかった場合、デフォルトの基数は10です。
+\vr{string}が構文的に有効な数値の表記でない場合、
+または結果の数値を処理系が表現できない場合、
+{\cf string->number}は\schfalse{}を返します。
+\vr{string}の中身を理由にエラーが通知されることはありません。
 
 \begin{scheme}
 (string->number "100")        \ev  100
@@ -1347,27 +1344,22 @@ An error is never signaled due to the content of \vr{string}.
 \end{scheme}
 
 \begin{note}
-The domain of {\cf string->number} may be restricted by implementations
-in the following ways.  
-If all numbers supported by an implementation are real, then
-{\cf string->number} is permitted to return \schfalse{} whenever
-\vr{string} uses the polar or rectangular notations for complex
-numbers.  If all numbers are integers, then
-{\cf string->number} may return \schfalse{} whenever
-the fractional notation is used.  If all numbers are exact, then
-{\cf string->number} may return \schfalse{} whenever
-an exponent marker or explicit exactness prefix is used.
-If all inexact
-numbers are integers, then
-{\cf string->number} may return \schfalse{} whenever
-a decimal point is used.
+{\cf string->number}の定義域は以下のように処理系によって制限される場合があります。
+処理系のサポートする数値が実数のみの場合、
+\vr{string}が極座標表示または直交座標表示の複素数を用いたら
+{\cf string->number}は\schfalse{}を返すことが許容されます。
+数値が整数のみの場合、
+分数表記が使われたら\schfalse{}を返しても構いません。
+正確な数値のみの場合、
+指数マーカーや明示的な正確性接頭辞が使われたら\schfalse{}を返しても構いません。
+不正確な数値が整数のみの場合、
+小数点が使われたら\schfalse{}を返しても構いません。
 
-The rules used by a particular implementation for {\cf string->number} must
-also be applied to {\cf read} and to the routine that reads programs, in
-order to maintain consistency between internal numeric processing, I/O,
-and the processing of programs.
-As a consequence, the \rfivers\ permission to return \schfalse{} when
-\var{string} has an explicit radix prefix has been withdrawn.
+内部の数値処理、I/O、プログラム処理の間で一貫性を維持するため、
+ある特定の処理系が{\cf string->number}に対して用いるルールは、
+{\cf read}やプログラムの読み込みルーチンにも適用されなければなりません。
+それにより、-\var{string}が明示的な基数接頭辞を持っている場合は
+\schfalse{}を返しても良いという \rfivers\ の記述は廃止されました。
 \end{note}
 
 \end{entry}
