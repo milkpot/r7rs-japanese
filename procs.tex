@@ -486,7 +486,7 @@ truncate-remainder
 この報告書では IEEE 754 標準に従った浮動小数点表現を用いること、
 他の表現方法を用いる処理系はこの浮動小数点の標準を用いて達成可能な精度と同等かそれを超えることが
 推奨されていますが、要求はされません。
-特に、そのような実装は IEEE 754-2008 の三角関数の記述に、とりわけ無限大とNaNに関して、従うべきです。
+特に、そのような実装は IEEE 754-2008 の超越関数の記述に、とりわけ無限大とNaNに関して、従うべきです。
 
 Schemeは数値に対する様々な書き方を用意していますが、
 処理系はそれらの一部しかサポートしなくても構いません。
@@ -526,7 +526,7 @@ Schemeは数値に対する様々な書き方を用意していますが、
 その結果は(適切な符号の)無限大となります。
 しかし、正の無限大と負の無限大の和はNaNです。
 正の無限大はゼロの逆数で、負の無限大は負のゼロの逆数です。
-IEEE 754 に従った三角関数の動作は無限大に対して非常に複雑です。
+IEEE 754 に従った超越関数の動作は無限大に対して非常に複雑です。
 
 NaNは、任意の実数を表し得る不定の不正確な実数(しかし有理数ではない)と見なされます。
 これには、正負の無限大や、正の無限大より大きな値、負の無限大より小さな値も含まれます。
@@ -549,7 +549,7 @@ NaN自身と比較しても同様です。
 負のゼロは、不正確な実数であり、{\cf -0.0}と書かれ、
 ({\cf eqv?}の意味で){\cf 0.0}と区別されます。
 Scheme処理系は負のゼロを区別することは要求されません。
-しかし区別する場合は、三角関数の動作は IEEE 754 に従った複雑なものになります。
+しかし区別する場合は、超越関数の動作は IEEE 754 に従った複雑なものになります。
 特に、複素数と負のゼロを両方サポートするScheme処理系は、
 複素対数関数の分岐を{\cf (imag-part (log -1.0-0.0i))}が$\pi$でなく$-\pi$となるように処理しなければなりません。
 
@@ -643,21 +643,20 @@ numbers, etc.}
 \proto{rational?}{ obj}{procedure}
 \proto{integer?}{ obj}{procedure}}
 
-These numerical type predicates can be applied to any kind of
-argument, including non-numbers.  They return \schtrue{} if the object is
-of the named type, and otherwise they return \schfalse{}.
-In general, if a type predicate is true of a number then all higher
-type predicates are also true of that number.  Consequently, if a type
-predicate is false of a number, then all lower type predicates are
-also false of that number.
+これらの数値述語は、数値でないものを含むいかなる型の引数にも適用できます。
+オブジェクトがその名前の型であれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
+一般的に、ある型の述語がある数値に対して真であれば、
+より上位の型の述語もすべて、その数値に対して真となります。
+そのため、ある型の述語がある数値に対して偽であれば、
+より下位の型の述語もすべて、その数値に対して偽となります。
 
-If \vr{z} is a complex number, then {\cf (real? \vr{z})} is true if
-and only if {\cf (zero? (imag-part \vr{z}))} is true.
-If \vr{x} is an inexact real number, then {\cf
-(integer? \vr{x})} is true if and only if {\cf (= \vr{x} (round \vr{x}))}.
+\vr{z}が複素数の場合、
+{\cf (real? \vr{z})} は {\cf (zero? (imag-part \vr{z}))} が真のときに限り真となります。
+\vr{x}が不正確な実数である場合、
+{\cf (integer? \vr{x})} は {\cf (= \vr{x} (round \vr{x}))} が真のときに限り真となります。
 
-The numbers {\cf +inf.0}, {\cf -inf.0}, and {\cf +nan.0} are real but
-not rational.
+{\cf +inf.0}、{\cf -inf.0}および{\cf +nan.0}は実数ですが有理数ではありません。
 
 \begin{scheme}
 (complex? 3+4i)         \ev  \schtrue
@@ -678,15 +677,15 @@ not rational.
 \end{scheme}
 
 \begin{note}
-The behavior of these type predicates on \tupe{inexact} numbers
-is unreliable, since any inaccuracy might affect the result.
+\tupe{不正確}な数値に対するこれらの型の述語の動作は信頼できません。
+不正確さが結果に影響する場合があるためです。
 \end{note}
 
 \begin{note}
-In many implementations the \ide{complex?} procedure will be the same as
-\ide{number?}, but unusual implementations may represent
-some irrational numbers exactly or may extend the number system to
-support some kind of non-complex numbers.
+多くの処理系では\ide{complex?}手続きは\ide{number?}と同じですが、
+ある種の無理数を正確に表現できたり、
+数値系を拡張して何らかの複素数でない数値をサポートしたりする、
+普通でない処理系があるかもしれません。
 \end{note}
 
 \end{entry}
@@ -695,9 +694,8 @@ support some kind of non-complex numbers.
 \proto{exact?}{ \vr{z}}{procedure}
 \proto{inexact?}{ \vr{z}}{procedure}}
 
-These numerical predicates provide tests for the exactness of a
-quantity.  For any Scheme number, precisely one of these predicates
-is true.
+これらの数値述語は値の正確性を判定します。
+あらゆるSchemeの数値は、これらの述語のいずれか一方だけが真になります。
 
 \begin{scheme}
 (exact? 3.0)           \ev  \schfalse
@@ -711,8 +709,8 @@ is true.
 \begin{entry}{%
 \proto{exact-integer?}{ \vr{z}}{procedure}}
 
-Returns \schtrue{} if \vr{z} is both \tupe{exact} and an \tupe{integer};
-otherwise returns \schfalse{}.
+\vr{z}が\tupe{正確}かつ\tupe{整数}であれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (exact-integer? 32) \ev \schtrue{}
@@ -725,10 +723,10 @@ otherwise returns \schfalse{}.
 \begin{entry}{%
 \proto{finite?}{ \vr{z}}{inexact library procedure}}
 
-The {\cf finite?} procedure returns \schtrue{} on all real numbers except
-{\cf +inf.0}, {\cf -inf.0}, and {\cf +nan.0}, and on complex
-numbers if their real and imaginary parts are both finite.
-Otherwise it returns \schfalse{}.
+{\cf finite?}手続きは
+{\cf +inf.0}、{\cf -inf.0}、{\cf +nan.0}以外のすべての実数、
+および実部と虚部が共に有限である複素数に対して、\schtrue{}を返します。
+そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (finite? 3)         \ev  \schtrue
@@ -740,10 +738,10 @@ Otherwise it returns \schfalse{}.
 \begin{entry}{%
 \proto{infinite?}{ \vr{z}}{inexact library procedure}}
 
-The {\cf infinite?} procedure returns \schtrue{} on the real numbers
-{\cf +inf.0} and {\cf -inf.0}, and on complex
-numbers if their real or imaginary parts or both are infinite.
-Otherwise it returns \schfalse{}.
+{\cf infinite?}手続きは
+{\cf +inf.0}、{\cf -inf.0}、および
+実部または虚部または両方が無限大である複素数に対して、\schtrue{}を返します。
+そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (infinite? 3)         \ev  \schfalse
@@ -756,9 +754,9 @@ Otherwise it returns \schfalse{}.
 \begin{entry}{%
 \proto{nan?}{ \vr{z}}{inexact library procedure}}
 
-The {\cf nan?} procedure returns \schtrue{} on {\cf +nan.0}, and on complex
-numbers if their real or imaginary parts or both are {\cf +nan.0}.
-Otherwise it returns \schfalse{}.
+{\cf nan?}手続きは{\cf +nan.0}、および
+実部または虚部または両方が{\cf +nan.0}である複素数に対して、\schtrue{}を返します。
+そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (nan? +nan.0)          \ev  \schtrue
@@ -776,34 +774,34 @@ Otherwise it returns \schfalse{}.
 \proto{<=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
 \proto{>=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}}
 
-These procedures return \schtrue{} if their arguments are (respectively):
-equal, monotonically increasing, monotonically decreasing,
-monotonically non-decreasing, or monotonically non-increasing,
-and \schfalse{} otherwise.
-If any of the arguments are {\cf +nan.0}, all the predicates return \schfalse{}.
-They do not distinguish between inexact zero and inexact negative zero.
+これらの手続きは引数が(それぞれ)
+等しい、単調に増加している、単調に減少している、
+単調に減少していない、または単調に増加していない場合に、
+\schtrue{}を返し、そうでなければ\schfalse{}を返します。
+引数のいずれかが{\cf +nan.0}の場合は、どの手続きも\schfalse{}を返します。
+これらは不正確なゼロと不正確な負のゼロを区別しません。
 
-These predicates are required to be transitive.
+これらの手続きは推移的であることが要求されます。
 
 \begin{note}
-The implementation approach
-of converting all arguments to inexact numbers
-if any argument is inexact is not transitive.  For example, let
-{\cf big} be {\cf (expt 2 1000)}, and assume that {\cf big} is exact and that
-inexact numbers are represented by 64-bit IEEE binary floating point numbers.
-Then {\cf (= (- big 1) (inexact big))} and
-{\cf (= (inexact big) (+ big 1))} would both be true with this approach,
-because of the limitations of IEEE
-representations of large integers, whereas {\cf (= (- big 1) (+ big 1))}
-is false.  Converting inexact values to exact numbers that are the same (in the sense of {\cf =}) to them will avoid
-this problem, though special care must be taken with infinities.
+いずれかの引数が不正確であればすべての引数を不正確な数値に変換する、
+というような実装手法は推移的ではありません。
+例えば、{\cf big}を{\cf (expt 2 1000)}として、
+その{\cf big}が正確であり、
+不正確な数値は64ビットのIEEE二進浮動小数点数で表現されているとしましょう。
+その場合、この実装手法では、大きな整数のIEEE表現の制限のため、
+{\cf (= (- big 1) (inexact big))} と {\cf (= (inexact big) (+ big 1))} が共に真でありながら
+{\cf (= (- big 1) (+ big 1))} は偽となってしまうでしょう。
+不正確な数値を、それと({\cf =}の意味で)同じ正確な数値に変換すれば、この問題を回避できますが、
+無限大に対して特別な配慮が必要となります。
 \end{note}
 
 \begin{note}
-While it is not an error to compare \tupe{inexact} numbers using these
-predicates, the results are unreliable because a small inaccuracy
-can affect the result; this is especially true of \ide{=} and \ide{zero?}.
-When in doubt, consult a numerical analyst.
+これらの述語を用いて\tupe{不正確}な数値を比較することはエラーではありませんが、
+わずかな不正確さが結果に影響を及ぼす可能性があるため、その結果は信頼できません。
+\ide{=}や\ide{zero?}の場合、特にそうです。
+嘘だと思うなら数値解析の専門家に聞いてみてください。
+
 \end{note}
 
 \end{entry}
@@ -815,8 +813,8 @@ When in doubt, consult a numerical analyst.
 \proto{odd?}{ \vr{n}}{procedure}
 \proto{even?}{ \vr{n}}{procedure}}
 
-These numerical predicates test a number for a particular property,
-returning \schtrue{} or \schfalse.  See note above.
+これらの数値述語は特定の性質を判定し、\schtrue{} または \schfalse を返します。
+上記の注意点も参照してください。
 
 \end{entry}
 
@@ -824,7 +822,7 @@ returning \schtrue{} or \schfalse.  See note above.
 \proto{max}{ \vri{x} \vrii{x} \dotsfoo}{procedure}
 \proto{min}{ \vri{x} \vrii{x} \dotsfoo}{procedure}}
 
-These procedures return the maximum or minimum of their arguments.
+これらの手続きは引数の最大値または最小値を返します。
 
 \begin{scheme}
 (max 3 4)              \ev  4    ; exact
@@ -832,13 +830,12 @@ These procedures return the maximum or minimum of their arguments.
 \end{scheme}
 
 \begin{note}
-If any argument is inexact, then the result will also be inexact (unless
-the procedure can prove that the inaccuracy is not large enough to affect the
-result, which is possible only in unusual implementations).  If {\cf min} or
-{\cf max} is used to compare numbers of mixed exactness, and the numerical
-value of the result cannot be represented as an inexact number without loss of
-accuracy, then the procedure may report a violation of an implementation
-restriction.
+いずれかの引数が不正確であれば、結果も不正確になります
+(その不正確性が結果に影響を与えないくらい大きいことが保証できる場合は除きますが、
+そのようなことは普通でない処理系にのみ可能なことです)。
+{\cf min}または{\cf max}は正確性が混在した数値を比較するために使うことができ、
+その結果の数値を正確さを犠牲にすることなく不正確な数値で表現することが出来ない場合、
+これらの手続きは処理系の制限の違反を報告する場合があります。
 \end{note}
 
 \end{entry}
@@ -848,7 +845,7 @@ restriction.
 \proto{+}{ \vri{z} \dotsfoo}{procedure}
 \proto{*}{ \vri{z} \dotsfoo}{procedure}}
 
-These procedures return the sum or product of their arguments.
+これらの手続きは引数の和または積を返します。
 
 \begin{scheme}
 (+ 3 4)                 \ev  7
@@ -867,13 +864,14 @@ These procedures return the sum or product of their arguments.
 \proto{/}{ \vr{z}}{procedure}
 \rproto{/}{ \vri{z} \vrii{z} \dotsfoo}{procedure}}
 
-With two or more arguments, these procedures return the difference or
-quotient of their arguments, associating to the left.  With one argument,
-however, they return the additive or multiplicative inverse of their argument.
+引数がふたつ以上の場合、
+これらの手続きは左結合で引数の差または商を返します。
+しかし引数がひとつの場合は、
+その引数の反数または逆数を返します。
 
-It is an error if any argument of {\cf /} other than the first is an exact zero.
-If the first argument is an exact zero, an implementation may return an
-exact zero unless one of the other arguments is a NaN.
+{\cf /}の最初以外の引数のいずれかが正確なゼロの場合はエラーです。
+最初の引数が正確なゼロであり、他の引数のいずれかがNaNでなければ、
+正確なゼロを返す場合があります。
 
 \begin{scheme}
 (- 3 4)                 \ev  -1
@@ -889,7 +887,7 @@ exact zero unless one of the other arguments is a NaN.
 \begin{entry}{%
 \proto{abs}{ x}{procedure}}
 
-The {\cf abs} procedure returns the absolute value of its argument.  
+{\cf abs}手続きは引数の絶対値を返します。
 \begin{scheme}
 (abs -7)                \ev  7%
 \end{scheme}
@@ -904,13 +902,13 @@ The {\cf abs} procedure returns the absolute value of its argument.
 \proto{truncate-quotient}{ \vri{n} \vrii{n}}{procedure}
 \proto{truncate-remainder}{ \vri{n} \vrii{n}}{procedure}}
 
-These procedures implement
-number-theoretic (integer) division.  It is an error if \vrii{n} is zero.
-The procedures ending in {\cf /} return two integers; the other
-procedures return an integer.  All the procedures compute a
-quotient \vr{n_q} and remainder \vr{n_r} such that
-$\vri{n} = \vrii{n} \vr{n_q} + \vr{n_r}$.  For each of the 
-division operators, there are three procedures defined as follows:
+これらの手続きは数論的な(整数)除算を実装します。
+\vrii{n}がゼロの場合はエラーです。
+{\cf /}で終わる手続きはふたつの整数を返し、それ以外の手続きはひとつの整数を返します。
+どの手続きも
+$\vri{n} = \vrii{n} \vr{n_q} + \vr{n_r}$
+が成り立つような商\vr{n_q}と剰余\vr{n_r}を計算します。
+それぞれの除算演算子に対して、3つの手続きが以下のように定義されます。
 
 \begin{scheme}
 (\hyper{operator}/ \vri{n} \vrii{n})             \ev \vr{n_q} \vr{n_r}
@@ -918,9 +916,10 @@ division operators, there are three procedures defined as follows:
 (\hyper{operator}-remainder \vri{n} \vrii{n})    \ev \vr{n_r}%
 \end{scheme}
 
-The remainder \vr{n_r} is determined by the choice of integer
-\vr{n_q}: $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$.  Each set of
-operators uses a different choice of \vr{n_q}:
+剰余\vr{n_r}は整数\vr{n_q}が決まると自動的に
+$\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
+のように決定されます。
+\vr{n_q}の決め方は各演算子によって異なります。
 
 \begin{tabular}{l l}
 \texttt{floor}     & $\vr{n_q} = \lfloor\vri{n} / \vrii{n}\rfloor$ \\
@@ -929,14 +928,16 @@ operators uses a different choice of \vr{n_q}:
 
 For any of the operators, and for integers \vri{n} and \vrii{n}
 with \vrii{n} not equal to 0,
+いずれの演算子も、またいずれの整数\vri{n}および\vrii{n}(ただし\vrii{n}がゼロでない場合)においても、
+以下が成り立ちます。
 \begin{scheme}
      (= \vri{n} (+ (* \vrii{n} (\hyper{operator}-quotient \vri{n} \vrii{n}))
            (\hyper{operator}-remainder \vri{n} \vrii{n})))
                                  \ev  \schtrue%
 \end{scheme}
-provided all numbers involved in that computation are exact.
+ただしすべての数値が正確な計算によって得られる場合の話です。
 
-Examples:
+例:
 
 \begin{scheme}
 (floor/ 5 2)         \ev 2 1
@@ -958,13 +959,12 @@ Examples:
 \proto{remainder}{ \vri{n} \vrii{n}}{procedure}
 \proto{modulo}{ \vri{n} \vrii{n}}{procedure}}
 
-The {\cf quotient} and {\cf remainder} procedures are equivalent to {\cf
-truncate-quotient} and {\cf truncate-remainder}, respectively, and {\cf
-modulo} is equivalent to {\cf floor-remainder}.
+{\cf quotient}および{\cf remainder}手続きはそれぞれ
+{\cf truncate-quotient}および{\cf truncate-remainder}と同等であり、
+{\cf modulo}は{\cf floor-remainder}と同等です。
 
 \begin{note}
-These procedures are provided for backward compatibility with earlier
-versions of this report.
+これらの手続きは以前のバージョンの報告書との後方互換性のために用意されています。
 \end{note}
 \end{entry}
 
@@ -972,8 +972,8 @@ versions of this report.
 \proto{gcd}{ \vri{n} \dotsfoo}{procedure}
 \proto{lcm}{ \vri{n} \dotsfoo}{procedure}}
 
-These procedures return the greatest common divisor or least common
-multiple of their arguments.  The result is always non-negative.
+これらの手続きは引数の最大公約数または最小公倍数を返します。
+結果は必ず非負です。
 
 \begin{scheme}
 (gcd 32 -36)            \ev  4
@@ -990,10 +990,10 @@ multiple of their arguments.  The result is always non-negative.
 \proto{numerator}{ \vr{q}}{procedure}
 \proto{denominator}{ \vr{q}}{procedure}}
 
-These procedures return the numerator or denominator of their
-argument; the result is computed as if the argument was represented as
-a fraction in lowest terms.  The denominator is always positive.  The
-denominator of 0 is defined to be 1.
+これらの手続きは引数の分子または分母を返します。
+結果は引数が既約分数として表現されているかのように計算されます。
+分母は必ず正です。
+ゼロの分母は1であると定義されます。
 \todo{More description and examples needed.}
 \begin{scheme}
 (numerator (/ 6 4))  \ev  3
@@ -1012,24 +1012,22 @@ denominator of 0 is defined to be 1.
 \proto{round}{ x}{procedure}
 }
 
-These procedures return integers.
-\vest The {\cf floor} procedure returns the largest integer not larger than \vr{x}.
-The {\cf ceiling} procedure returns the smallest integer not smaller than~\vr{x},
-{\cf truncate} returns the integer closest to \vr{x} whose absolute
-value is not larger than the absolute value of \vr{x}, and {\cf round} returns the
-closest integer to \vr{x}, rounding to even when \vr{x} is halfway between two
-integers.
+これらの手続きは整数を返します。
+\vest {\cf floor}手続きは\vr{x}より大きくない最も大きな整数を返します。
+{\cf ceiling}手続きは\vr{x}より小さくない最も小さな整数を返します。
+{\cf truncate}手続きは絶対値が\vr{x}の絶対値より大きくない\vr{x}に最も近い整数を返します。
+{\cf round}手続きは\vr{x}に最も近い整数を返しますが、
+\vr{x}がふたつの整数の中央のときは偶数側に丸めます。
 
 \begin{rationale}
-The {\cf round} procedure rounds to even for consistency with the default rounding
-mode specified by the IEEE 754 IEEE floating-point standard.
+{\cf round}手続きの偶数丸めは IEEE 754 IEEE浮動小数点標準で規定されている
+デフォルトの丸めモードとの一貫性のためです。
 \end{rationale}
 
 \begin{note}
-If the argument to one of these procedures is inexact, then the result
-will also be inexact.  If an exact value is needed, the
-result can be passed to the {\cf exact} procedure.
-If the argument is infinite or a NaN, then it is returned.
+これらの手続きの引数が不正確な場合、結果も不正確になります。
+正確な値が必要であれば結果を{\cf exact}手続きに渡しても構いません。
+引数が無限大またはNaNの場合は、そのまま返されます。
 \end{note}
 
 \begin{scheme}
@@ -1053,16 +1051,16 @@ If the argument is infinite or a NaN, then it is returned.
 \proto{rationalize}{ x y}{procedure}
 }
 
-The {\cf rationalize} procedure returns the {\em simplest} rational number
-differing from \vr{x} by no more than \vr{y}.  A rational number $r_1$ is
-{\em simpler} \mainindex{simplest rational} than another rational number
-$r_2$ if $r_1 = p_1/q_1$ and $r_2 = p_2/q_2$ (in lowest terms) and $|p_1|
-\leq |p_2|$ and $|q_1| \leq |q_2|$.  Thus $3/5$ is simpler than $4/7$.
-Although not all rationals are comparable in this ordering (consider $2/7$
-and $3/5$), any interval contains a rational number that is simpler than
-every other rational number in that interval (the simpler $2/5$ lies
-between $2/7$ and $3/5$).  Note that $0 = 0/1$ is the simplest rational of
-all.
+{\cf rationalize}手続きは\vr{x}から±\vr{y}以内の{\em 最も簡単}な有理数を返します。
+ある有理数 $r_1$ が別の有理数 $r_2$ より{\em 簡単}であるとは、\mainindex{simplest rational}
+$r_1 = p_1/q_1$ および $r_2 = p_2/q_2$ (いずれも既約) としたとき、
+$|p_1| \leq |p_2|$ かつ $|q_1| \leq |q_2|$ である場合のことを言います。
+つまり $3/5$ は $4/7$ より簡単です。
+すべての有理数がこの順序付けで比較できるわけではありませんが
+($2/7$ と $3/5$ を考えてみてください)、
+どのような区間においても他のすべての有理数より簡単な有理数というものがひとつ存在しています
+($2/7$ と $3/5$ の間には、より簡単な $2/5$ があります)。
+ちなみにすべての有理数のうち最も簡単なものは $0 = 0/1$ です。
 
 \begin{scheme}
 (rationalize
@@ -1084,40 +1082,35 @@ all.
 \proto{atan}{ \vr{z}}{inexact library procedure}
 \rproto{atan}{ \vr{y} \vr{x}}{inexact library procedure}}
 
-These procedures 
-compute the usual transcendental functions.  The {\cf log} procedure
-computes the natural logarithm of \vr{z} (not the base ten logarithm)
-if a single argument is given, or the base-\vrii{z} logarithm of \vri{z}
-if two arguments are given.
-The {\cf asin}, {\cf acos}, and {\cf atan} procedures compute arcsine ($\sin^{-1}$),
-arc-cosine ($\cos^{-1}$), and arctangent ($\tan^{-1}$), respectively.
-The two-argument variant of {\cf atan} computes {\tt (angle
-(make-rectangular \vr{x} \vr{y}))} (see below), even in implementations
-that don't support complex numbers.
+これらの手続きは通常の超越関数を計算します。
+{\cf log}手続きは引数がひとつの場合は\vr{z}の自然対数を計算し(底を10とする対数ではありません)、
+引数がふたつの場合は底を\vrii{z}とする\vri{z}の対数を計算します。
+{\cf asin}、{\cf acos}、{\cf atan}手続きはそれぞれ
+逆正弦($\sin^{-1}$)、逆余弦($\cos^{-1}$)、逆正接($\tan^{-1}$)を計算します。
+{\cf atan}の2引数版は
+{\tt (angle (make-rectangular \vr{x} \vr{y}))}
+(後述)を計算します(処理形が複素数をサポートしていない場合でも)。
 
-In general, the mathematical functions log, arcsine, arc-cosine, and
-arctangent are multiply defined.
-The value of $\log z$ is defined to be the one whose imaginary part
-lies in the range from $-\pi$ (inclusive if {\cf -0.0} is distinguished,
-exclusive otherwise) to $\pi$ (inclusive).
-The value of $\log 0$ is mathematically undefined.
-With $\log$ defined this way, the values of $\sin^{-1} z$, $\cos^{-1} z$,
-and $\tan^{-1} z$ are according to the following formul\ae:
+一般的に、対数、逆正弦、逆余弦、逆正接といった数学関数は多重定義されます。
+$\log z$ の値はその虚部が $-\pi$ ({\cf -0.0}が区別されている場合は含まれず、そうでなければ含まれる)
+から $\pi$ (常に含まれる) の範囲にある場合は1に定義されます。
+$\log 0$の値は数学的に未定義です。
+$\log$をこのように定義すると、
+$\sin^{-1} z$、$\cos^{-1} z$、$\tan^{-1} z$は以下の式に従います。
 $$\sin^{-1} z = -i \log (i z + \sqrt{1 - z^2})$$
 $$\cos^{-1} z = \pi / 2 - \sin^{-1} z$$
 $$\tan^{-1} z = (\log (1 + i z) - \log (1 - i z)) / (2 i)$$
 
-However, {\cf (log 0.0)} returns {\cf -inf.0} 
-(and {\cf (log -0.0)} returns {\cf -inf.0+$\pi$i}) if the
-implementation supports infinities (and {\cf -0.0}).
+しかし、処理形が無限大 (および {\cf -0.0}) をサポートしている場合、
+{\cf (log 0.0)} は {\cf -inf.0} を返します
+(また {\cf (log -0.0)} は {\cf -inf.0+$\pi$i} を返します)。
 
-The range of \texttt{({\cf atan} \var{y} \var{x})} is as in the
-following table. The asterisk (*) indicates that the entry applies to
-implementations that distinguish minus zero.
+\texttt{({\cf atan} \var{y} \var{x})} の範囲は以下の表のようになります。
+星印 (*) はマイナスゼロを区別する処理形に適用される項目であることを示しています。
 
 \begin{center}
 \begin{tabular}{clll}
-& $y$ condition & $x$ condition & range of result $r$\\\hline
+& $y$の条件 & $x$の条件 & 結果$r$の範囲\\\hline
 & $y = 0.0$ & $x > 0.0$ & $0.0$\\
 $\ast$ & $y = +0.0$  & $x > 0.0$ & $+0.0$\\
 $\ast$ & $y = -0.0$ & $x > 0.0$ & $-0.0$\\
@@ -1140,11 +1133,10 @@ $\ast$& $y = -0.0$ & $x = 0$    & $-\frac{\pi}{2}$
 \end{tabular}
 \end{center}
 
-The above specification follows~\cite{CLtL}, which in turn
-cites~\cite{Penfield81}; refer to these sources for more detailed
-discussion of branch cuts, boundary conditions, and implementation of
-these functions.  When it is possible, these procedures produce a real
-result from a real argument.
+上記の仕様は\cite{CLtL}に従ったもので、それは\cite{Penfield81}から引用されたものです。
+分岐条件や境界条件、およびこれらの関数の実装についてのより詳細な議論は、
+これらの情報源を参照してください。
+可能であれば、これらの手続きは実数の引数から実数の結果を生成します。
 
 
 \end{entry}
@@ -1152,8 +1144,8 @@ result from a real argument.
 \begin{entry}{%
 \proto{square}{ \vr{z}}{procedure}}
 
-Returns the square of \vr{z}.
-This is equivalent to \texttt{({\cf *} \var{z} \var{z})}.
+\vr{z}の平方を返します。
+これは \texttt{({\cf *} \var{z} \var{z})} と同等です。
 \begin{scheme}
 (square 42)       \ev 1764
 (square 2.0)     \ev 4.0%
@@ -1173,9 +1165,8 @@ This is equivalent to \texttt{({\cf *} \var{z} \var{z})}.
 \begin{entry}{%
 \proto{sqrt}{ \vr{z}}{inexact library procedure}}
 
-Returns the principal square root of \vr{z}.  The result will have
-either a positive real part, or a zero real part and a non-negative imaginary
-part.
+\vr{z}の正の平方根を返します。
+結果は正の実部を持つか、ゼロの実部と非負の虚部を持つかのいずれかです。
 
 \begin{scheme}
 (sqrt 9)  \ev 3
@@ -1187,8 +1178,8 @@ part.
 \begin{entry}{%
 \proto{exact-integer-sqrt}{ k}{procedure}}
 
-Returns two non-negative exact integers $s$ and $r$ where
-$\var{k} = s^2 + r$ and $\var{k} < (s+1)^2$.
+$\var{k} = s^2 + r$ および $\var{k} < (s+1)^2$ が成り立つ
+ふたつの非負の正確な整数$s$および$r$を返します。
 
 \begin{scheme}
 (exact-integer-sqrt 4) \ev 2 0
@@ -1200,11 +1191,12 @@ $\var{k} = s^2 + r$ and $\var{k} < (s+1)^2$.
 \begin{entry}{%
 \proto{expt}{ \vri{z} \vrii{z}}{procedure}}
 
-Returns \vri{z} raised to the power \vrii{z}.  For nonzero \vri{z}, this is
-$${z_1}^{z_2} = e^{z_2 \log {z_1}}$$
-The value of $0^z$ is $1$ if {\cf (zero? z)}, $0$ if {\cf (real-part z)}
-is positive, and an error otherwise.  Similarly for $0.0^z$,
-with inexact results.
+\vri{z}の\vrii{z}乗を返します。
+\vri{z}がゼロでなければ、これは $${z_1}^{z_2} = e^{z_2 \log {z_1}}$$ です。
+$0^z$ の値は{\cf (zero? z)}の場合$1$、
+{\cf (real-part z)}が正の場合$0$で、
+それ以外はエラーです。
+$0.0^z$の場合も同様ですが、不正確な結果になります。
 \end{entry}
 
 
@@ -1218,11 +1210,11 @@ with inexact results.
 \proto{magnitude}{ \vr{z}}{complex library procedure}
 \proto{angle}{ \vr{z}}{complex library procedure}}
 
-Let \vri{x}, \vrii{x}, \vriii{x}, and \vriv{x} be
-real numbers and \vr{z} be a complex number such that
+実数\vri{x}、\vrii{x}、\vriii{x}、\vriv{x}および
+複素数\vr{z}について
  $$ \vr{z} = \vri{x} + \vrii{x}\hbox{$i$}
  = \vriii{x} \cdot e^{i x_4}$$
-Then all of
+が成り立つ場合、以下がすべて成り立ちます。
 \begin{scheme}
 (make-rectangular \vri{x} \vrii{x}) \ev \vr{z}
 (make-polar \vriii{x} \vriv{x})     \ev \vr{z}
@@ -1231,20 +1223,18 @@ Then all of
 (magnitude \vr{z})                  \ev $|\vriii{x}|$
 (angle \vr{z})                      \ev $x_{angle}$%
 \end{scheme}
-are true, where $-\pi \le x_{angle} \le \pi$ with $x_{angle} = \vriv{x} + 2\pi n$
-for some integer $n$.
+ただし $-\pi \le x_{angle} \le \pi$ かつ $x_{angle} = \vriv{x} + 2\pi n$
+($n$は整数)とします。
 
-The {\cf make-polar} procedure may return an inexact complex number even if its
-arguments are exact.
-The {\cf real-part} and {\cf imag-part} procedures may return exact real
-numbers when applied to an inexact complex number if the corresponding
-argument passed to {\cf make-rectangular} was exact.
+{\cf make-polar}は引数が正確であっても不正確な複素数を返す場合があります。
+{\cf real-part}および{\cf imag-part}手続きは、不正確な複素数に適用した場合でも、
+{\cf make-rectangular}に渡された対応する引数が正確であったならば、正確な実数を返す場合があります。
 
 
 \begin{rationale}
-The {\cf magnitude} procedure is the same as \ide{abs} for a real argument,
-but {\cf abs} is in the base library, whereas
-{\cf magnitude} is in the optional complex library.
+{\cf magnitude}手続きは実数の引数に対しては\ide{abs}と同じですが、
+{\cf abs}はbaseライブラリの手続きであるのに対し、
+{\cf magnitude}はオプションのcomplexライブラリの手続きとなっています。
 \end{rationale}
 
 \end{entry}
@@ -1254,39 +1244,33 @@ but {\cf abs} is in the base library, whereas
 \proto{inexact}{ \vr{z}}{procedure}
 \proto{exact}{ \vr{z}}{procedure}}
 
-The procedure {\cf inexact} returns an \tupe{inexact} representation of \vr{z}.
-The value returned is the
-\tupe{inexact} number that is numerically closest to the argument.  
-For inexact arguments, the result is the same as the argument. For exact
-complex numbers, the result is a complex number whose real and imaginary
-parts are the result of applying {\cf inexact} to the real
-and imaginary parts of the argument, respectively.
-If an \tupe{exact} argument has no reasonably close \tupe{inexact} equivalent
-(in the sense of {\cf =}),
-then a violation of an implementation restriction may be reported.
+手続き{\cf inexact}は\vr{z}の\tupe{不正確}な表現を返します。
+戻り値は数値的に引数に最も近い\tupe{不正確}な数値です。
+不正確な引数に対しては、その引数と同じ値を返します。
+正確な複素数に対しては、引数の実部と虚部をそれぞれ{\cf inexact}に適用した結果を
+実部と虚部に持つ複素数を返します。
+\tupe{正確}な引数に十分近い({\cf =}の意味で)同等な\tupe{不正確}な値がない場合、
+処理系の制限の違反が報告される場合があります。
 
-The procedure {\cf exact} returns an \tupe{exact} representation of
-\vr{z}.  The value returned is the \tupe{exact} number that is numerically
-closest to the argument.
-For exact arguments, the result is the same as the argument. For inexact
-non-integral real arguments, the implementation may return a rational
-approximation, or may report an implementation violation. For inexact
-complex arguments, the result is a complex number whose real and
-imaginary parts are the result of applying {\cf exact} to the
-real and imaginary parts of the argument, respectively.
-If an \tupe{inexact} argument has no reasonably close \tupe{exact} equivalent,
-(in the sense of {\cf =}),
-then a violation of an implementation restriction may be reported.
+手続き{\cf exact}は\vr{z}の\tupe{正確}な表現を返します。
+戻り値は数値的に引数に近い\tupe{正確}な値です。
+正確な引数に対しては、その引数と同じ値を返します。
+不正確な整数でない実数の引数に対しては、有理数による近似値を返す場合もあれば、
+処理系の制限の違反が報告される場合もあります。
+不正確な複素数の引数に対しては、引数の実部と虚部をそれぞれ{\cf exact}に適用した結果を
+実部と虚部に持つ複素数を返します。
+\tupe{不正確}な引数に十分近い({\cf =}の意味で)同等な\tupe{正確}な値がない場合、
+処理系の制限の違反が報告される場合があります。
 
-These procedures implement the natural one-to-one correspondence between
-\tupe{exact} and \tupe{inexact} integers throughout an
-implementation-dependent range.  See section~\ref{restrictions}.
+これらの手続きは処理系依存の範囲内の\tupe{正確}な整数と\tupe{不正確}な整数に対して
+自然な1対1の対応関係を実装しています。
+\ref{restrictions}~節を参照してください。
 
 \begin{note}
-These procedures were known in \rfivers\ as {\cf exact->inexact} and
-{\cf inexact->exact}, respectively, but they have always accepted
-arguments of any exactness.  The new names are clearer and shorter,
-as well as being compatible with \rsixrs.
+これらの手続きは \rfivers\ ではそれぞれ
+{\cf exact->inexact}および{\cf inexact->exact}として知られていました。
+しかしこれらは常にどちらの正確性の引数も受け付けていました。
+新しい名前は \rsixrs と互換性があるのと同様に明確で短いものです。
 \end{note}
 
 \end{entry}
