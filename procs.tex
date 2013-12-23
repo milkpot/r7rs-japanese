@@ -1441,82 +1441,78 @@ Schemeでは\schfalse{}と空リスト\index{empty list}はお互いに区別さ
 
 \end{entry}
  
-\section{Pairs and lists}
+\section{ペアとリスト}
 \label{listsection}
 
-A \defining{pair} (sometimes called a \defining{dotted pair}) is a
-record structure with two fields called the car and cdr fields (for
-historical reasons).  Pairs are created by the procedure {\cf cons}.
-The car and cdr fields are accessed by the procedures {\cf car} and
-{\cf cdr}.  The car and cdr fields are assigned by the procedures
-{\cf set-car!}\ and {\cf set-cdr!}.
+\defining{ペア} (\defining{ドット対}と呼ばれることもあります)
+は、(歴史的理由により) carおよびcdrという名前で呼ばれるふたつのフィールドを持つレコード構造です。
+ペアは手続き{\cf cons}で作ることが出来ます。
+手続き{\cf car}および{\cf cdr}でcarおよびcdrフィールドにアクセス出来ます。
+手続き{\cf set-car!}および{\cf set-cdr!}でcarおよびcdrフィールドに代入出来ます。
 
-Pairs are used primarily to represent lists.  A \defining{list} can
-be defined recursively as either the empty list\index{empty list} or a pair whose
-cdr is a list.  More precisely, the set of lists is defined as the smallest
-set \var{X} such that
+ペアは主にリストを表現するために使われます。
+\defining{リスト}は、
+空リスト\index{empty list}またはcdrがリストであるペアとして、
+再帰的に定義できます。
+より正確に言うと、リストの集合は以下を満たす最小の集合\var{X}として定義されます。
 
 \begin{itemize}
-\item The empty list is in \var{X}.
-\item If \var{list} is in \var{X}, then any pair whose cdr field contains
-      \var{list} is also in \var{X}.
+\item 空リストは\var{X}の要素です。
+\item \var{リスト}が\var{X}の要素であれば、
+      cdrフィールドに\var{リスト}を持つペアもすべて\var{X}の要素です。
 \end{itemize}
 
-The objects in the car fields of successive pairs of a list are the
-elements of the list.  For example, a two-element list is a pair whose car
-is the first element and whose cdr is a pair whose car is the second element
-and whose cdr is the empty list.  The length of a list is the number of
-elements, which is the same as the number of pairs.
+リストを構成するペアのcarフィールドのオブジェクトは、そのリストの要素です。
+例えば2要素のリストとは、ペアであって、そのペアのcarが最初の要素、そのペアのcdrがまたペアであって、
+そのペアのcarが2番目の要素、そのペアのcdrが空リストであるようなものを言います。
+リストの長さは要素の長さ、つまりペアの数と同じです。
 
-The empty list\mainindex{empty list} is a special object of its own type.
-It is not a pair, it has no elements, and its length is zero.
+空リスト\mainindex{empty list}は独立した型を持つ特殊なオブジェクトです。
+それはペアではなく、要素を持たず、その長さはゼロです。
 
 \begin{note}
-The above definitions imply that all lists have finite length and are
-terminated by the empty list.
+上記の定義は、すべてのリストが有限の長さを持ち、空リストで終端することを暗黙に示しています。
 \end{note}
 
-The most general notation (external representation) for Scheme pairs is
-the ``dotted'' notation \hbox{\cf (\vari{c} .\ \varii{c})} where
-\vari{c} is the value of the car field and \varii{c} is the value of the
-cdr field.  For example {\cf (4 .\ 5)} is a pair whose car is 4 and whose
-cdr is 5.  Note that {\cf (4 .\ 5)} is the external representation of a
-pair, not an expression that evaluates to a pair.
+Schemeのペアの最も汎用的な表記 (外部表現) は
+\hbox{\cf (\vari{c} .\ \varii{c})}
+のような``ドット''記法です。
+ただし\vari{c}はcarフィールドの値で、\varii{c}はcdrフィールドの値です。
+例えば {\cf (4 .\ 5)} はcarが4でありcdrが5であるペアです。
+{\cf (4 .\ 5)} はペアの外部表現であって、ペアに評価される式ではないことに注意してください。
 
-A more streamlined notation can be used for lists: the elements of the
-list are simply enclosed in parentheses and separated by spaces.  The
-empty list\index{empty list} is written {\tt()}.  For example,
+リストに対してはより流線的な記法が使われます。
+単純にリストの要素をスペースで区切って括弧で囲みます。
+空リスト\index{empty list}は{\tt()}と書きます。
+例を挙げます。
 
 \begin{scheme}
 (a b c d e)%
 \end{scheme}
 
-and
+これはシンボルのリストの表記で、以下と同等です。
 
 \begin{scheme}
 (a . (b . (c . (d . (e . ())))))%
 \end{scheme}
 
-are equivalent notations for a list of symbols.
-
-A chain of pairs not ending in the empty list is called an
-\defining{improper list}.  Note that an improper list is not a list.
-The list and dotted notations can be combined to represent
-improper lists:
+空リストで終端しないペアのチェーンは\defining{非真正リスト}と呼ばれます。
+非真正リストはリストではないことに注意してください。
+リストとドット記法を組み合わせて非真正リストを表現することが出来ます。
 
 \begin{scheme}
 (a b c . d)%
 \end{scheme}
 
-is equivalent to
+これは以下と同等です。
 
 \begin{scheme}
 (a . (b . (c . d)))%
 \end{scheme}
 
-Whether a given pair is a list depends upon what is stored in the cdr
-field.  When the \ide{set-cdr!} procedure is used, an object can be a
-list one moment and not the next:
+与えられたペアがリストであるかどうかは、cdrフィールドに何が格納されているかに依ります。
+\ide{set-cdr!}手続きを使うと、
+ある瞬間にはリストであったオブジェクトが次の瞬間にはそうでなくなる場合があります。
 
 \begin{scheme}
 (define x (list 'a 'b 'c))
@@ -1532,25 +1528,27 @@ y                       \ev  (a . 4)
 (list? x)               \ev  \schfalse%
 \end{scheme}
 
-Within literal expressions and representations of objects read by the
-\ide{read} procedure, the forms \singlequote\hyper{datum}\schindex{'},
-\backquote\hyper{datum}, {\tt,}\hyper{datum}\schindex{,}, and
-{\tt,@}\hyper{datum} denote two-ele\-ment lists whose first elements are
-the symbols \ide{quote}, \ide{quasiquote}, \hbox{\ide{unquote}}, and
-\ide{unquote-splicing}, respectively.  The second element in each case
-is \hyper{datum}.  This convention is supported so that arbitrary Scheme
-programs can be represented as lists.  
-That is, according to Scheme's grammar, every
-\meta{expression} is also a \meta{datum} (see section~\ref{datum}).
-Among other things, this permits the use of the {\cf read} procedure to
-parse Scheme programs.  See section~\ref{externalreps}. 
+リテラル式や\ide{read}手続きによって読み込んだオブジェクトの表現の中では、
+\singlequote\hyper{datum}\schindex{'}、
+\backquote\hyper{datum}、
+{\tt,}\hyper{datum}\schindex{,}、
+{\tt,@}\hyper{datum}
+といった形は、最初の要素がそれぞれシンボル
+\ide{quote}、\ide{quasiquote}、\hbox{\ide{unquote}}、\ide{unquote-splicing}
+である2要素のリストを表します。
+この規約により任意のSchemeプログラムをリストとして表現出来ます。
+つまり、Schemeの文法によれば、
+すべての\meta{expression}は\meta{datum}でもある、
+ということです(\ref{datum}~節を参照)。
+特に、これにより、{\cf read}手続きでSchemeのプログラムを解析出来るようになっています。
+\ref{externalreps}~節も参照してください。
  
 
 \begin{entry}{%
 \proto{pair?}{ obj}{procedure}}
 
-The {\cf pair?} predicate returns \schtrue{} if \var{obj} is a pair, and otherwise
-returns \schfalse.
+{\cf pair?}手続きは、\var{obj}がペアであれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (pair? '(a . b))        \ev  \schtrue
@@ -1564,9 +1562,8 @@ returns \schfalse.
 \begin{entry}{%
 \proto{cons}{ \vari{obj} \varii{obj}}{procedure}}
 
-Returns a newly allocated pair whose car is \vari{obj} and whose cdr is
-\varii{obj}.  The pair is guaranteed to be different (in the sense of
-{\cf eqv?}) from every existing object.
+carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられたペアを返します。
+このペアは既存のいかなるオブジェクトとも({\cf eqv?}の意味で)異なることが保証されています。
 
 \begin{scheme}
 (cons 'a '())           \ev  (a)
@@ -1581,8 +1578,8 @@ Returns a newly allocated pair whose car is \vari{obj} and whose cdr is
 \begin{entry}{%
 \proto{car}{ pair}{procedure}}
 
-Returns the contents of the car field of \var{pair}.  Note that it is an
-error to take the car of the empty list\index{empty list}.
+\var{pair}のcarフィールドの内容を返します。
+空リスト\index{empty list}のcarを取ることはエラーであることに注意してください。
 
 \begin{scheme}
 (car '(a b c))          \ev  a
@@ -1597,8 +1594,8 @@ error to take the car of the empty list\index{empty list}.
 \begin{entry}{%
 \proto{cdr}{ pair}{procedure}}
 
-Returns the contents of the cdr field of \var{pair}.
-Note that it is an error to take the cdr of the empty list.
+\var{pair}のcdrフィールドの内容を返します。
+空リストのcdrを取ることはエラーであることに注意してください。
 
 \begin{scheme}
 (cdr '((a) b c d))      \ev  (b c d)
@@ -1612,7 +1609,7 @@ Note that it is an error to take the cdr of the empty list.
 \begin{entry}{%
 \proto{set-car!}{ pair obj}{procedure}}
 
-Stores \var{obj} in the car field of \var{pair}.
+\var{pair}のcarフィールドに\var{obj}を格納します。
 \begin{scheme}
 (define (f) (list 'not-a-constant-list))
 (define (g) '(constant-list))
@@ -1626,7 +1623,7 @@ Stores \var{obj} in the car field of \var{pair}.
 \begin{entry}{%
 \proto{set-cdr!}{ pair obj}{procedure}}
 
-Stores \var{obj} in the cdr field of \var{pair}.
+\var{pair}のcdrフィールドに\var{obj}を格納します。
 \end{entry}
 
 \setbox0\hbox{\tt(cadr \var{pair})}
@@ -1639,7 +1636,7 @@ Stores \var{obj} in the cdr field of \var{pair}.
 \proto{cdar}{ pair}{procedure}
 \proto{cddr}{ pair}{procedure}}
 
-These procedures are compositions of {\cf car} and {\cf cdr} as follows:
+これらの手続きは以下のような{\cf car}および{\cf cdr}の合成関数です。
 
 \begin{scheme}
 (define (caar x) (car (car x)))
@@ -1663,15 +1660,14 @@ These procedures are compositions of {\cf car} and {\cf cdr} as follows:
 \proto{cdddar}{ pair}{cxr library procedure}%
 \proto{cddddr}{ pair}{cxr library procedure}}
 
-These twenty-four procedures are further compositions of {\cf car} and {\cf cdr}
-on the same principles.
-For example, {\cf caddr} could be defined by
+これら24個の手続きは同じ考え方に基づいた{\cf car}および{\cf cdr}のさらなる合成関数です。
+例えば、{\cf caddr}は以下のように定義できます。
 
 \begin{scheme}
 (define caddr (lambda (x) (car (cdr (cdr x))))){\rm.}%
 \end{scheme}
 
-Arbitrary compositions up to four deep are provided.  
+深さ4までのすべての組み合わせが用意されています。
 
 \end{entry}
 
@@ -1679,17 +1675,17 @@ Arbitrary compositions up to four deep are provided.
 \begin{entry}{%
 \proto{null?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is the empty list\index{empty list},
-otherwise returns \schfalse.
+\var{obj}が空リスト\index{empty list}であれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{list?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is a list.  Otherwise, it returns \schfalse{}.
-By definition, all lists have finite length and are terminated by
-the empty list.
+\var{obj}がリストであれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
+定義により、リストはすべて有限の長さを持ち、空リストで終端します。
 
 \begin{scheme}
         (list? '(a b c))     \ev  \schtrue
@@ -1707,9 +1703,9 @@ the empty list.
 \proto{make-list}{ k}{procedure}
 \rproto{make-list}{ k fill}{procedure}}
 
-Returns a newly allocated list of \var{k} elements.  If a second
-argument is given, then each element is initialized to \var{fill}.
-Otherwise the initial contents of each element is unspecified.
+\var{k}要素の新しく割り当てられたリストを返します。
+第2引数が指定された場合は、その各要素が\var{fill}に初期化されます。
+そうでなければ、各要素の初期内容は規定されていません。
 
 \begin{scheme}
 (make-list 2 3)   \ev   (3 3)%
@@ -1722,7 +1718,7 @@ Otherwise the initial contents of each element is unspecified.
 \begin{entry}{%
 \proto{list}{ \var{obj} \dotsfoo}{procedure}}
 
-Returns a newly allocated list of its arguments.
+その引数から成る新しく割り当てられたリストを返します。
 
 \begin{scheme}
 (list 'a (+ 3 4) 'c)            \ev  (a 7 c)
@@ -1734,7 +1730,7 @@ Returns a newly allocated list of its arguments.
 \begin{entry}{%
 \proto{length}{ list}{procedure}}
 
-Returns the length of \var{list}.
+\var{list}の長さを返します。
 
 \begin{scheme}
 (length '(a b c))               \ev  3
@@ -1749,15 +1745,12 @@ Returns the length of \var{list}.
 \begin{entry}{%
 \proto{append}{ list \dotsfoo}{procedure}}
 
-\domain{The last argument, if there is one, can be of any type.}
-Returns a list consisting of the elements of the first \var{list}
-followed by the elements of the other \var{list}s.
-If there are no arguments, the empty list is returned.
-If there is exactly one argument, it is returned.
-Otherwise the resulting list is always newly allocated, except that it shares
-structure with the last argument.  
-An improper list results if the last argument is not a
-proper list.  
+\domain{最後の引数(もしあれば)は任意の型を指定できます。}
+最初の\var{list}の要素に他の\var{list}の要素を続けたものを要素とするリストを返します。
+引数が無ければ、空リストが返されます。
+引数がひとつだけの場合は、それが返されます。
+それ以外の場合は、結果のリストは常に新しく割り当てられますが、最後の引数の構造は共有します。
+最後の引数が真正リストでなければ、結果は非真正リストです。
 
 \begin{scheme}
 (append '(x) '(y))              \ev  (x y)
@@ -1776,8 +1769,7 @@ proper list.
 \begin{entry}{%
 \proto{reverse}{ list}{procedure}}
 
-Returns a newly allocated list consisting of the elements of \var{list}
-in reverse order.
+\var{list}の要素から成る逆順の新しく割り当てられたリストを返します。
 
 \begin{scheme}
 (reverse '(a b c))              \ev  (c b a)
@@ -1789,9 +1781,8 @@ in reverse order.
 \begin{entry}{%
 \proto{list-tail}{ list \vr{k}}{procedure}}
 
-\domain{It is an error if \var{list} has fewer than \vr{k} elements.}
-Returns the sublist of \var{list} obtained by omitting the first \vr{k}
-elements.
+\domain{\var{list}の要素が\vr{k}個より少ない場合はエラーです。}
+最初の\vr{k}個の要素を除いて得られる\var{list}の部分リストを返します。
 The {\cf list-tail} procedure could be defined by
 
 \begin{scheme}
@@ -1807,10 +1798,10 @@ The {\cf list-tail} procedure could be defined by
 \begin{entry}{%
 \proto{list-ref}{ list \vr{k}}{procedure}}
 
-\domain{The \var{list} argument can be circular, but
-it is an error if \var{list} has fewer than \vr{k} elements.}
-Returns the \vr{k}th element of \var{list}.  (This is the same
-as the car of {\tt(list-tail \var{list} \vr{k})}.)
+\domain{\var{list}引数は循環構造でも構いません。
+\var{list}の要素が\vr{k}個より少ない場合はエラーです。}
+\var{list}の\vr{k}番目の要素を返します。
+(これは {\tt(list-tail \var{list} \vr{k})} のcarと同じです。)
 
 \begin{scheme}
 (list-ref '(a b c d) 2)                 \ev  c
@@ -1822,8 +1813,8 @@ as the car of {\tt(list-tail \var{list} \vr{k})}.)
 \begin{entry}{%
 \proto{list-set!}{ list k obj}{procedure}}
 
-\domain{It is an error if \vr{k} is not a valid index of \var{list}.}
-The {\cf list-set!} procedure stores \var{obj} in element \vr{k} of \var{list}.
+\domain{\vr{k}が\var{list}の有効なインデックスでない場合はエラーです。}
+{\cf list-set!}手続きは\var{list}の\vr{k}番目の要素に\var{obj}を格納します。
 \begin{scheme}
 (let ((ls (list 'one 'two 'five!)))
   (list-set! ls 2 'three)
@@ -1842,14 +1833,15 @@ The {\cf list-set!} procedure stores \var{obj} in element \vr{k} of \var{list}.
 \proto{member}{ obj list}{procedure}
 \rproto{member}{ obj list compare}{procedure}}
 
-These procedures return the first sublist of \var{list} whose car is
-\var{obj}, where the sublists of \var{list} are the non-empty lists
-returned by {\tt (list-tail \var{list} \var{k})} for \var{k} less
-than the length of \var{list}.  If
-\var{obj} does not occur in \var{list}, then \schfalse{} (not the empty list) is
-returned.  The {\cf memq} procedure uses {\cf eq?}\ to compare \var{obj} with the elements of
-\var{list}, while {\cf memv} uses {\cf eqv?} and 
-{\cf member} uses \var{compare}, if given, and {\cf equal?} otherwise.
+これらの手続きはcarが\var{obj}である最初の\var{list}の部分リストを返します。
+\var{list}の部分リストは
+{\tt (list-tail \var{list} \var{k})}によって返される空でないリストです
+(\var{k}は\var{list}の長さより小さいものとします)。
+\var{list}内に\var{obj}が現れない場合は、
+\schfalse{}が返されます(空リストではありません)。
+{\cf memq}手続きは\var{obj}と\var{list}の要素との比較に{\cf eq?}を用いるのに対して、
+{\cf memv}は{\cf eqv?}を用い、
+{\cf member}は\var{compare}が指定された場合はそれを用い、そうでなければ{\cf equal?}を用います。
 
 \begin{scheme}
 (memq 'a '(a b c))              \ev  (a b c)
@@ -1874,14 +1866,14 @@ returned.  The {\cf memq} procedure uses {\cf eq?}\ to compare \var{obj} with th
 \proto{assoc}{ obj alist}{procedure}
 \rproto{assoc}{ obj alist compare}{procedure}}
 
-\domain{It is an error if \var{alist} (for ``association list'') is not a list of
-pairs.}
-These procedures find the first pair in \var{alist} whose car field is \var{obj},
-and returns that pair.  If no pair in \var{alist} has \var{obj} as its
-car, then \schfalse{} (not the empty list) is returned.  The {\cf assq} procedure uses
-{\cf eq?}\ to compare \var{obj} with the car fields of the pairs in \var{alist},
-while {\cf assv} uses {\cf eqv?}\ and {\cf assoc} uses \var{compare} if given
-and {\cf equal?} otherwise.
+\domain{\var{alist}(``association list''(連想リスト)の略)がペアのリストでなければエラーです。}
+これらの手続きはcarフィールドが\var{obj}である\var{alist}内の最初のペアを探し、
+そのペアを返します。
+carに\var{obj}を持つペアが\var{alist}内に無ければ、
+\schfalse{}が返されます(空リストではありません)。
+{\cf assq}手続きは\var{obj}と\var{alist}内のペアのcarフィールドとの比較に{\cf eq?}を用いるのに対して、
+{\cf assv}は{\cf eqv?}を用い、
+{\cf assoc}は\var{compare}が指定された場合はそれを用い、そうでなければ{\cf equal?}を用います。
 
 \begin{scheme}
 (define e '((a 1) (b 2) (c 3)))
@@ -1902,23 +1894,23 @@ and {\cf equal?} otherwise.
 
 
 \begin{rationale}
-Although they are often used as predicates,
-{\cf memq}, {\cf memv}, {\cf member}, {\cf assq}, {\cf assv}, and {\cf assoc} do not
-have question marks in their names because they return 
-potentially useful values rather than just \schtrue{} or \schfalse{}.
+{\cf memq}、{\cf memv}、{\cf member}、{\cf assq}、{\cf assv}および{\cf assoc}は、
+よく述語として用いられはしますが、名前に疑問符は付いていません。
+これは、単なる\schtrue{}または\schfalse{}でなく、
+場合によっては有用な値を返すためです。
 \end{rationale}
 \end{entry}
 
 \begin{entry}{%
 \proto{list-copy}{ obj}{procedure}}
 
-Returns a newly allocated copy of the given \var{obj} if it is a list.
-Only the pairs themselves are copied; the cars of the result are
-the same (in the sense of {\cf eqv?}) as the cars of \var{list}.
-If \var{obj} is an improper list, so is the result, and the final
-cdrs are the same in the sense of {\cf eqv?}.
-An \var{obj} which is not a list is returned unchanged.
-It is an error if \var{obj} is a circular list.
+\var{obj}がリストの場合、その新しく割り当てられたコピーを返します。
+コピーされるのはペア自身だけです。
+結果のcarは\var{list}のcarと({\cf eqv?}の意味で)同じになります。
+\var{obj}が非真正リストの場合、結果も非真正リストとなり、
+最後のcdrは{\cf eqv?}の意味で同じになります。
+\var{obj}がリストでない場合はそのまま返されます。
+\var{obj}が循環リストの場合はエラーです。
 
 \begin{scheme}
 (define a '(1 8 2 8)) ; a may be immutable
