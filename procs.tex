@@ -1923,36 +1923,32 @@ a \ev (1 8 2 8)%
 \end{entry}
 
 
-\section{Symbols}
+\section{シンボル}
 \label{symbolsection}
 
-Symbols are objects whose usefulness rests on the fact that two
-symbols are identical (in the sense of {\cf eqv?}) if and only if their
-names are spelled the same way.  For instance, they can be used
-the way enumerated values are used in other languages.
+シンボルは、その名前が同じ綴りである場合に限り({\cf eqv?}の意味で)等しい
+という事実に有用性があるオブジェクトです。
+例えば、他の言語では列挙型を使うような場面で使うことが出来ます。
 
-\vest The rules for writing a symbol are exactly the same as the rules for
-writing an identifier; see sections~\ref{syntaxsection}
-and~\ref{identifiersyntax}.
+\vest シンボルの書き方の規則は識別子の書き方の規則とまったく同じです。
+\ref{syntaxsection}~節および\ref{identifiersyntax}~節を参照してください。
 
-\vest It is guaranteed that any symbol that has been returned as part of
-a literal expression, or read using the {\cf read} procedure, and
-subsequently written out using the {\cf write} procedure, will read back
-in as the identical symbol (in the sense of {\cf eqv?}).
+\vest リテラル式の一部として返され、または{\cf read}手続きを用いて読み込まれ、
+その後{\cf write}手続きを用いて書き出されたシンボルはすべて、
+({\cf eqv?}の意味で)同一のシンボルとして読み戻されます。
 
 \begin{note}
-Some implementations have values known as ``uninterned symbols,''
-which defeat write/read invariance, and also violate the rule that two
-symbols are the same if and only if their names are spelled the same.
-This report does not specify the behavior of
-implementation-dependent extensions.
+``インターン化されていないシンボル''として知られている、
+write/read不変則を破る値を持つ処理系もあります。
+またこれは、2つのシンボルの名前が同じ綴りの場合に限り同じであるという規則にも違反するものです。
+この報告書ではそのような処理系依存の拡張の動作は規定されていません。
 \end{note}
 
 
 \begin{entry}{%
 \proto{symbol?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is a symbol, otherwise returns \schfalse.
+\var{obj}がシンボルであれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 
 \begin{scheme}
 (symbol? 'foo)          \ev  \schtrue
@@ -1967,12 +1963,11 @@ Returns \schtrue{} if \var{obj} is a symbol, otherwise returns \schfalse.
 \begin{entry}{%
 \proto{symbol=?}{ \vari{symbol} \varii{symbol} \variii{symbol} \dotsfoo}{procedure}}
 
-Returns \schtrue{} if all the arguments are symbols and all have the same
-names in the sense of {\cf string=?}.
+引数がすべてシンボルであり、その名前がすべて({\cf string=?}の意味で)同じであれば、
+\schtrue{}を返します。
 
 \begin{note}
-The definition above assumes that none of the arguments
-are uninterned symbols.
+上記の定義は、どの引数もインターン化されていないシンボルではないという想定に基づいています。
 \end{note}
 
 \end{entry}
@@ -1980,10 +1975,9 @@ are uninterned symbols.
 \begin{entry}{%
 \proto{symbol->string}{ symbol}{procedure}}
 
-Returns the name of \var{symbol} as a string, but without adding escapes.
-It is an error
-to apply mutation procedures like \ide{string-set!} to strings returned
-by this procedure.
+\var{symbol}の名前を文字列として返します。
+ただしエスケープは行われていません。
+この手続きが返した文字列に\ide{string-set!}のような変更手続きを適用するのはエラーです。
 
 \begin{scheme}
 (symbol->string 'flying-fish)     
@@ -1999,9 +1993,9 @@ by this procedure.
 \begin{entry}{%
 \proto{string->symbol}{ string}{procedure}}
 
-Returns the symbol whose name is \var{string}.  This procedure can
-create symbols with names containing special characters that would
-require escaping when written, but does not interpret escapes in its input.
+名前が\var{string}であるシンボルを返します。
+この手続きにより、書き出すときにエスケープが必要な特殊な文字を含む名前のシンボルを
+作ることが出来ますが、入力中のエスケープは解釈されません。
 
 \begin{scheme}
 (string->symbol "mISSISSIppi")  \lev%
