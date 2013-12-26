@@ -2450,7 +2450,7 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 新しく割り当てられたリストを返します。
 {\cf list\coerce{}string}はリスト\var{list}内の要素から成る
 新しく割り当てられた文字列を返します。
-どちらの手続きでも順序は保存されます。
+どちらの手続きでも順番は維持されます。
 {\cf equal?}の意味において
 {\cf string\coerce{}list}および{\cf list\coerce{}string}はお互い逆関数です。
 
@@ -2473,8 +2473,8 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 \rproto{string-copy!}{ to at from start}{procedure}
 \rproto{string-copy!}{ to at from start end}{procedure}}
 
-\domain{\var{at}がゼロより小さいか\var{to}の長さより大きい場合はエラーです。}
-{\cf (- (string-length \var{to}) \var{at})} が {\cf (- \var{end} \var{start})}
+\domain{\var{at}がゼロより小さいか\var{to}の長さより大きい場合はエラーです。
+{\cf (- (string-length \var{to}) \var{at})} が {\cf (- \var{end} \var{start})}}
 より小さい場合もエラーです。
 文字列\var{from}の\var{start}〜\var{end}間の文字を、
 文字列\var{to}の\var{at}から始まる位置にコピーします。
@@ -2508,36 +2508,36 @@ b \ev "a12de"%
 \end{entry}
 
 
-\section{Vectors}
+\section{ベクタ}
 \label{vectorsection}
 
-Vectors are heterogeneous structures whose elements are indexed
-by integers.  A vector typically occupies less space than a list
-of the same length, and the average time needed to access a randomly
-chosen element is typically less for the vector than for the list.
+ベクタは要素を整数でインデックスする異種混合の構造体です。
+ベクタは一般的に同じ長さのリストよりも小さな空間しか使用せず、
+一般的にランダムに選んだ要素のアクセスに必要な平均時間が
+リストよりもベクタの方が小さくて済みます。
 
-\vest The {\em length} of a vector is the number of elements that it
-contains.  This number is a non-negative integer that is fixed when the
-vector is created.  The {\em valid indexes}\index{valid indexes} of a
-vector are the exact non-negative integers less than the length of the
-vector.  The first element in a vector is indexed by zero, and the last
-element is indexed by one less than the length of the vector.
+\vest ベクタが持つ要素の数をそのベクタの{\em 長さ}と言います。
+この数は非負の整数で、ベクタの作成時に固定されます。
+ベクタの長さよりも小さい正確な非負の整数を、そのベクタの
+{\em 有効なインデックス}\index{valid indexes}と言います。
+ベクタの最初の要素のインデックスは0で、
+最後の要素のインデックスはベクタの長さよりも1小さい値です。
 
-Vectors are written using the notation {\tt\#(\var{obj} \dotsfoo)}.
-For example, a vector of length 3 containing the number zero in element
-0, the list {\cf(2 2 2 2)} in element 1, and the string {\cf "Anna"} in
-element 2 can be written as follows:
+ベクタは {\tt\#(\var{obj} \dotsfoo)} という表記を用いて書きます。
+例えば、0番目の要素に数値のゼロ、1番目の要素にリスト {\cf(2 2 2 2)}、
+2番目の要素に文字列 {\cf "Anna"} を持つベクタは、以下のように書くことが出来ます。
 
 \begin{scheme}
 \#(0 (2 2 2 2) "Anna")%
 \end{scheme}
 
-Vector constants are self-evaluating, so they do not need to be quoted in programs.
+ベクタ定数はそれ自身に評価されます。
+そのため、プログラム中で引用する必要はありません。
 
 \begin{entry}{%
 \proto{vector?}{ obj}{procedure}}
  
-Returns \schtrue{} if \var{obj} is a vector; otherwise returns \schfalse.
+\var{obj}がベクタであれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 \end{entry}
 
 
@@ -2545,9 +2545,9 @@ Returns \schtrue{} if \var{obj} is a vector; otherwise returns \schfalse.
 \proto{make-vector}{ k}{procedure}
 \rproto{make-vector}{ k fill}{procedure}}
 
-Returns a newly allocated vector of \var{k} elements.  If a second
-argument is given, then each element is initialized to \var{fill}.
-Otherwise the initial contents of each element is unspecified.
+\var{k}個の要素を持つ新しく割り当てられたベクタを返します。
+第2引数が与えられた場合、各要素は\var{fill}に初期化されます。
+そうでなければ、各要素の初期内容は規定されていません。
 
 \end{entry}
 
@@ -2555,8 +2555,8 @@ Otherwise the initial contents of each element is unspecified.
 \begin{entry}{%
 \proto{vector}{ obj \dotsfoo}{procedure}}
 
-Returns a newly allocated vector whose elements contain the given
-arguments.  It is analogous to {\cf list}.
+与えられた引数を要素に持つ新しく割り当てられたベクタを返します。
+これは{\cf list}の類似品です。
 
 \begin{scheme}
 (vector 'a 'b 'c)               \ev  \#(a b c)%
@@ -2567,16 +2567,15 @@ arguments.  It is analogous to {\cf list}.
 \begin{entry}{%
 \proto{vector-length}{ vector}{procedure}}
 
-Returns the number of elements in \var{vector} as an exact integer.
+\var{vector}の要素の数を正確な整数として返します。
 \end{entry}
 
 
 \begin{entry}{%
 \proto{vector-ref}{ vector k}{procedure}}
 
-\domain{It is an error if \vr{k} is not a valid index of \var{vector}.}
-The {\cf vector-ref} procedure returns the contents of element \vr{k} of
-\var{vector}.
+\domain{\vr{k}が\var{vector}の有効なインデックスでなければエラーです。}
+{\cf vector-ref}手続きは\var{vector}の\vr{k}番目の要素の内容を返します。
 
 \begin{scheme}
 (vector-ref '\#(1 1 2 3 5 8 13 21)
@@ -2591,8 +2590,8 @@ The {\cf vector-ref} procedure returns the contents of element \vr{k} of
 \begin{entry}{%
 \proto{vector-set!}{ vector k obj}{procedure}}
 
-\domain{It is an error if \vr{k} is not a valid index of \var{vector}.}
-The {\cf vector-set!} procedure stores \var{obj} in element \vr{k} of \var{vector}.
+\domain{\vr{k}が\var{vector}の有効なインデックスでなければエラーです。}
+{\cf vector-set!}手続きは\var{vector}の\vr{k}番目の要素に\var{obj}を格納します。
 \begin{scheme}
 (let ((vec (vector 0 '(2 2 2 2) "Anna")))
   (vector-set! vec 1 '("Sue" "Sue"))
@@ -2609,12 +2608,12 @@ The {\cf vector-set!} procedure stores \var{obj} in element \vr{k} of \var{vecto
 \rproto{vector->list}{ vector start end}{procedure}
 \proto{list->vector}{ list}{procedure}}
 
-The {\cf vector->list} procedure returns a newly allocated list of the objects contained
-in the elements of \var{vector} between \var{start} and \var{end}.
-The {\cf list->vector} procedure returns a newly
-created vector initialized to the elements of the list \var{list}.
+{\cf vector->list}手続きは\var{vector}の\var{start}〜\var{end}の要素に
+格納されているオブジェクトから成る新しく割り当てられたリストを返します。
+{\cf list->vector}手続きはリスト\var{list}の要素に初期化されている
+新しく割り当てられたベクタを返します。
 
-In both procedures, order is preserved.
+どちらの手続きでも順番は維持されます。
 
 \begin{scheme}
 (vector->list '\#(dah dah didah))  \lev  (dah dah didah)
@@ -2632,16 +2631,14 @@ In both procedures, order is preserved.
 \rproto{string->vector}{ string start end}{procedure}}
 \label{vectortostring}
 
-\domain{It is an error if any element of \var{vector} between \var{start}
-and \var{end} is not a character.}
-The {\cf vector->string} procedure returns a newly allocated string of the objects contained
-in the elements of \var{vector}
-between \var{start} and \var{end}.
-The {\cf string->vector} procedure returns a newly
-created vector initialized to the elements of the string \var{string}
-between \var{start} and \var{end}.
+\domain{\var{vector}の\var{start}〜\var{end}の要素の
+いずれかが文字でなければエラーです。}
+{\cf vector->string}手続きは\var{vector}の\var{start}〜\var{end}の要素に
+格納されているオブジェクトから成る新しく割り当てられた文字列を返します。
+{\cf string->vector}手続きは文字列\var{string}の\var{start}〜\var{end}の要素に
+初期化されている新しく割り当てられたベクタを返します。
 
-In both procedures, order is preserved.
+どちらの手続きでも順番は維持されます。
 
 
 \begin{scheme}
@@ -2656,10 +2653,10 @@ In both procedures, order is preserved.
 \rproto{vector-copy}{ vector start}{procedure}
 \rproto{vector-copy}{ vector start end}{procedure}}
 
-Returns a newly allocated copy of the elements of the given \var{vector}
-between \var{start} and \var{end}.
-The elements of the new vector are the same (in the sense of
-{\cf eqv?}) as the elements of the old.
+与えられた\var{vector}の\var{start}〜\var{end}の要素の
+新しく割り当てられたコピーを返します。
+新しいベクタの要素は古いベクタの要素と
+({\cf eqv?}の意味で)同じです。
 
 
 \begin{scheme}
@@ -2678,16 +2675,17 @@ c \ev \#(8 2)%
 \rproto{vector-copy!}{ to at from start}{procedure}
 \rproto{vector-copy!}{ to at from start end}{procedure}}
 
-\domain{It is an error if \var{at} is less than zero or greater than the length of \var{to}.
-It is also an error if {\cf (- (vector-length \var{to}) \var{at})}
-is less than {\cf (- \var{end} \var{start})}.}
-Copies the elements of vector \var{from} between \var{start} and \var{end}
-to vector \var{to}, starting at \var{at}.  The order in which elements are
-copied is unspecified, except that if the source and destination overlap,
-copying takes place as if the source is first copied into a temporary
-vector and then into the destination.  This can be achieved without
-allocating storage by making sure to copy in the correct direction in
-such circumstances.
+\domain{\var{at}がゼロより小さいか\var{to}の長さよりも大きい場合はエラーです。
+{\cf (- (vector-length \var{to}) \var{at})} が
+{\cf (- \var{end} \var{start})} より小さい場合もエラーです。}
+ベクタ\var{from}の\var{start}〜\var{end}の要素を
+ベクタ\var{to}の\var{at}から始まる位置にコピーします。
+文字がコピーされる順番は規定されていません。
+ただし転送元と転送先が重なっている場合は、
+転送元がいったん一時的なベクタにコピーされ、
+それから転送先にコピーされたかのように動作します。
+正しい方向でコピーを行うように気を付ければ、
+そのような状況でも領域を割り当てることなくこれを行うことが出来ます。
 
 \begin{scheme}
 (define a (vector 1 2 3 4 5))
@@ -2701,8 +2699,7 @@ b \ev \#(10 1 2 40 50)%
 \begin{entry}{%
 \proto{vector-append}{ \var{vector} \dotsfoo}{procedure}}
 
-Returns a newly allocated vector whose elements are the concatenation
-of the elements of the given vectors.
+与えられたベクタの要素を連結した要素を持つ新しく割り当てられたベクタを返します。
 
 \begin{scheme}
 (vector-append \#(a b c) \#(d e f)) \lev \#(a b c d e f)%
@@ -2715,9 +2712,8 @@ of the elements of the given vectors.
 \rproto{vector-fill!}{ vector fill start}{procedure}
 \rproto{vector-fill!}{ vector fill start end}{procedure}}
 
-The {\cf vector-fill!} procedure stores \var{fill}
-in the elements of \var{vector}
-between \var{start} and \var{end}.
+{\cf vector-fill!}手続きは\var{vector}の\var{start}〜\var{end}の要素に
+\var{fill}を格納します。
 
 \begin{scheme}
 (define a (vector 1 2 3 4 5))
