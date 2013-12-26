@@ -4,16 +4,16 @@
 \newcommand{\syntax}{{\em Syntax: }}
 \newcommand{\semantics}{{\em Semantics: }}
 
-形式は{\em プリミティブ}または{\em 派生}に分類されます。
-プリミティブ形式は変数や手続き呼び出しなどです。
-派生形式は意味論的にプリミティブでなく、代わりにマクロで定義されているものです。
-\ref{derivedsection}~節にいくつかの派生形式の適切な構文定義が掲載されています。
+式型は{\em プリミティブ}または{\em 派生}に分類されます。
+プリミティブ式型は変数や手続き呼び出しなどです。
+派生式型は意味論的にプリミティブでなく、代わりにマクロで定義されているものです。
+\ref{derivedsection}~節にいくつかの派生式型の適切な構文定義が掲載されています。
 
-{\cf delay}, {\cf delay-force}, および {\cf parameterize} と密接に関連する手続き
+{\cf delay}, {\cf delay-force}, および {\cf parameterize} 式型と密接に関連する手続き
 {\cf force}, {\cf promise?}, {\cf make-promise}, および {\cf make-parameter}
 もこの章で説明しています。
 
-\section{プリミティブ形式}
+\section{プリミティブ式型}
 \label{primitivexps}
 
 \subsection{変数参照}\unsection
@@ -280,7 +280,7 @@ Schemeではエラーです。
 
 \end{entry}
 
-\section{派生形式}
+\section{派生式型}
 \label{derivedexps}
 
 この節の構文は、\ref{macrosection}~節で述べられてるように、衛生的です。
@@ -489,7 +489,7 @@ else節があれば、その式が評価され、その最後の結果が{\cf ca
 \proto{cond-expand}{ \hyperi{ce-clause} \hyperii{ce-clause} \dotsfoo}{\exprtype}}
 
 \syntax
-\ide{cond-expand}形式は処理系に依存して異なる式に静的に展開される方法を提供します。
+\ide{cond-expand}式型は処理系に依存して異なる式に静的に展開される方法を提供します。
 \hyper{ce-clause}節は以下の形を取ります。
 
 {\tt(\hyper{feature requirement} \hyper{expression} \dotsfoo)}
@@ -802,7 +802,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 この形の{\cf begin}は普通の式として使うことができます。
 \hyper{expression}は左から右に逐次的に評価され、
 最後の\hyper{expression}の値が返されます。
-この形式は代入や入出力のような副作用を逐次実行するために使われます。
+この式型は代入や入出力のような副作用を逐次実行するために使われます。
 
 \begin{scheme}
 (define x 0)
@@ -1353,15 +1353,16 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
 \section{マクロ}
 \label{macrosection}
 
-Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生形式を定義して使うことが出来ます。\mainindex{macro}
-プログラムによって定義された形式は以下の構文を持ちます。
+Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式型を
+定義して使うことが出来ます。\mainindex{macro}
+プログラムによって定義された式型は以下の構文を持ちます。
 \begin{scheme}
 (\hyper{keyword} {\hyper{datum}} ...)%
 \end{scheme}%
-ただし\hyper{keyword}はその形式を唯一に決定する識別子です。
+ただし\hyper{keyword}はその式型を唯一に決定する識別子です。
 この識別子は、そのマクロの{\em 構文キーワード}\index{syntactic keyword}、
 または単に{\em キーワード}\index{keyword}と呼ばれます\index{macro keyword}。
-\hyper{datum}の数およびその構文は、その形式に依存します。
+\hyper{datum}の数およびその構文は、その式型に依存します。
 
 マクロの実体化は、そのマクロの{\em 使用}\index{macro use}と呼びます。
 マクロの使用をよりプリミティブな式にどのように変換するかを指定する規則の集合を、
