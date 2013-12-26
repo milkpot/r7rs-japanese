@@ -2525,7 +2525,8 @@ b \ev "a12de"%
 
 ベクタは {\tt\#(\var{obj} \dotsfoo)} という表記を用いて書きます。
 例えば、0番目の要素に数値のゼロ、1番目の要素にリスト {\cf(2 2 2 2)}、
-2番目の要素に文字列 {\cf "Anna"} を持つベクタは、以下のように書くことが出来ます。
+2番目の要素に文字列 {\cf "Anna"} を持つ長さ3のベクタは、
+以下のように書くことが出来ます。
 
 \begin{scheme}
 \#(0 (2 2 2 2) "Anna")%
@@ -2680,7 +2681,7 @@ c \ev \#(8 2)%
 {\cf (- \var{end} \var{start})} より小さい場合もエラーです。}
 ベクタ\var{from}の\var{start}〜\var{end}の要素を
 ベクタ\var{to}の\var{at}から始まる位置にコピーします。
-文字がコピーされる順番は規定されていません。
+要素がコピーされる順番は規定されていません。
 ただし転送元と転送先が重なっている場合は、
 転送元がいったん一時的なベクタにコピーされ、
 それから転送先にコピーされたかのように動作します。
@@ -2724,48 +2725,48 @@ a \lev \#(1 2 smash smash 5)%
 \end{entry}
 
 
-\section{Bytevectors}
+\section{バイトベクタ}
 \label{bytevectorsection}
 
-\defining{Bytevectors} represent blocks of binary data.
-They are fixed-length sequences of bytes, where
-a \defining{byte} is an exact integer in the range from 0 to 255 inclusive.
-A bytevector is typically more space-efficient than a vector
-containing the same values.
+\defining{バイトベクタ}はバイナリデータの塊を表します。
+これは固定サイズのバイトの並びです。
+\defining{バイト}とは、0〜255(両端を含む)の範囲の正確な整数です。
+バイトベクタは一般的に同じ値を持つベクタよりも高い空間効率を持ちます。
 
-\vest The {\em length} of a bytevector is the number of elements that it
-contains.  This number is a non-negative integer that is fixed when
-the bytevector is created.  The {\em valid indexes}\index{valid indexes} of
-a bytevector are the exact non-negative integers less than the length of the
-bytevector, starting at index zero as with vectors.
+\vest バイトベクタが持つ要素の数をそのバイトベクタの{\em 長さ}と言います。
+この数は非負の整数で、バイトベクタ作成時に固定されます。
+バイトベクタの長さより小さい正確な非負の整数を、そのバイトベクタの
+{\em 有効なインデックス}\index{valid indexes}と言います。
+ベクタ同様にインデックスはゼロから始まります。
 
-Bytevectors are written using the notation {\tt\#u8(\var{byte} \dotsfoo)}.
-For example, a bytevector of length 3 containing the byte 0 in element
-0, the byte 10 in element 1, and the byte 5 in
-element 2 can be written as follows:
+バイトベクタは{\tt\#u8(\var{byte} \dotsfoo)}という表記を用いて書きます。
+例えば、0番目の要素にバイト0、1番目の要素にバイト10、2番目の要素にバイト5を持つ
+長さ3のバイトベクタは、以下のように書くことが出来ます。
 
 \begin{scheme}
 \#u8(0 10 5)%
 \end{scheme}
 
-Bytevector constants are self-evaluating, so they do not need to be quoted in programs.
+バイトベクタ定数はそれ自身に評価されます。
+そのため、プログラム中で引用する必要はありません。
 
 
 \begin{entry}{%
 \proto{bytevector?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is a bytevector.
-Otherwise, \schfalse{} is returned.
+\var{obj}がバイトベクタであれば\schtrue{}を返します。
+そうでなければ\schfalse{}を返します。
 \end{entry}
 
 \begin{entry}{%
 \proto{make-bytevector}{ k}{procedure}
 \rproto{make-bytevector}{ k byte}{procedure}}
 
-The {\cf make-bytevector} procedure returns a newly allocated bytevector of
-length \vr{k}.  If \var{byte} is given, then all elements of the bytevector
-are initialized to \var{byte}, otherwise the contents of each
-element are unspecified.
+{\cf make-bytevector}手続きは長さ\vr{k}の
+新しく割り当てられたバイトベクタを返します。
+\var{byte}が与えられた場合は、
+そのバイトベクタのすべての要素が\var{byte}に初期化されます。
+そうでなければ、各要素の内容は規定されていません。
 
 \begin{scheme}
 (make-bytevector 2 12) \ev \#u8(12 12)%
@@ -2776,7 +2777,7 @@ element are unspecified.
 \begin{entry}{%
 \proto{bytevector}{ \var{byte} \dotsfoo}{procedure}}
 
-Returns a newly allocated bytevector containing its arguments.
+引数を持つ新しく割り当てられたバイトベクタを返します。
 
 \begin{scheme}
 (bytevector 1 3 5 1 3 5)        \ev  \#u8(1 3 5 1 3 5)
@@ -2787,14 +2788,14 @@ Returns a newly allocated bytevector containing its arguments.
 \begin{entry}{%
 \proto{bytevector-length}{ bytevector}{procedure}}
 
-Returns the length of \var{bytevector} in bytes as an exact integer.
+\var{bytevector}のバイト単位の長さを正確な整数として返します。
 \end{entry}
 
 \begin{entry}{%
 \proto{bytevector-u8-ref}{ bytevector k}{procedure}}
 
-\domain{It is an error if \vr{k} is not a valid index of \var{bytevector}.}
-Returns the \var{k}th byte of \var{bytevector}.
+\domain{\vr{k}が\var{bytevector}の有効なインデックスでなければエラーです。}
+\var{bytevector}の\var{k}番目のバイトを返します。
 
 \begin{scheme}
 (bytevector-u8-ref '\#u8(1 1 2 3 5 8 13 21)
@@ -2805,8 +2806,8 @@ Returns the \var{k}th byte of \var{bytevector}.
 \begin{entry}{%
 \proto{bytevector-u8-set!}{ bytevector k byte}{procedure}}
 
-\domain{It is an error if \vr{k} is not a valid index of \var{bytevector}.}
-Stores \var{byte} as the \var{k}th byte of \var{bytevector}.
+\domain{\vr{k}が\var{bytevector}の有効なインデックスでなければエラーです。}
+\var{bytevector}の\var{k}番目のバイトとして\var{byte}を格納します。
 \begin{scheme}
 (let ((bv (bytevector 1 2 3 4)))
   (bytevector-u8-set! bv 1 3)
@@ -2819,8 +2820,8 @@ Stores \var{byte} as the \var{k}th byte of \var{bytevector}.
 \rproto{bytevector-copy}{ bytevector start}{procedure}
 \rproto{bytevector-copy}{ bytevector start end}{procedure}}
 
-Returns a newly allocated bytevector containing the bytes in \var{bytevector}
-between \var{start} and \var{end}.
+\var{bytevector}の\var{start}〜\var{end}のバイトを持つ
+新しく割り当てられたバイトベクタを返します。
 
 \begin{scheme}
 (define a \#u8(1 2 3 4 5))
@@ -2834,16 +2835,17 @@ between \var{start} and \var{end}.
 \rproto{bytevector-copy!}{ to at from start}{procedure}
 \rproto{bytevector-copy!}{ to at from start end}{procedure}}
 
-\domain{It is an error if \var{at} is less than zero or greater than the length of \var{to}.
-It is also an error if {\cf (- (bytevector-length \var{to}) \var{at})}
-is less than {\cf (- \var{end} \var{start})}.}
-Copies the bytes of bytevector \var{from} between \var{start} and \var{end}
-to bytevector \var{to}, starting at \var{at}.  The order in which bytes are
-copied is unspecified, except that if the source and destination overlap,
-copying takes place as if the source is first copied into a temporary
-bytevector and then into the destination.  This can be achieved without
-allocating storage by making sure to copy in the correct direction in
-such circumstances.
+\domain{\var{at}がゼロより小さいか\var{to}の長さよりも大きい場合はエラーです。
+{\cf (- (bytevector-length \var{to}) \var{at})} が
+{\cf (- \var{end} \var{start})} より小さい場合もエラーです。}
+バイトベクタ\var{from}の\var{start}〜\var{end}のバイトを
+バイトベクタ\var{to}の\var{at}から始まる位置にコピーします。
+バイトがコピーされる順番は規定されていません。
+ただし転送元と転送先が重なっている場合は、
+転送元がいったん一時的なバイトベクタにコピーされ、
+それから転送先にコピーされたかのように動作します。
+正しい方向でコピーを行うように気を付ければ、
+そのような状況でも領域を割り当てることなくこれを行うことが出来ます。
 
 \begin{scheme}
 (define a (bytevector 1 2 3 4 5))
@@ -2853,8 +2855,9 @@ b \ev \#u8(10 1 2 40 50)%
 \end{scheme}
 
 \begin{note}
-This procedure appears in \rsixrs, but places the source before the destination,
-contrary to other such procedures in Scheme.
+この手続きは \rsixrs にもありましたが、
+Schemeの他の同様の手続きとは逆に、
+転送元を転送先より先に指定するようになっていました。
 \end{note}
 
 \end{entry}
@@ -2862,8 +2865,8 @@ contrary to other such procedures in Scheme.
 \begin{entry}{%
 \proto{bytevector-append}{ \var{bytevector} \dotsfoo}{procedure}}
 
-Returns a newly allocated bytevector whose elements are the concatenation
-of the elements in the given bytevectors.
+与えられたバイトベクタの要素を連結した要素を持つ
+新しく割り当てられたバイトベクタを返します。
 
 \begin{scheme}
 (bytevector-append \#u8(0 1 2) \#u8(3 4 5)) \lev \#u8(0 1 2 3 4 5)%
@@ -2880,15 +2883,14 @@ of the elements in the given bytevectors.
 \rproto{string->utf8}{ string start} {procedure}
 \rproto{string->utf8}{ string start end} {procedure}}
 
-\domain{It is an error for \var{bytevector} to contain invalid UTF-8 byte sequences.}
-These procedures translate between strings and bytevectors
-that encode those strings using the UTF-8 encoding.
-The {\cf utf8\coerce{}string} procedure decodes the bytes of
-a bytevector between \var{start} and \var{end}
-and returns the corresponding string;
-the {\cf string\coerce{}utf8} procedure encodes the characters of a
-string between \var{start} and \var{end}
-and returns the corresponding bytevector.
+\domain{\var{bytevector}が無効なUTF-8バイトシーケンスを含んでいる場合はエラーです。}
+これらの手続きは、文字列と、
+その文字列をUTF-8エンコーディングでエンコードしたバイトベクタとの間で、
+変換を行います。
+{\cf utf8\coerce{}string}手続きはバイトベクタの\var{start}〜\var{end}のバイトを
+デコードし、対応する文字列を返します。
+{\cf string\coerce{}utf8}悦付きは文字列の\var{start}〜\var{end}の文字を
+エンコードし、対応するバイトベクタを返します。
 
 \begin{scheme}
 (utf8->string \#u8(\#x41)) \ev "A"
