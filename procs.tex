@@ -2464,8 +2464,8 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 \rproto{string-copy!}{ to at from start end}{procedure}}
 
 \domain{\var{at}がゼロより小さいか\var{to}の長さより大きい場合はエラーです。
-{\cf (- (string-length \var{to}) \var{at})} が {\cf (- \var{end} \var{start})}}
-より小さい場合もエラーです。
+{\cf (- (string-length \var{to}) \var{at})} が
+{\cf (- \var{end} \var{start})} より小さい場合もエラーです。}
 文字列\var{from}の\var{start}〜\var{end}間の文字を、
 文字列\var{to}の\var{at}から始まる位置にコピーします。
 文字がコピーされる順番は規定されていません。
