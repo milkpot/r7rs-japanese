@@ -72,9 +72,6 @@
 
 \item \vari{obj}と\varii{obj}が共に空リストである。
 
-\item \vari{obj} and \varii{obj} are pairs, vectors, bytevectors, records,
-or strings that denote the same location in the store
-(section~\ref{storagemodel}).
 \item \vari{obj}と\varii{obj}がペア、ベクタ、バイトベクタ、レコードまたは文字列であり、
 同じ格納場所を指し示す(\ref{storagemodel}~節)。
 
@@ -138,10 +135,6 @@ or strings that denote the same location in the store
 (eqv? \#f 'nil)                  \ev  \schfalse%
 \end{scheme}
 
-The following examples illustrate cases in which the above rules do
-not fully specify the behavior of {\cf eqv?}.  All that can be said
-about such cases is that the value returned by {\cf eqv?} must be a
-boolean.
 前述のルールで{\cf eqv?}の動作が完全には規定されていない状況を以下の例に示します。
 そのような場合において言えることは、
 {\cf eqv?}の返す値がブーリアンでなければならない、ということのみです。
@@ -926,8 +919,6 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 \texttt{truncate}  & $\vr{n_q} = \text{truncate}(\vri{n} / \vrii{n})$ \\
 \end{tabular}
 
-For any of the operators, and for integers \vri{n} and \vrii{n}
-with \vrii{n} not equal to 0,
 いずれの演算子も、またいずれの整数\vri{n}および\vrii{n}(ただし\vrii{n}がゼロでない場合)においても、
 以下が成り立ちます。
 \begin{scheme}
@@ -1783,7 +1774,6 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 \domain{\var{list}の要素が\vr{k}個より少ない場合はエラーです。}
 最初の\vr{k}個の要素を除いて得られる\var{list}の部分リストを返します。
-The {\cf list-tail} procedure could be defined by
 
 \begin{scheme}
 (define list-tail
