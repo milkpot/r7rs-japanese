@@ -2186,9 +2186,9 @@ Unicode大文字小文字ペアの大文字を引数に与えると、その小�
 引数がそのようなペアの大文字でなかった場合は、引数がそのまま返されます。
 
 {\cf char-foldcase}は引数に対して
-Unicode simple case-folding algorithm
+Unicodeの単純な大文字小文字畳み込みアルゴリズム
 を適用し、その結果を返します。
-言語固有の folding は用いられないことに注意してください。
+言語固有の畳み込みは用いられないことに注意してください。
 引数が大文字の場合、結果は小文字であるか、
 その小文字が存在しないまたは処理系がサポートしていない場合は引数がそのまま返されます。
 詳細は UAX \#29~\cite{uax29} (Unicode標準の一部) を参照してください。
@@ -2341,7 +2341,7 @@ Unicode simple case-folding algorithm
 \begin{entry}{%
 \proto{string-ci=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}}
 
-case-folding の後、
+大文字小文字畳み込みの後、
 すべての文字列が同じ長さで、同じ位置に同じ文字を持つ場合、\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
 具体的には、これらの手続きは比較前に引数に{\cf string-foldcase}を適用したかのように動作します。
@@ -2394,11 +2394,11 @@ case-folding の後、
 
 
 これらの手続きは、引数に対して
-Unicode full string uppercasing, lowercasing, case-folding algorithm
+Unicodeの完全な大文字小文字変換アルゴリズム
 を適用し、その結果を返します。
 場合によっては、結果の長さが引数と異なることもあります。
 結果が引数と{\cf string=?}の意味で同じ場合、その引数が返される場合があります。
-ちなみに、言語固有のマッピングおよび folding は用いられません。
+ちなみに、言語固有のマッピングおよび畳み込みは用いられません。
 
 Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定されており、
 通常の小文字形は $\sigma$ ですが、
