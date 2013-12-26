@@ -3348,34 +3348,32 @@ Schemeには{\cf call-with-current-continuation}が存在するため、
 \end{scheme}
 \end{entry}
 
-\section{Exceptions}
+\section{例外}
 \label{exceptionsection}
 
-This section describes Scheme's exception-handling and
-exception-raising procedures.
-For the concept of Scheme exceptions, see section~\ref{errorsituations}.
-See also \ref{guard} for the {\cf guard} syntax.
+この節ではSchemeの例外処理および例外発生手続きについて述べます。
+Schemeの例外の概念については\ref{errorsituations}~節を参照してください。
+{\cf guard}構文については\ref{guard}も参照してください。
 
-\defining{Exception handler}s are one-argument procedures that determine the
-action the program takes when an exceptional situation is signaled.
-The system implicitly maintains a current exception handler
-in the dynamic environment.
+例外的な状況が通知されたときにプログラムが取るアクションを決める
+手続きを\defining{例外ハンドラ}と呼びます。
+例外ハンドラは引数をひとつ取ります。
+システムは現在の例外ハンドラを動的環境で暗黙的に管理しています。
 
-\index{current exception handler}The program raises an exception by
-invoking the current exception handler, passing it an object
-encapsulating information about the exception.  Any procedure
-accepting one argument can serve as an exception handler and any
-object can be used to represent an exception.
+\index{current exception handler}
+例外が発生すると、現在の例外ハンドラが呼ばれ、
+その例外に関する情報をカプセル化したオブジェクトが渡されます。
+引数をひとつ取る手続きなら何でも例外ハンドラとして用いることが出来ます。
+また、どんなオブジェクトでも例外を表すために用いることが出来ます。
 
 \begin{entry}{%
 \proto{with-exception-handler}{ \var{handler} \var{thunk}}{procedure}}
 
-\domain{It is an error if \var{handler} does not accept one argument.
-It is also an error if \var{thunk} does not accept zero arguments.}
-The {\cf with-exception-handler} procedure returns the results of invoking
-\var{thunk}.  \var{Handler} is installed as the current
-exception handler 
-in the dynamic environment used for the invocation of \var{thunk}.
+\domain{\var{handler}が引数をひとつ取らない場合はエラーです。
+また\var{thunk}がゼロ個の引数を取らない場合もエラーです。}
+{\cf with-exception-handler}手続きは\var{thunk}を呼び、その結果を返します。
+\var{thunk}の呼び出しに対して使われる動的環境に
+現在の例外ハンドラとして\var{handler}をインストールします。
 
 \begin{scheme}
 (call-with-current-continuation
@@ -3399,34 +3397,28 @@ in the dynamic environment used for the invocation of \var{thunk}.
  \>{\em prints}  something went wrong%
 \end{scheme}
 
-After printing, the second example then raises another exception.
+2番目の例では、出力の後、別の例外が発生します。
 \end{entry}
 
 \begin{entry}{%
 \proto{raise}{ \var{obj}}{procedure}}
 
-Raises an exception by invoking the current exception
-handler on \var{obj}. The handler is called with the same
-dynamic environment as that of the call to {\cf raise}, except that
-the current exception handler is the one that was in place when the
-handler being called was installed.  If the handler returns, a secondary
-exception is raised in the same dynamic environment as the handler.
-The relationship between \var{obj} and the object raised by
-the secondary exception is unspecified.
+例外を発生させ、\var{obj}に対して現在の例外ハンドラを呼び出します。
+ハンドラは{\cf raise}の呼び出し元と同じ動的環境で呼ばれます。
+ただし、現在の例外ハンドラは、呼ばれるハンドラがインストールされたときのものになります。
+ハンドラから戻った場合、そのハンドラと同じ動的環境で第二の例外が発生します。
+\var{obj}とその第二の例外の関係は規定されていません。
 \end{entry}
 
 \begin{entry}{%
 \proto{raise-continuable}{ \var{obj}}{procedure}}
 
-Raises an exception by invoking the current
-exception handler on \var{obj}. The handler is called with
-the same dynamic environment as the call to
-{\cf raise-continuable}, except that: (1) the current
-exception handler is the one that was in place when the handler being
-called was installed, and (2) if the handler being called returns,
-then it will again become the current exception handler.  If the
-handler returns, the values it returns become the values returned by
-the call to {\cf raise-continuable}.
+例外を発生させ、\var{obj}に対して現在の例外ハンドラを呼び出します。
+ハンドラは{\cf raise-continuable}の呼び出し元と同じ動的環境で呼ばれます。
+ただし、
+(1)現在の例外ハンドラは、呼ばれるハンドラがインストールされたときのものになり、
+(2)呼ばれたハンドラから戻った場合、それが再び現在の例外ハンドラになります。
+ハンドラから戻った場合、その戻り値が{\cf raise-continuable}の戻り値になります。
 \end{entry}
 
 \begin{scheme}
@@ -3448,12 +3440,13 @@ the call to {\cf raise-continuable}.
 \begin{entry}{%
 \proto{error}{ \var{message} \var{obj} $\ldots$}{procedure}}
 
-\domain{\var{Message} should be a string.}
-Raises an exception as if by calling
-{\cf raise} on a newly allocated implementation-defined object which encapsulates
-the information provided by \var{message},
-as well as any \var{obj}s, known as the \defining{irritants}.
-The procedure {\cf error-object?} must return \schtrue{} on such objects.
+\domain{\var{message}は文字列であるべきです。}
+\var{message}および\defining{刺激物}として知られる\var{obj}
+によって与えられた情報をカプセル化した
+処理系定義の新しく割り当てられたオブジェクトに対して、
+{\cf raise}を呼んだかのように例外を発生させます。
+そのオブジェクトに対して手続き{\cf error-object?}を呼ぶと
+\schtrue{}を返さなければなりません。
 
 \begin{scheme}
 (define (null-list? l)
@@ -3470,26 +3463,26 @@ The procedure {\cf error-object?} must return \schtrue{} on such objects.
 \begin{entry}{%
 \proto{error-object?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is an object created by {\cf error} 
-or one of an implementation-defined set of objects.  Otherwise, it returns
-\schfalse.  
-The objects used to signal errors, including those which satisfy the
-predicates {\cf file-error?} and {\cf read-error?}, may or may not
-satisfy {\cf error-object?}.
+\var{obj}が{\cf error}によって作成されたオブジェクトであれば\schtrue{}を返します。
+何らかの処理系定義のオブジェクトに対して\schtrue{}を返す場合もあります。
+そうでなければ\schfalse{}を返します。
+エラーを通知するオブジェクトは、
+述語{\cf file-error?}や{\cf read-error?}を満たすものも含め、
+{\cf error-object?}を満たす場合も満たさない場合もあります。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{error-object-message}{ error-object}{procedure}}
 
-Returns the message encapsulated by \var{error-object}.
+\var{error-object}にカプセル化されているメッセージを返します。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{error-object-irritants}{ error-object}{procedure}}
 
-Returns a list of the irritants encapsulated by \var{error-object}.
+\var{error-object}にカプセル化されている刺激物のリストを返します。
 
 \end{entry}
 
@@ -3497,10 +3490,11 @@ Returns a list of the irritants encapsulated by \var{error-object}.
 \proto{read-error?}{ obj}{procedure}
 \proto{file-error?}{ obj}{procedure}}
 
-Error type predicates.  Returns \schtrue{} if \var{obj} is an
-object raised by the {\cf read} procedure or by the inability to open
-an input or output port on a file, respectively.  Otherwise, it
-returns \schfalse.
+エラー型の述語です。
+それぞれ、\var{obj}が{\cf read}手続きによって発生した場合、
+またはファイルの入出力ポートを開けなかったことによって発生した場合に、
+\schtrue{}を返します。
+そうでなければ\schfalse{}を返します。
 % Not required to be an error object.
 
 \end{entry}
