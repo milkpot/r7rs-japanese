@@ -2012,26 +2012,24 @@ write/read不変則を破る値を持つ処理系もあります。
 \end{entry}
 
 
-\section{Characters}
+\section{文字}
 \label{charactersection}
 
-Characters are objects that represent printed characters such as
-letters and digits.  
-All Scheme implementations must support at least the ASCII character
-repertoire: that is, Unicode characters U+0000 through U+007F.
-Implementations may support any other Unicode characters they see fit,
-and may also support non-Unicode characters as well.
-Except as otherwise specified, the result of applying any of the
-following procedures to a non-Unicode character is implementation-dependent.
+文字はアルファベットや数字のような印刷文字を表現するオブジェクトです。
+Schemeの処理系はすべて、少なくともASCII文字のレパートリーをサポートしていなければなりません。
+つまり、Unicode文字の U+0000 から U+007F までです。
+処理系は、他の好きなUnicode文字をサポートしていても構いませんし、
+同様に非Unicode文字をサポートしていても構いません。
+特に規定のない限り、
+以下の手続きに非Unicode文字を適用した結果は処理系依存です。
 
-Characters are written using the notation \sharpsign\backwhack\hyper{character}
-or \sharpsign\backwhack\hyper{character name} or
-\sharpsign\backwhack{}x\meta{hex scalar value}.
+文字は \sharpsign\backwhack\hyper{character} または
+\sharpsign\backwhack\hyper{character name} または
+\sharpsign\backwhack{}x\meta{hex scalar value} の記法を用いて書かれます。
 
-The following character names must be supported
-by all implementations with the given values.  
-Implementations may add other names
-provided they cannot be interpreted as hex scalar values preceded by {\cf x}.
+以下の文字名は記載された値と共にすべての処理系でサポートされていなければなりません。
+処理系は他の名前を追加しても構いませんが、
+{\cf x}を前置した hex scalar value として解釈可能でない場合に限ります。
 
 $$
 \begin{tabular}{ll}
@@ -2039,53 +2037,56 @@ $$
 {\tt \#\backwhack{}backspace}&; \textrm{U+0008}\\
 {\tt \#\backwhack{}delete}&; \textrm{U+007F}\\
 {\tt \#\backwhack{}escape}&; \textrm{U+001B}\\
-{\tt \#\backwhack{}newline}&; the linefeed character, \textrm{U+000A}\\
-{\tt \#\backwhack{}null}&; the null character, \textrm{U+0000}\\
-{\tt \#\backwhack{}return}&; the return character, \textrm{U+000D}\\
-{\tt \#\backwhack{}space}&; the preferred way to write a space\\
-{\tt \#\backwhack{}tab}&; the tab character, \textrm{U+0009}\\
+{\tt \#\backwhack{}newline}&; 改行文字, \textrm{U+000A}\\
+{\tt \#\backwhack{}null}&; 空文字, \textrm{U+0000}\\
+{\tt \#\backwhack{}return}&; 復帰文字, \textrm{U+000D}\\
+{\tt \#\backwhack{}space}&; 空白を書く望ましい方法\\
+{\tt \#\backwhack{}tab}&; タブ文字, \textrm{U+0009}\\
 \end{tabular}
 $$
 
-Here are some additional examples:
+以下に追加の例を示します。
 
 $$
 \begin{tabular}{ll}
-{\tt \#\backwhack{}a}&; lower case letter\\
-{\tt \#\backwhack{}A}&; upper case letter\\
-{\tt \#\backwhack{}(}&; left parenthesis\\
-{\tt \#\backwhack{} }&; the space character\\
-{\tt \#\backwhack{}x03BB}&; $\lambda$ (if character is supported)\\
-{\tt \#\backwhack{}iota}&; $\iota$ (if character and name are supported)\\
+{\tt \#\backwhack{}a}&; 小文字\\
+{\tt \#\backwhack{}A}&; 大文字\\
+{\tt \#\backwhack{}(}&; 開き括弧\\
+{\tt \#\backwhack{} }&; 空白文字\\
+{\tt \#\backwhack{}x03BB}&; $\lambda$ (その文字がサポートされている場合)\\
+{\tt \#\backwhack{}iota}&; $\iota$ (その文字および名前がサポートされている場合)\\
 \end{tabular}
 $$
 
-Case is significant in \sharpsign\backwhack\hyper{character}, and in
-\sharpsign\backwhack{\rm$\langle$character name$\rangle$},
-but not in {\cf\sharpsign\backwhack{}x}\meta{hex scalar value}.  
-If \hyper{character} in
-\sharpsign\backwhack\hyper{character} is alphabetic, then any character
-immediately following \hyper{character} cannot be one that can appear in an identifier.
-This rule resolves the ambiguous case where, for
-example, the sequence of characters ``{\tt\sharpsign\backwhack space}''
-could be taken to be either a representation of the space character or a
-representation of the character ``{\tt\sharpsign\backwhack s}'' followed
-by a representation of the symbol ``{\tt pace}.''
+\sharpsign\backwhack\hyper{character}
+および
+\sharpsign\backwhack{\rm$\langle$character name$\rangle$}
+では大文字小文字は区別されますが、
+{\cf\sharpsign\backwhack{}x}\meta{hex scalar value}
+では区別されません。
+\sharpsign\backwhack\hyper{character} 内の
+\hyper{character} がアルファベットの場合、
+\hyper{character} の直後の文字が識別子に使われるものであってはなりません。
+この規則は曖昧なケースを解決するためのものです。
+曖昧なケースというのは、例えば
+``{\tt\sharpsign\backwhack space}'' という文字の並びは、
+空白文字の表現とも、
+文字表現 ``{\tt\sharpsign\backwhack s}'' に
+シンボルの表現 ``{\tt pace}'' が続いたものとも取れます。
 
 \todo{Fix}
-Characters written in the \sharpsign\backwhack{} notation are self-evaluating.
-That is, they do not have to be quoted in programs.  
+\sharpsign\backwhack{} 記法で書かれた文字はそれ自身に評価されます。
+つまり、プログラム中で引用する必要はありません。
 
-\vest Some of the procedures that operate on characters ignore the
-difference between upper case and lower case.  The procedures that
-ignore case have \hbox{``{\tt -ci}''} (for ``case
-insensitive'') embedded in their names.
+\vest 文字を操作する手続きには大文字と小文字の違いを無視するものがあります。
+大文字小文字を無視する手続きは名前に
+\hbox{``{\tt -ci}''} (``case insensitive''の略) が入っています。
 
 
 \begin{entry}{%
 \proto{char?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is a character, otherwise returns \schfalse.
+\var{obj}が文字であれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 
 \end{entry}
 
@@ -2099,13 +2100,11 @@ Returns \schtrue{} if \var{obj} is a character, otherwise returns \schfalse.
 
 \label{characterequality}
 
-These procedures return \schtrue{} if 
-the results of passing their arguments to {\cf char\coerce{}integer}
-are respectively
-equal, monotonically increasing, monotonically decreasing,
-monotonically non-decreasing, or monotonically non-increasing.
+これらの手続きは引数を{\cf char\coerce{}integer}に渡した結果がそれぞれ
+等しい、単調に増加する、単調に減少する、単調に減少しない、または単調に増加しない場合に
+\schtrue{}を返します。
 
-These predicates are required to be transitive.
+これらの述語は推移的であることが要求されます。
 
 \end{entry}
 
@@ -2117,12 +2116,10 @@ These predicates are required to be transitive.
 \proto{char-ci<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
 \proto{char-ci>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}}
 
-These procedures are similar to {\cf char=?}\ et cetera, but they treat
-upper case and lower case letters as the same.  For example, {\cf
-(char-ci=?\ \#\backwhack{}A \#\backwhack{}a)} returns \schtrue.
+これらの手続きは{\cf char=?}等に似ていますが、大文字と小文字を同じとみなす点が異なります。
+例えば、 {\cf (char-ci=?\ \#\backwhack{}A \#\backwhack{}a)} は\schtrue{}を返します。
 
-Specifically, these procedures behave as if {\cf char-foldcase} were
-applied to their arguments before they were compared.
+具体的には、これらの手続きは比較前に引数に{\cf char-foldcase}を適用したかのように動作します。
 
 \end{entry}
 
@@ -2134,15 +2131,16 @@ applied to their arguments before they were compared.
 \proto{char-upper-case?}{ letter}{char library procedure}
 \proto{char-lower-case?}{ letter}{char library procedure}}
 
-These procedures return \schtrue{} if their arguments are alphabetic,
-numeric, whitespace, upper case, or lower case characters, respectively,
-otherwise they return \schfalse.  
+これらの手続きは、引数がそれぞれアルファベットである、数字である、ホワイトスペースである、
+大文字である、または小文字である場合に\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
 
-Specifically, they must return \schtrue{} when applied to characters with
-the Unicode properties Alphabetic, Numeric\_Digit, White\_Space, Uppercase, and
-Lowercase respectively, and \schfalse{} when applied to any other Unicode
-characters.  Note that many Unicode characters are alphabetic but neither
-upper nor lower case.
+具体的には、これらはそれぞれUnicodeのプロパティである
+Alphabetic, Numeric\_Digit, White\_Space, Uppercase, Lowercase
+を持つ文字に適用すると\schtrue{}を返し、
+そうでないUnicode文字に適用すると\schfalse{}を返します。
+アルファベットでありながら大文字でも小文字でもない文字が
+Unicodeにはたくさんあることに注意してください。
 
 \end{entry}
 
@@ -2150,9 +2148,8 @@ upper nor lower case.
 \begin{entry}{%
 \proto{digit-value}{ char}{char library procedure}}
 
-This procedure returns the numeric value (0 to 9) of its argument
-if it is a numeric digit (that is, if {\cf char-numeric?} returns \schtrue{}),
-or \schfalse{} on any other character.
+この手続きは引数が数字(つまり{\cf char-numeric?}が\schtrue{}を返す)の場合、
+その引数の数値(0から9)を返し、それ以外の文字に対しては\schfalse{}を返します。
 
 \begin{scheme}
 (digit-value \#\backwhack{}3) \ev 3
@@ -2167,19 +2164,16 @@ or \schfalse{} on any other character.
 \proto{char->integer}{ char}{procedure}
 \proto{integer->char}{ \vr{n}}{procedure}}
 
-Given a Unicode character, 
-{\cf char\coerce{}integer} returns an exact integer 
-between 0 and {\tt \#xD7FF} or 
-between {\tt \#xE000} and {\tt \#x10FFFF} 
-which is equal to the Unicode scalar value of that character.
-Given a non-Unicode character, 
-it returns an exact integer greater than {\tt \#x10FFFF}.  
-This is true independent of whether the implementation uses
-the Unicode representation internally.
+{\cf char\coerce{}integer}にUnicode文字を与えると、
+その文字のUnicodeスカラー値と等しい
+0〜{\tt \#xD7FF}または{\tt \#xE000}〜{\tt \#x10FFFF}の
+正確な整数を返します。
+非Unicode文字を与えると、
+{\tt \#x10FFFF}より大きい正確な整数を返します。
+処理系が内部的にUnicode表現を用いているか否かに関係なく、このように動作します。
 
-Given an exact integer that is the value returned by
-a character when {\cf char\coerce{}integer} is applied to it, {\cf integer\coerce{}char}
-returns that character.
+ある文字を{\cf char\coerce{}integer}に適用して返された正確な整数を
+{\cf integer\coerce{}char}に与えると、その文字を返します。
 \end{entry}
 
 
@@ -2189,28 +2183,26 @@ returns that character.
 \proto{char-foldcase}{ char}{char library procedure}}
 
 
-The {\cf char-upcase} procedure, given an argument that is the
-lowercase part of a Unicode casing pair, returns the uppercase member
-of the pair, provided that both characters are supported by the Scheme
-implementation.  Note that language-sensitive casing pairs are not used.  If the
-argument is not the lowercase member of such a pair, it is returned.
+{\cf char-upcase}手続きは、
+Unicode大文字小文字ペアの小文字を引数に与えると、その大文字を返します。
+ただしそのScheme処理系がその両方の文字をサポートしている場合に限ります。
+言語固有の大文字小文字ペアは用いられないことに注意してください。
+引数がそのようなペアの小文字でなかった場合は、引数がそのまま返されます。
 
-The {\cf char-downcase} procedure, given an argument that is the
-uppercase part of a Unicode casing pair, returns the lowercase member
-of the pair, provided that both characters are supported by the Scheme
-implementation.  Note that language-sensitive casing pairs are not used.  If the
-argument is not the uppercase member of such a pair, it is returned.
+Unicode大文字小文字ペアの大文字を引数に与えると、その小文字を返します。
+ただしそのScheme処理系がその両方の文字をサポートしている場合に限ります。
+言語固有の大文字小文字ペアは用いられないことに注意してください。
+引数がそのようなペアの大文字でなかった場合は、引数がそのまま返されます。
 
-The {\cf char-foldcase} procedure applies the Unicode simple
-case-folding algorithm to its argument and returns the result.  Note that
-language-sensitive folding is not used.  If the argument is an uppercase
-letter, the result will be either a lowercase letter
-or the same as the argument if the lowercase letter does not exist or
-is not supported by the implementation.
-See UAX \#29~\cite{uax29} (part of the Unicode Standard) for details.
+{\cf char-foldcase}は引数に対して
+Unicode simple case-folding algorithm
+を適用し、その結果を返します。
+言語固有の folding は用いられないことに注意してください。
+引数が大文字の場合、結果は小文字であるか、
+その小文字が存在しないまたは処理系がサポートしていない場合は引数がそのまま返されます。
+詳細は UAX \#29~\cite{uax29} (Unicode標準の一部) を参照してください。
 
-Note that many Unicode lowercase characters do not have uppercase
-equivalents.
+対応する大文字がない小文字がUnicodeにはたくさんあることに注意してください。
 
 \end{entry}
 
