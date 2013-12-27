@@ -31,13 +31,16 @@ intro-ebook.tex: intro.tex
 
 r7rs.pdf: $(SOURCES) stdmod.tex
 	platex $<
+	platex $<
 	dvipdfmx $(basename $<).dvi
 
 overview.pdf: overview.tex overview-body.tex
 	platex $<
+	platex $<
 	dvipdfmx $(basename $<).dvi
 
 r7rs-ebook.pdf: r7rs-ebook.tex intro-ebook.tex $(SOURCES) stdmod.tex
+	platex $<
 	platex $<
 	dvipdfmx $(basename $<).dvi
 

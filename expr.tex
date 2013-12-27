@@ -1,8 +1,8 @@
 \chapter{式}
 \label{expressionchapter}
 
-\newcommand{\syntax}{{\em Syntax: }}
-\newcommand{\semantics}{{\em Semantics: }}
+\newcommand{\syntax}{{\em 構文: }}
+\newcommand{\semantics}{{\em 意味論: }}
 
 式型は{\em プリミティブ}または{\em 派生}に分類されます。
 プリミティブ式型は変数や手続き呼び出しなどです。
@@ -481,7 +481,7 @@ else節があれば、その式が評価され、その最後の結果が{\cf ca
 (unless (= 1 1.0)
   (display "1")
   (display "2"))  \ev  \unspecified
- \>{\em and prints nothing}%
+ \>{\em そして何も表示されない}%
 \end{scheme}
 \end{entry}
 
@@ -812,7 +812,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 
 (begin (display "4 plus 1 equals ")
        (display (+ 4 1)))      \ev  \unspecified
- \>{\em and prints}  4 plus 1 equals 5%
+ \>{\em そして} 4 plus 1 equals 5 {\em を表示します}%
 \end{scheme}
 
 \end{entry}
@@ -1016,9 +1016,9 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
                     count
                     (force p)))))
 (define x 5)
-p                     \ev  {\it{}a promise}
+p                     \ev  {\it{}プロミス}
 (force p)             \ev  6
-p                     \ev  {\it{}a promise, still}
+p                     \ev  {\it{}プロミス, 未だに}
 (begin (set! x 10)
        (force p))     \ev  6%
 \end{scheme}
@@ -1039,11 +1039,6 @@ p                     \ev  {\it{}a promise, still}
 (pair? (delay (cons 1 2)))  \ev  \unspecified%
 \end{scheme}
 
-\item Implementations may implement ``implicit forcing,'' where
-the value of a promise is forced by procedures
-that operate only on arguments of a certain type, like {\cf cdr}
-and {\cf *}.  However, procedures that operate uniformly on their
-arguments, like {\cf list}, must not force them.
 \item 処理系は``暗黙のforce''を実装している場合があります。
 {\cf cdr}や{\cf *}のような特定の型の引数にのみ作用する手続きが
 プロミスの値をforceするという機能です。
@@ -1052,7 +1047,7 @@ arguments, like {\cf list}, must not force them.
 \begin{scheme}
 (+ (delay (* 3 7)) 13)  \ev  \unspecified
 (car
-  (list (delay (* 3 7)) 13))    \ev {\it{}a promise}%
+  (list (delay (* 3 7)) 13))    \ev {\it{}プロミス}%
 \end{scheme}
 \end{itemize}
 \end{entry}
@@ -1314,7 +1309,7 @@ quasiquote式は、式の評価中に実行時に構築される任意の構造�
 \subsection{Case-lambda}\unsection
 \label{caselambdasection}
 \begin{entry}{%
-\proto{case-lambda}{ \hyper{clause} \dotsfoo}{case-lambda library syntax}}
+\proto{case-lambda}{ \hyper{clause} \dotsfoo}{case-lambdaライブラリ構文}}
 
 \syntax
 それぞれの\hyper{clause}は
