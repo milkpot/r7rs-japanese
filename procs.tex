@@ -3807,12 +3807,12 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 
-\subsection{Input}
+\subsection{入力}
 \label{inputsection}
 
-If \var{port} is omitted from any input procedure, it defaults to the
-value returned by {\cf (current-input-port)}.
-It is an error to attempt an input operation on a closed port.
+入力手続きで\var{port}が省略された場合、
+{\cf (current-input-port)}の戻り値がデフォルト値となります。
+閉じたポートに対して入力操作を試みることはエラーです。
 
 \noindent \hbox{ }  %???
 \vspace{-5ex}
@@ -3822,24 +3822,23 @@ It is an error to attempt an input operation on a closed port.
 \proto{read}{}{read library procedure}
 \rproto{read}{ port}{read library procedure}}
 
-The {\cf read} procedure converts external representations of Scheme objects into the
-objects themselves.  That is, it is a parser for the non-terminal
-\meta{datum} (see sections~\ref{datum} and
-\ref{listsection}).  It returns the next
-object parsable from the given textual input \var{port}, updating
-\var{port} to point to
-the first character past the end of the external representation of the object.
+{\cf read}手続きはSchemeのオブジェクトの外部表現をそのオブジェクト自身に変換します。
+つまりこれは
+非終端\meta{datum} (\ref{datum}~節および\ref{listsection}~節を参照)
+のパーサーです。
+与えられたテキスト入力ポート\var{port}からパース可能な次のオブジェクトを返し、
+そのオブジェクトの外部表現が終わった次の文字を指すよう\var{port}を更新します。
 
-Implementations may support extended syntax to represent record types or
-other types that do not have datum representations.
+処理系によってはdatumの表現を持たないレコード型や他の型を表現するための
+拡張された構文をサポートしている場合もあります。
 
-\vest If an end of file is encountered in the input before any
-characters are found that can begin an object, then an end-of-file
-object is returned.  The port remains open, and further attempts
-to read will also return an end-of-file object.  If an end of file is
-encountered after the beginning of an object's external representation,
-but the external representation is incomplete and therefore not parsable,
-an error that satisfies {\cf read-error?} is signaled.
+\vest オブジェクトの始まりとなる文字が見つかる前に入力がファイルの終端に達した場合は、
+end-of-fileオブジェクトが返されます。
+ポートは開いたまま維持され、
+さらに読み取りを試みると再びend-of-fileオブジェクトが返されます。
+オブジェクトの外部表現が始まった後で、
+しかし外部表現が不完全なためパース不可能な状態でファイルの終端に達した場合は、
+{\cf read-error?}を満たすエラーが通知されます。
 
 \end{entry}
 
@@ -3847,10 +3846,9 @@ an error that satisfies {\cf read-error?} is signaled.
 \proto{read-char}{}{procedure}
 \rproto{read-char}{ port}{procedure}}
 
-Returns the next character available from the textual input \var{port},
-updating
-the \var{port} to point to the following character.  If no more characters
-are available, an end-of-file object is returned.  
+テキスト入力ポート\var{port}から利用可能な次の文字を返し、
+その次の文字を指すよう\var{port}を更新します。
+それ以上文字が無い場合はend-of-fileオブジェクトが返されます。
 
 \end{entry}
 
@@ -3859,19 +3857,19 @@ are available, an end-of-file object is returned.
 \proto{peek-char}{}{procedure}
 \rproto{peek-char}{ port}{procedure}}
 
-Returns the next character available from the textual input \var{port},
-but {\em without} updating
-the \var{port} to point to the following character.  If no more characters
-are available, an end-of-file object is returned.  
+テキスト入力ポート\var{port}から利用可能な次の文字を返しますが、
+その次の文字を指すよう\var{port}を更新{\em しません}。
+それ以上文字が無い場合はend-of-fileオブジェクトが返されます。
 
 \begin{note}
-The value returned by a call to {\cf peek-char} is the same as the
-value that would have been returned by a call to {\cf read-char} with the
-same \var{port}.  The only difference is that the very next call to
-{\cf read-char} or {\cf peek-char} on that \var{port} will return the
-value returned by the preceding call to {\cf peek-char}.  In particular, a call
-to {\cf peek-char} on an interactive port will hang waiting for input
-whenever a call to {\cf read-char} would have hung.
+{\cf peek-char}の呼び出しから返される値は
+同じ\var{port}に対して{\cf read-char}を呼んだときに返される値と同じです。
+ただし、
+その次その\var{port}に対して{\cf read-char}または{\cf peek-char}を呼んだとき
+先に呼んだ{\cf peek-char}から返された値を返す点だけが異なります。
+ちなみに、対話的なポートに対する{\cf read-char}の呼び出しが
+入力待ちのために停止するような状況では、
+{\cf peek-char}の呼び出しも同様に停止します。
 \end{note}
 
 \end{entry}
@@ -3880,18 +3878,16 @@ whenever a call to {\cf read-char} would have hung.
 \proto{read-line}{}{procedure}
 \rproto{read-line}{ port}{procedure}}
 
-Returns the next line of text available from the textual input
-\var{port}, updating the \var{port} to point to the following character.
-If an end of line is read, a string containing all of the text up to
-(but not including) the end of line is returned, and the port is updated
-to point just past the end of line. If an end of file is encountered
-before any end of line is read, but some characters have been
-read, a string containing those characters is returned. If an end of
-file is encountered before any characters are read, an end-of-file
-object is returned.  For the purpose of this procedure, an end of line
-consists of either a linefeed character, a carriage return character, or a
-sequence of a carriage return character followed by a linefeed character.
-Implementations may also recognize other end of line characters or sequences.
+テキスト入力ポート\var{port}から利用可能な次の行のテキストを返し、
+その後の文字を指すよう\var{port}を更新します。
+行末を読み取った場合は、その行末までのテキストをすべて含む
+(ただし行末自体は含まない) 文字列が返され、
+その行末の直後を指すようポートを更新します。
+行末を読み取る前にファイルの終端に達した場合は、
+end-of-fileオブジェクトが返されます。
+この手続きにおいて、行末とは
+改行文字、復帰文字、または復帰文字に続く改行文字の並びのいずれかです。
+処理系によっては他の行末文字や行末文字の並びを認識する場合もあります。
 
 \end{entry}
 
@@ -3899,17 +3895,19 @@ Implementations may also recognize other end of line characters or sequences.
 \begin{entry}{%
 \proto{eof-object?}{ obj}{procedure}}
 
-Returns \schtrue{} if \var{obj} is an end-of-file object, otherwise returns
-\schfalse.  The precise set of end-of-file objects will vary among
-implementations, but in any case no end-of-file object will ever be an object
-that can be read in using {\cf read}.
+\var{obj}がend-of-fileオブジェクトであれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
+end-of-fileオブジェクトの正確な集合は処理系によって異なりますが、
+いかなる場合でも{\cf read}によって読み取られる可能性のあるオブジェクトが
+end-of-fileオブジェクトとなることはありません。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{eof-object}{}{procedure}}
 
-Returns an end-of-file object, not necessarily unique.
+end-of-fileオブジェクトを返します。
+end-of-fileオブジェクトは唯一であるとは限りません。
 
 \end{entry}
 
@@ -3918,20 +3916,23 @@ Returns an end-of-file object, not necessarily unique.
 \proto{char-ready?}{}{procedure}
 \rproto{char-ready?}{ port}{procedure}}
 
-Returns \schtrue{} if a character is ready on the textual input \var{port} and
-returns \schfalse{} otherwise.  If {\cf char-ready} returns \schtrue{} then
-the next {\cf read-char} operation on the given \var{port} is guaranteed
-not to hang.  If the \var{port} is at end of file then {\cf char-ready?}\
-returns \schtrue.  
+テキスト入力ポート\var{port}において文字の準備が出来た状態であれば
+\schtrue{}を返し、そうでなければ\schfalse{}を返します。
+{\cf char-ready}が\schtrue{}を返した場合、
+その\var{port}に対する次の{\cf read-char}が停止しないことが保証されます。
+\var{port}がファイルの終端である場合、
+{\cf char-ready?}は\schtrue{}を返します。
 
 \begin{rationale}
-The {\cf char-ready?} procedure exists to make it possible for a program to
-accept characters from interactive ports without getting stuck waiting for
-input.  Any input editors associated with such ports must ensure that
-characters whose existence has been asserted by {\cf char-ready?}\ cannot
-be removed from the input.  If {\cf char-ready?}\ were to return \schfalse{} at end of
-file, a port at end of file would be indistinguishable from an interactive
-port that has no ready characters.
+{\cf char-ready?}手続きは
+入力待ちによって停止してしまうことなく対話的なポートから文字を受け取れるようにするために
+存在しています。
+そのようなポートに入力エディタが紐づいている場合は
+{\cf char-ready?}によって存在が明らかになった文字が
+入力から削除されないよう保証しなければなりません。
+仮に{\cf char-ready?}がファイルの終端で\schfalse{}を返した場合、
+ファイルの終端に達したポートとまだ文字が準備出来ていない対話的なポートを
+区別することは出来ないでしょう。
 \end{rationale}
 \end{entry}
 
@@ -3940,12 +3941,12 @@ port that has no ready characters.
 \rproto{read-string}{ k port}{procedure}}
 \label{readstring}
 
-Reads the next \var{k} characters, or as many as are available before the end of file,
-from the textual
-input \var{port} into a newly allocated string in left-to-right order
-and returns the string.
-If no characters are available before the end of file,
-an end-of-file object is returned.
+テキスト入力ポート\var{port}から次の\var{k}個の文字
+またはファイルの終端までに有る限りの文字を読み取り、
+新しく割り当てられた文字列に左から右の順で格納し、
+その文字列を返します。
+ファイルの終端までに利用可能な文字が無い場合は
+end-of-fileオブジェクトが返されます。
 
 \end{entry}
 
@@ -3954,10 +3955,9 @@ an end-of-file object is returned.
 \proto{read-u8}{}{procedure}
 \rproto{read-u8}{ port}{procedure}}
 
-Returns the next byte available from the binary input \var{port},
-updating the \var{port} to point to the following byte.  
-If no more bytes are
-available, an end-of-file object is returned.  
+バイナリ入力ポート\var{port}から利用可能な次のバイトを返し、
+その次のバイトを指すよう\var{port}を更新します。
+それ以上バイトが無い場合はend-of-fileオブジェクトが返されます。
 
 \end{entry}
 
@@ -3965,9 +3965,9 @@ available, an end-of-file object is returned.
 \proto{peek-u8}{}{procedure}
 \rproto{peek-u8}{ port}{procedure}}
 
-Returns the next byte available from the binary input \var{port},
-but {\em without} updating the \var{port} to point to the following
-byte.  If no more bytes are available, an end-of-file object is returned.  
+バイナリ入力ポート\var{port}から利用可能な次のバイトを返しますが、
+その次のバイトを指すよう\var{port}を更新{\em しません}。
+それ以上バイトが無い場合はend-of-fileオブジェクトが返されます。
 
 \end{entry}
 
@@ -3975,11 +3975,13 @@ byte.  If no more bytes are available, an end-of-file object is returned.
 \proto{u8-ready?}{}{procedure}
 \rproto{u8-ready?}{ port}{procedure}}
 
-Returns \schtrue{} if a byte is ready on the binary input \var{port}
-and returns \schfalse{} otherwise.  If {\cf u8-ready?} returns
-\schtrue{} then the next {\cf read-u8} operation on the given
-\var{port} is guaranteed not to hang.  If the \var{port} is at end of
-file then {\cf u8-ready?}\ returns \schtrue.  
+
+バイナリ入力ポート\var{port}においてバイトの準備が出来た状態であれば
+\schtrue{}を返し、そうでなければ\schfalse{}を返します。
+{\cf u8-ready}が\schtrue{}を返した場合、
+その\var{port}に対する次の{\cf read-u8}が停止しないことが保証されます。
+\var{port}がファイルの終端である場合、
+{\cf u8-ready?}は\schtrue{}を返します。
 
 \end{entry}
 
@@ -3987,12 +3989,12 @@ file then {\cf u8-ready?}\ returns \schtrue.
 \proto{read-bytevector}{ k}{procedure}
 \rproto{read-bytevector}{ k port}{procedure}}
 
-Reads the next \var{k} bytes, or as many as are available before the end of file,
-from the binary
-input \var{port} into a newly allocated bytevector in left-to-right order
-and returns the bytevector.
-If no bytes are available before the end of file,
-an end-of-file object is returned.
+バイナリ入力ポート\var{port}から次の\var{k}個のバイト
+またはファイルの終端までに有る限りのバイトを読み取り、
+新しく割り当てられたバイトベクタに左から右の順で格納し、
+そのバイトベクタを返します。
+ファイルの終端までに利用可能なバイトが無い場合は
+end-of-fileオブジェクトが返されます。
 
 \end{entry}
 
@@ -4002,15 +4004,14 @@ an end-of-file object is returned.
 \rproto{read-bytevector!}{ bytevector port start}{procedure}
 \rproto{read-bytevector!}{ bytevector port start end}{procedure}}
 
-Reads the next $end - start$ bytes, or as many as are available
-before the end of file,
-from the binary
-input \var{port} into \var{bytevector} in left-to-right order
-beginning at the \var{start} position.  If \var{end} is not supplied,
-reads until the end of \var{bytevector} has been reached.  If
-\var{start} is not supplied, reads beginning at position 0.
-Returns the number of bytes read.
-If no bytes are available, an end-of-file object is returned.
+バイナリ入力ポート\var{port}から次の $end - start$ 個のバイト、
+またはファイルの終端までに有る限りのバイトを読み取り、
+\var{bytevector}の\var{start}から始まる位置に左から右の順で格納します。
+\var{end}が指定されなかった場合は、
+\var{bytevector}の終わりに達するまで読み取られます。
+\var{start}が指定されなかった場合は、0から始まる位置に読み取られます。
+読み取ったバイト数を返します。
+バイトが無い場合はend-of-fileオブジェクトが返されます。
 
 \end{entry}
 
