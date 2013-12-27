@@ -1206,7 +1206,7 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
 \end{entry}
 
 
-\subsection{準引用}\unsection
+\subsection{quasiquote}\unsection
 \label{quasiquotesection}
 
 \begin{entry}{%
@@ -1224,7 +1224,7 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
 \backquote\hyper{qq template}を評価した結果は
 \singlequote\hyper{qq template}を評価した結果と等価です。
 しかし、\hyper{qq template}内にコンマ\mainschindex{,}がある場合、
-コンマに続く式は評価(``反引用'')され、その結果がそのコンマと式の代わりにその構造内に挿入されます。
+コンマに続く式は評価(``unquote'')され、その結果がそのコンマと式の代わりにその構造内に挿入されます。
 コンマにホワイトスペースを挟まずアットマーク(\atsign)\mainschindex{,@}が続いた場合、
 後続の式はリストに評価できなければエラーであり、
 そのリストの開き括弧および閉じ括弧は``剥ぎ取られ''、
@@ -1232,7 +1232,7 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
 通常、コンマ+アットマークはリストおよびベクタの\hyper{qq template}内にのみ現れます。
 
 \begin{note}
-{\cf @}で始まる識別子を反引用したい場合は、
+{\cf @}で始まる識別子をunquoteしたい場合は、
 明示的に{\cf unquote}を使うか、
 コンマ+アットマークの並びと一致するのを避けるためにコンマの後にホワイトスペースを置く必要があります。
 \end{note}
@@ -1252,10 +1252,10 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
           \lev  (list foo bar baz)%
 \end{scheme}
 
-準引用式はネストできます。
-置換は最も外側の準引用と同じネストレベルに現れた反引用部分にのみ行われます。
-ネストレベルは準引用の内側に入るごとにひとつ上がり、
-反引用の内側に入るごとにひとつ下がります。
+quasiquote式はネストできます。
+置換は最も外側のquasiquoteと同じネストレベルに現れたunquote部分にのみ行われます。
+ネストレベルはquasiquoteの内側に入るごとにひとつ上がり、
+unquoteの内側に入るごとにひとつ下がります。
 
 \begin{scheme}
 `(a `(b ,(+ 1 2) ,(foo ,(+ 1 3) d) e) f) %
@@ -1266,7 +1266,7 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
           \lev  (a `(b ,x ,'y d) e)%
 \end{scheme}
 
-準引用式は、式の評価中に実行時に構築される任意の構造について、
+quasiquote式は、式の評価中に実行時に構築される任意の構造について、
 新しく割り当てられた可変オブジェクトを返す場合もあれば、リテラル構造を返す場合もあります。
 再構築する必要のない部分は常にリテラルです。
 つまり、
