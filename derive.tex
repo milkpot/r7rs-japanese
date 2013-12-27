@@ -1,11 +1,11 @@
-\section{Derived expression types}
+\section{派生式型}
 \label{derivedsection}
 
-This section gives syntax definitions for the derived expression types in
-terms of the primitive expression types (literal, variable, call, {\cf lambda},
-{\cf if}, and {\cf set!}), except for {\cf quasiquote}.
+この節では
+プリミティブ式型(リテラル、変数、呼び出し、{\cf lambda}、{\cf if}および{\cf set!})
+を用いた{\cf quasiquote}以外の派生式型の構文定義を掲載しています。
 
-Conditional derived syntax types:
+条件分岐の派生式型:
 
 \begin{scheme}
 (define-syntax \ide{cond}
@@ -105,7 +105,7 @@ Conditional derived syntax types:
          (begin result1 result2 ...)))))
 \end{scheme}
 
-Binding constructs:
+束縛構文:
 
 \begin{scheme}
 (define-syntax \ide{let}
@@ -132,13 +132,12 @@ Binding constructs:
          body1 body2 ...)))))
 \end{scheme}
 
-The following {\cf letrec} macro uses the symbol {\cf <undefined>}
-in place of an expression which returns something that when stored in
-a location makes it an error to try to obtain the value stored in the
-location.  (No such expression is defined in Scheme.)
-A trick is used to generate the temporary names needed to avoid
-specifying the order in which the values are evaluated.
-This could also be accomplished by using an auxiliary macro.
+以下の{\cf letrec}マクロはシンボル{\cf <undefined>}を使っています。
+これは格納した場所から値を取り出そうとするとエラーになる何らかのものを返す式です。
+(Schemeではそのような式は定義されていません。)
+値を評価する順序を規定することを避けるために必要な
+一時的な名前を生成するためにトリックを用いています。
+これは補助マクロを使うことによっても成し遂げられます。
 
 \begin{scheme}
 (define-syntax \ide{letrec}
@@ -279,10 +278,10 @@ This could also be accomplished by using an auxiliary macro.
      ((lambda () exp ...)))))
 \end{scheme}
 
-The following alternative expansion for {\cf begin} does not make use of
-the ability to write more than one expression in the body of a lambda
-expression.  In any case, note that these rules apply only if the body
-of the {\cf begin} contains no definitions.
+{\cf begin}に対する以下の代替展開形は
+ラムダ式の本体に2つ以上の式を書くことが出来る能力を用いていません。
+いずれにせよ、これらのルールは
+{\cf begin}の本体に定義が含まれていない場合にのみ適用することに注意してください。
 
 \begin{scheme}
 (define-syntax begin
@@ -296,11 +295,9 @@ of the {\cf begin} contains no definitions.
          (begin exp2 ...))))))
 \end{scheme}
 
-The following syntax definition
-of {\cf do} uses a trick to expand the variable clauses.
-As with {\cf letrec} above, an auxiliary macro would also work.
-The expression {\cf (if \#f \#f)} is used to obtain an unspecific
-value.
+以下の{\cf do}の構文定義は変数の節を展開するためにトリックを用いています。
+前述の{\cf letrec}と同様に、補助マクロを用いることも出来ます。
+規定されていない値を取得するために式 {\cf (if \#f \#f)} を用いています。
 
 \begin{scheme}
 (define-syntax \ide{do}
@@ -327,20 +324,20 @@ value.
      y)))
 \end{scheme}
 
-Here is a possible implementation of {\cf delay}, {\cf force} and {\cf
-  delay-force}.  We define the expression
+以下に{\cf delay}、{\cf force}および{\cf delay-force}の実装例を示します。
+以下の式
 
 \begin{scheme}
 (delay-force \hyper{expression})%
 \end{scheme}
 
-to have the same meaning as the procedure call
+が以下の手続き呼び出し
 
 \begin{scheme}
 (make-promise \schfalse{} (lambda () \hyper{expression}))%
 \end{scheme}
 
-as follows
+と同じ意味を持つようにするため、以下のように定義します。
 
 \begin{scheme}
 (define-syntax delay-force
@@ -349,19 +346,19 @@ as follows
      (make-promise \schfalse{} (lambda () expression)))))%
 \end{scheme}
 
-and we define the expression
+また、以下の式
 
 \begin{scheme}
 (delay \hyper{expression})%
 \end{scheme}
 
-to have the same meaning as:
+が以下の式
 
 \begin{scheme}
 (delay-force (make-promise \schtrue{} \hyper{expression}))%
 \end{scheme}
 
-as follows
+と同じ意味を持つようにするため、以下のように定義します。
 
 \begin{scheme}
 (define-syntax delay
@@ -370,7 +367,7 @@ as follows
      (delay-force (make-promise \schtrue{} expression)))))%
 \end{scheme}
 
-where {\cf make-promise} is defined as follows:
+ただし{\cf make-promise}は以下のように定義されます。
 
 \begin{scheme}
 (define make-promise
@@ -378,10 +375,11 @@ where {\cf make-promise} is defined as follows:
     (list (cons done? proc))))%
 \end{scheme}
 
-Finally, we define {\cf force} to call the procedure expressions in
-promises iteratively using a trampoline technique following
-\cite{srfi45} until a non-lazy result (i.e. a value created by {\cf
-  delay} instead of {\cf delay-force}) is returned, as follows:
+最後に、
+\cite{srfi45}に倣ってトランポリンテクニックを用い、
+遅延されていない結果 (つまり{\cf delay-force}でなく{\cf delay}で作成された値)
+が返されるまでプロミス内の手続き式を繰り返し呼ぶよう{\cf force}を定義します。
+以下のようになります。
 
 \begin{scheme}
 (define (force promise)
@@ -393,7 +391,7 @@ promises iteratively using a trampoline technique following
         (force promise))))%
 \end{scheme}
 
-with the following promise accessors:
+プロミスの各アクセサは以下のようになります。
 
 \begin{scheme}
 (define promise-done?
@@ -407,11 +405,11 @@ with the following promise accessors:
     (set-car! new (car old))))%
 \end{scheme}
 
-The following implementation of {\cf make-parameter} and {\cf
-parameterize} is suitable for an implementation with no threads.
-Parameter objects are implemented here as procedures, using two
-arbitrary unique objects \texttt{<param-set!>} and
-\texttt{<param-convert>}:
+以下の{\cf make-parameter}および{\cf parameterize}の実装は
+スレッドをサポートしていない処理系用です。
+ここでは適当な2つの唯一オブジェクト
+\texttt{<param-set!>}および\texttt{<param-convert>}
+を用い、手続きとしてパラメータオブジェクトを実装しています。
 
 \begin{scheme}
 (define (make-parameter init . o)
@@ -430,8 +428,8 @@ arbitrary unique objects \texttt{<param-set!>} and
         (error "bad parameter syntax"))))))%
 \end{scheme}
 
-Then {\cf parameterize} uses {\cf dynamic-wind} to dynamically rebind
-the associated value:
+{\cf parameterize}は{\cf dynamic-wind}を用いて
+紐付けられた値を再束縛しています。
 
 \begin{scheme}
 (define-syntax parameterize
@@ -462,8 +460,7 @@ the associated value:
                    body))))
 \end{scheme}
 
-The following implementation of {\cf guard} depends on an auxiliary
-macro, here called {\cf guard-aux}.
+以下の{\cf guard}の実装は{\cf guard-aux}と呼ばれる補助マクロに依存しています。
 
 \begin{scheme}
 (define-syntax guard
@@ -553,9 +550,8 @@ macro, here called {\cf guard-aux}.
 
 \end{scheme}
 
-This definition of {\cf cond-expand} does not interact with the 
-{\cf features} procedure.  It requires that each feature identifier provided
-by the implementation be explicitly mentioned.
+この{\cf cond-expand}の定義は{\cf features}手続きと協調していません。
+処理系が用意している各々の特徴識別子を明示的に記述する必要があります。
 
 \begin{scheme}
 (define-syntax cond-expand
