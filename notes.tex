@@ -1,325 +1,325 @@
-\extrapart{Language changes}
+\extrapart{言語の変更点}
 
 
-\subsection*{Incompatibilities with \rfivers}
+\subsection*{\rfivers との非互換点}
 \label{incompatibilities}
 
-This section enumerates the incompatibilities between this report and
-the ``Revised$^5$ report''~\cite{R5RS}.
+この節ではこの報告書と``報告書改$^5$''~\cite{R5RS}の間の非互換点を列挙します。
 
-{\em This list is not authoritative, but is believed to be correct and complete.}
+{\em この一覧は信頼できませんが、正確かつ完全であると信じられています。}
 
 
 \begin{itemize}
 
-\item Case sensitivity is now the default in symbols and character names.
-This means that code written under the assumption that symbols could be
-written {\cf FOO} or {\cf Foo} in some contexts and {\cf foo} in other contexts
-can either be changed, be marked with the new {\cf \#!fold-case} directive,
-or be included in a library using the {\cf include-ci} library declaration.
-All standard identifiers are entirely in lower case.
+\item シンボルおよび文字名の大文字小文字の区別はデフォルトになりました。
+つまりシンボルをある文脈では{\cf FOO}または{\cf Foo}と書き
+別の文脈では{\cf foo}と書くことが出来るという仮定の元で書かれたコードは
+変更する必要があるか、新しい{\cf \#!fold-case}指令で印をつけるか、
+{\cf include-ci}ライブラリ宣言を使ってライブラリにインクルードする必要がある
+ということです。
+標準の識別子はすべて完全に小文字です。
 
-\item The {\cf syntax-rules} construct now recognizes {\em \_} (underscore) 
-as a wildcard, which means it cannot be used as a syntax variable.
-It can still be used as a literal.
+\item {\cf syntax-rules}構文は{\em \_}(アンダースコア)を
+ワイルドカードとして認識するようになりました。
+つまりこれを構文変数として使うことは出来なくなったということです。
+リテラルとしては未だ使うことが出来ます。
 
-\item The \rfivers\ procedures {\cf exact->inexact} and {\cf inexact->exact}
-have been renamed to their \rsixrs\ names, {\cf inexact} and {\cf exact},
-respectively, as these names are shorter and more correct.
-The former names are still available in the \rfivers\ library.
+\item \rfivers の手続き{\cf exact->inexact}および{\cf inexact->exact}は
+それぞれ\rsixrs での名前{\cf inexact}および{\cf exact}に改名されました。
+これらの名前はより短く、より正確です。
+前者の名前は \rfivers ライブラリで未だ利用可能です。
 
-\item The guarantee that string comparison (with {\cf string<?} and the
-related predicates) is a lexicographical extension of character comparison
-(with {\cf char<?} and the related predicates) has been removed.  
+\item 文字列の比較({\cf string<?}およびそれ関連の述語による)は
+文字の比較({\cf char<?}およびそれ関連の述語による)の辞書的な拡張であるという
+保証は無くなりました。
 
-\item Support for the \# character in numeric literals is no longer required.
+\item 数値リテラル中の\#文字のサポートはもはや要求されなくなりました。
 
-\item Support for the letters {\cf s}, {\cf f}, {\cf d}, and {\cf l}
-as exponent markers is no longer required.
+\item 指数マーカーとしての文字{\cf s}、{\cf f}、{\cf d}、{\cf l}
+のサポートはもはや要求されなくなりました。
 
-\item Implementations of {\cf string\coerce{}number} are no longer permitted
-to return \schfalse{} when the argument contains an explicit radix prefix,
-and must be compatible with {\cf read} and the syntax of numbers in programs.
+\item {\cf string\coerce{}number}の実装は引数が明示的な基数接頭辞を持っているときに
+\schfalse{}を返すことがもはや認められなくなりました。
+{\cf read}およびプログラム中の数値構文と互換でなければなりません。
 
-\item The procedures {\cf transcript-on} and {\cf transcript-off} have been removed.
+\item 手続き{\cf transcript-on}および{\cf transcript-off}は削除されました。
 
 \end{itemize}
 
-\subsection*{Other language changes since \rfivers}
+\subsection*{それ以外の\rfivers 以降の言語の変更点}
 \label{differences}
-This section enumerates the additional differences between this report and
-the ``Revised$^5$ report''~\cite{R5RS}.
+この節ではこの報告書と``報告書改$^5$''~\cite{R5RS}の間の
+さらなる違いを列挙しています。
 
-{\em This list is not authoritative, but is believed to be correct and complete.}
+{\em この一覧は信頼できませんが、正確かつ完全であると信じられています。}
 
 \begin{itemize}
 
-\item Various minor ambiguities and unclarities in \rfivers\ have been cleaned up.
+\item \rfivers における様々なマイナーな曖昧な点や不明確な点が整理されました。
 
-\item Libraries have been added as a new program structure to improve
-encapsulation and sharing of code.  Some existing and new identifiers
-have been factored out into separate libraries.
-Libraries can be imported into other libraries or main programs, with
-controlled exposure and renaming of identifiers.
-The contents of a library can be made conditional on the features of
-the implementation on which it is to be used.
-There is an \rfivers\ compatibility library.
+\item コードのカプセル化と共有を向上させるための新しいプログラム構造として
+ライブラリが追加されました。
+既存の識別子および新規の識別子は分離されたいくつかのライブラリに編成されました。
+ライブラリは識別子のエクスポートや名前変更を制御しつつ
+他のライブラリやメインプログラムにインポートされます。
+ライブラリの内容は使われる処理系の特徴に応じた条件分岐が出来るようになりました。
+\rfivers 互換ライブラリがあります。
 
-\item The expressions types {\cf include}, {\cf include-ci}, and {\cf cond-expand}
-have been added to the base library; they have the same semantics as the
-corresponding library declarations.
+\item 式型{\cf include}、{\cf include-ci}および{\cf cond-expand}が
+baseライブラリに追加されました。
+これらは対応するライブラリ宣言と同じ意味論を持っています。
 
-\item Exceptions can now be signaled explicitly with {\cf raise},
-{\cf raise-continuable} or {\cf error}, and can be handled with {\cf
-with-exception-handler} and the {\cf guard} syntax.
-Any object can specify an error condition; the implementation-defined
-conditions signaled by {\cf error} have a predicate to detect them and accessor functions to
-retrieve the arguments passed to {\cf error}.
-Conditions signaled by {\cf read} and by file-related procedures
-also have predicates to detect them.
+\item {\cf raise}、{\cf raise-continuable}あるいは{\cf error}を用いて
+明示的に例外を通知出来るようになり、
+{\cf with-exception-handler}および{\cf guard}構文を用いて
+例外を処理出来るようになりました。
+任意のオブジェクトがエラー状況を規定できます。
+{\cf error}によって通知される処理系定義の状況には
+それを検出するための述語および{\cf error}に渡された引数を取得するための
+アクセサ関数があります。
+{\cf read}およびファイル関連の手続きによって通知される状況にも
+それらを検出するための述語があります。
 
-\item New disjoint types supporting access to multiple fields can be
-generated with the {\cf define-record-type} of SRFI 9~\cite{srfi9}
+\item SRFI 9~\cite{srfi9}の{\cf define-record-type}を用いて
+複数のフィールドへのアクセスをサポートする新しい独立した型を
+生成出来るようになりました。
 
-\item Parameter objects can be created with {\cf make-parameter}, and
-dynamically rebound with {\cf parameterize}.
-The procedures {\cf current-input-port} and {\cf current-output-port} are now
-parameter objects, as is the newly introduced {\cf current-error-port}.
+\item {\cf make-parameter}を用いてパラメータオブジェクトを作成し、
+{\cf parameterize}を用いてそれを動的に再束縛出来ます。
+手続き{\cf current-input-port}および{\cf current-output-port}は
+パラメータオブジェクトになりました。
+新しく導入された{\cf current-error-port}も同様です。
 
-\item Support for promises has been enhanced based on SRFI 45~\cite{srfi45}.
+\item プロミスに対するサポートが
+SRFI 45~\cite{srfi45}に基づいて強化されました。
 
-\item {\em Bytevectors}, vectors of exact integers in the range
-from 0 to 255 inclusive, have been added as a new disjoint type.
-A subset of the vector procedures is provided.  Bytevectors
-can be converted to and from strings in accordance with the UTF-8 character encoding.
-Bytevectors have a datum representation and evaluate to themselves.
+\item {\em バイトベクタ}と呼ばれる0〜255の正確整数のベクタが
+新しい独立した型として追加されました。
+ベクタの手続きのサブセットが用意されています。
+UTF-8文字エンコーディングに従ってバイトベクタと文字列を相互に変換出来ます。
+バイトベクタにはdatum表現があり、それ自身に評価されます。
 
-\item Vector constants evaluate to themselves.
+\item ベクタ定数はそれ自身に評価されます。
 
-\item The procedure {\cf read-line} is provided to make line-oriented textual input
-simpler.
+\item 手続き{\cf read-line}が用意され、行指向のテキスト入力が簡単になりました。
 
-\item The procedure {\cf flush-output-port} is provided to allow minimal
-control of output port buffering.
+\item 手続き{\cf flush-output-port}が用意され、
+出力ポートのバッファリングに対する最低限の制御が出来るようになりました。
 
-\item {\em Ports} can now be designated as {\em textual} or {\em
-binary} ports, with new procedures for reading and writing binary
-data.
-The new predicates {\cf input-port-open?} and {\cf output-port-open?} return whether a port is open or closed.
-The new procedure {\cf close-port} now closes a port; if the port
-has both input and output sides, both are closed.
+\item {\em ポート}は、
+{\em テキスト}ポートまたは{\em バイナリ}ポートとして指定されるようになり、
+バイナリデータを読み書きするための新しい手続きが用意されました。
+ポートが開いているか閉じられたかを返す
+新しい述語{\cf input-port-open?}および{\cf output-port-open?}が追加されました。
+ポートが入力と出力を両方兼ねている場合にその両方を閉じる新しい手続き
+{\cf close-port}が追加されました。
 
-\item {\em String ports} have been added as a way to read and write
-characters to and from strings, and {\em bytevector ports} to read
-and write bytes to and from bytevectors.
+\item 文字列に対して文字の読み書きを行う{\em 文字列ポート}と
+バイトベクタに対してバイトの読み書きを行う{\em バイトベクタポート}が追加されました。
 
-\item There are now I/O procedures specific to strings and bytevectors.
+\item 文字列およびバイトベクタに固有の入出力手続きがあります。
 
-\item The {\cf write} procedure now generates datum labels when applied to
-circular objects.  The new procedure {\cf write-simple} never generates
-labels; {\cf write-shared} generates labels for all shared and circular
-structure.
-The {\cf display} procedure must not loop on circular objects.
+\item {\cf write}手続きを循環オブジェクトに適用すると
+datumラベルを生成するようになりました。
+ラベルを生成しない新しい手続き{\cf write-simple}と
+すべての共有構造および循環構造に対してラベルを生成する新しい手続き
+{\cf write-shared}が追加されました。
+{\cf display}手続きは循環オブジェクトに対してループしてはならなくなりました。
 
-\item The \rsixrs\ procedure {\cf eof-object} has been added.
-Eof-objects are now required to be a disjoint type.
+\item \rsixrs の手続き{\cf eof-object}が追加されました。
+EOFオブジェクトは独立した型であることが要求されるようになりました。
 
-\item Syntax definitions are now allowed wherever variable definitions are.
+\item 変数定義が出来る場所ならどこでも構文定義が出来るようになりました。
 
-\item The {\cf syntax-rules} construct now allows
-the ellipsis symbol to be specified explicitly instead of the default
-{\cf ...}, allows template escapes with an ellipsis-prefixed list, and
-allows tail patterns to follow an ellipsis pattern.
+\item {\cf syntax-rules}構文は省略記号のシンボルを
+デフォルトの{\cf ...}の代わりに明示的に指定出来るようになり、
+省略記号を接頭したリストによりテンプレートをエスケープ出来るようになり、
+また省略記号のパターンに続く末尾のパターンを指定出来るようになりました。
 
-\item The {\cf syntax-error} syntax has been added as a way to signal immediate
-and more informative errors when a macro is expanded.
+\item マクロ展開時に即座により詳細なエラーを通知する手段として
+{\cf syntax-error}構文が追加されました。
 
-\item The {\cf letrec*} binding construct has been added, and internal {\cf define} 
-is specified in terms of it.
+\item {\cf letrec*}束縛構文が追加され、
+内部{\cf define}がそれを基に規定されるようになりました。
 
-\item Support for capturing multiple values has been enhanced with {\cf
-define-values}, {\cf let-values}, and {\cf let*-values}.
-Standard expression types which contain a sequence of expressions now
-permit passing zero or more than one value to the continuations of all
-non-final expressions of the sequence.
+\item {\cf define-values}、{\cf let-values}および{\cf let*-values}
+によって多値の捕捉に対するサポートが強化されました。
+式の並びを持つ標準の式型は
+その並びの最後以外のすべての式の継続にゼロ個または2個以上の値を
+渡すことが出来るようになりました。
 
-\item The {\cf case} conditional now supports {\tt =>} syntax
-analogous to {\cf cond} not only in regular clauses but in the {\cf
-else} clause as well.
+\item {\cf case}条件分岐で{\tt =>}構文がサポートされるようになりました。
+これは{\cf cond}の真似ですが、通常の節だけでなく{\cf else}節でも同様に使用できます。
 
-\item To support dispatching on the number of arguments passed to a
-procedure, {\cf case-lambda} has been added in its own library.
+\item 手続きに渡された引数の個数に基づいて分岐する
+{\cf case-lambda}がそれ専用のライブラリに追加されました。
 
-\item The convenience conditionals {\cf when} and {\cf unless} have been added.
+\item 便利な条件分岐{\cf when}および{\cf unless}が追加されました。
 
-\item The behavior of {\cf eqv?} on inexact numbers now conforms to the
-\rsixrs\ definition.
+\item 不正確な数値に対する{\cf eqv?}の動作が
+\rsixrs の定義に沿ったものになりました。
 
-\item When applied to procedures, {\cf eq?} and {\cf eqv?} are permitted to
-return different answers.
+\item {\cf eq?}および{\cf eqv?}を手続きに適用した場合に
+異なる答えを返すことが許されるようになりました。
 
-\item The \rsixrs\ procedures {\cf boolean=?} and {\cf symbol=?} have been added.
+\item \rsixrs の手続き{\cf boolean=?}および{\cf symbol=?}が追加されました。
 
-\item Positive infinity, negative infinity, NaN, and negative inexact zero have been added
-to the numeric tower as inexact values with the written
-representations {\tt +inf.0}, {\tt -inf.0}, {\tt +nan.0}, and {\cf -0.0}
-respectively.  Support for them is not required.
-The representation {\tt -nan.0} is synonymous with {\tt +nan.0}.
+\item 正の無限大、負の無限大、NaNおよび負の不正確なゼロが不正確な値として数塔に追加されました。
+それぞれ{\tt +inf.0}、{\tt -inf.0}、{\tt +nan.0}、{\cf -0.0}と書き表されます。
+これらのサポートは要求されません。
+表現{\tt -nan.0}は{\tt +nan.0}と同義です。
 
-\item The {\cf log} procedure now accepts a second argument specifying
-the logarithm base.
+\item {\cf log}手続きは対数の底を指定する第2引数を取るようになりました。
 
-\item The procedures {\cf map} and {\cf for-each} are now required to terminate on
-the shortest argument list.
+\item 手続き{\cf map}および{\cf for-each}は
+最も短いリストで停止することが要求されるようになりました。
 
-\item The procedures {\cf member} and {\cf assoc} now take an optional third argument
-specifying the equality predicate to be used.
+\item 手続き{\cf member}および{\cf assoc}は
+使用するべき等価述語を指定するオプションの第3引数を取るようになりました。
 
-\item The numeric procedures {\cf finite?}, {\cf infinite?}, {\cf nan?},
-{\cf exact-integer?}, {\cf square}, and {\cf exact-integer-sqrt}
-have been added.
+\item 数値手続き{\cf finite?}、{\cf infinite?}、{\cf nan?}、
+{\cf exact-integer?}、{\cf square}および{\cf exact-integer-sqrt}
+が追加されました。
 
-\item The {\cf -} and {\cf /} procedures
-and the character and string comparison
-predicates are now required to support more than two arguments.
+\item {\cf -}、{\cf /}手続きおよび文字比較、文字列比較の述語は
+3つ以上の引数のサポートが要求されるようになりました。
 
-\item The forms \sharptrue{} and \sharpfalse{} are now supported
-as well as \schtrue{} and \schfalse{}.
+\item 形式\sharptrue{}および\sharpfalse{}が
+\schtrue{}および\schfalse{}と同様にサポートされるようになりました。
 
-\item The procedures {\cf make-list}, {\cf list-copy}, {\cf list-set!},
+\item 手続き{\cf make-list}, {\cf list-copy}, {\cf list-set!},
 {\cf string-map}, {\cf string-for-each}, {\cf string->vector}, 
 {\cf vector-append},
 {\cf vector-copy}, {\cf vector-map}, {\cf vector-for-each}, 
-{\cf vector->string}, {\cf vector-copy!}, and {\cf string-copy!}
-have been added to round out the sequence operations.
+{\cf vector->string}, {\cf vector-copy!}および{\cf string-copy!}
+がシーケンス操作の完全化のために追加されました。
 
-\item Some string and vector procedures support processing of part of a string or vector using
-optional \var{start} and \var{end} arguments.
+\item 文字列およびベクタの手続きのいくつかは
+オプションの\var{start}および\var{end}引数を用いた
+文字列またはベクタの部分的な処理がサポートされます。
 
-\item Some list procedures are now defined on circular lists.
+\item リストの手続きのいくつかは循環リストに対して定義されるようになりました。
 
-\item Implementations may provide any subset of the full Unicode
-repertoire that includes ASCII, but implementations must support any
-such subset in a way consistent with Unicode.
-Various character and string procedures have been extended accordingly,
-and case conversion procedures added for strings.
-String comparison is no longer
-required to be consistent with character comparison, which is based
-solely on Unicode scalar values.
-The new {\cf digit-value} procedure has been added to obtain the numerical
-value of a numeric character.
+\item 処理系はASCIIを含む完全なUnicodeレパートリーの任意のサブセットを
+提供しても構いませんが、そういったサブセットは
+Unicodeと矛盾しないようにサポートしなければなりません。
+様々な文字および文字列の手続きがそれに従って拡張され、
+文字列用の大文字小文字返還手続きが追加されました。
+文字列の比較と文字の比較の一貫性を保つことはもはや要求されなくなりました。
+文字の比較はUnicodeスカラー値にのみ基づいて行われます。
+数値的な文字の数の値を取得する新しい{\cf digit-value}手続きが追加されました。
 
-\item There are now two additional comment syntaxes: {\tt \#;} to
-skip the next datum, and {\tt \#| ... |\#}
-for nestable block comments.
+\item 2つのコメント構文、
+次のdatumまでスキップするための {\tt \#;} および
+ネスト可能なブロックコメントのための {\tt \#| ... |\#}
+が追加されました。
 
-\item Data prefixed with datum labels {\tt \#<n>=} can be referenced
-with {\tt \#<n>\#}, allowing for reading and writing of data with
-shared structure.
+\item datumラベル{\tt \#<n>=}を接頭したデータを{\tt \#<n>\#}で参照することができ、
+共有構造を持つデータを読み書き出来ます。
 
-\item Strings and symbols now allow mnemonic and numeric escape
-sequences, and the list of named characters has been extended.
+\item 文字列およびシンボルで
+ニーモニックおよび数値によるエスケープシーケンスが使えるようになり、
+名前付き文字の一覧が拡張されました。
 
-\item The procedures {\cf file-exists?}\ and {\cf delete-file} are available in the
-{\tt (scheme file)} library.
+\item 手続き{\cf file-exists?}および{\cf delete-file}が
+{\tt (scheme file)}ライブラリで利用可能です。
 
-\item An interface to the system environment, command line, and process exit status is
-available in the {\tt (scheme process-context)} library.
+\item システム環境、コマンドライン、およびプロセスの終了状態へのインタフェースが
+{\tt (scheme process-context)}ライブラリで利用可能です。
 
-\item Procedures for accessing time-related values are available in the
-{\tt (scheme time)} library.
+\item 時間関係の値にアクセスする手続きが{\tt (scheme time)}ライブラリで利用可能です。
 
-\item A less irregular set of integer division operators is provided
-with new and clearer names.
+\item 整数除算演算の変種の小さなセットが新しいより明確な名前で用意されています。
 
-\item The {\cf load} procedure now accepts a second argument specifying the environment to
-load into.
+\item {\cf load}手続きはロード先の環境を指定する第2引数を取るようになりました。
 
-\item The {\cf call-with-current-continuation} procedure now has the synonym
-{\cf call/cc}.
+\item {\cf call-with-current-continuation}手続きに
+同義の{\cf call/cc}が追加されました。
 
-\item The semantics of read-eval-print loops are now partly prescribed,
-requiring the redefinition of procedures, but not syntax keywords, to have retroactive effect.
+\item read-eval-printループの意味論が部分的に定められ、
+手続きの再定義が遡って効果を持つよう要求されるようになりましたが、
+構文キーワードはそうではありません。
 
-\item The formal semantics now handles {\cf dynamic-wind}.
+\item 正式な意味論が{\cf dynamic-wind}を処理するようになりました。
 \end{itemize}
 
-\subsection*{Incompatibilities with \rsixrs}
-This section enumerates the incompatibilities between \rsevenrs~and
-the ``Revised$^6$ report''~\cite{R6RS} and its accompanying Standard Libraries document.
+\subsection*{\rsixrs との非互換点}
+この節では\rsevenrs と``報告書改$^6$''~\cite{R6RS}および
+それに付属している標準ライブラリドキュメントの間の非互換点を列挙します。
 
-{\em This list is not authoritative, and is possibly incomplete.}
+{\em この一覧は信頼できず、不完全な可能性があります。}
 
 \begin{itemize}
-\item \rsevenrs\ libraries begin with the keyword {\cf define-library}
-rather than {\cf library} in order to make them syntactically
-distinguishable from \rsixrs\ libraries.
-In \rsevenrs\ terms, the body of an \rsixrs\ library consists
-of a single export declaration followed by a single import declaration,
-followed by commands and definitions.  In \rsevenrs, commands and
-definitions are not permitted directly within the body: they have to be be wrapped in a {\cf begin}
-library declaration.
+\item \rsevenrs のライブラリは{\cf library}ではなく
+{\cf define-library}キーワードで始まります。
+これは\rsixrs のライブラリと構文的に区別できるようにするためです。
+\rsevenrs の用語で言うと、
+\rsixrs のライブラリは単一のエクスポート宣言に続く単一のインポート宣言に続く
+コマンドと定義から成ります。
+\rsevenrs では、コマンドと定義は本体に直接書くことは出来ません。
+それらは{\cf begin}ライブラリ宣言にラップする必要があります。
 
-\item There is no direct \rsixrs\ equivalent of the {\cf include}, {\cf include-ci},
-{\cf include-library-declarations}, or {\cf cond-expand} library declarations.
-On the other hand, the \rsevenrs\ library syntax does not support phase or version specifications.
+\item {\cf include}、{\cf include-ci}、{\cf include-library-declarations}
+および{\cf cond-expand}ライブラリ宣言に直接対応するものは \rsixrs にありません。
+他方、\rsevenrs のライブラリはフェーズやバージョン仕様をサポートしていません。
 
-\item The grouping of standardized identifiers into libraries is different from the \rsixrs\
-approach. In particular, procedures which are optional in \rfivers\, either expressly
-or by implication, have been removed from the base library.
-Only the base library itself is an absolute requirement.
+\item 標準化された識別子をライブラリにグループ化する方針が \rsixrs と異なっています。
+特に、明示的にせよ暗黙的にせよ \rfivers でオプションとなっている手続きは
+baseライブラリから削除されました。
+絶対的な要求事項はbaseライブラリのみです。
 
-\item No form of identifier syntax is provided. 
+\item 識別子構文の形式は用意されていません。
 
-\item Internal syntax definitions are allowed, but uses of a syntax form
-cannot appear before its definition; the {\cf even}/{\cf odd} example given in
-\rsixrs\ is not allowed.
+\item 内部構文定義は使用可能ですが、
+定義されるよりも前にその構文形式の使用が現れることは出来ません。
+\rsixrs にある{\cf even}/{\cf odd}の例は許容されません。
 
-\item The \rsixrs\ exception system was incorporated as-is, but the condition
-types have been left unspecified.  In particular, where \rsixrs\ requires
-a condition of a specified type to be signaled, \rsevenrs\ says only
-``it is an error'', leaving the question of signaling open.
+\item \rsixrs の例外システムはそのまま導入されましたが、
+コンディション型は規定されていないままにしています。
+特に、\rsixrs では特定の型のコンディションの通知が要求されるところで、
+\rsevenrs では``それはエラーです''とだけ述べ、
+通知の問題は開かれたままになっています。
 
-\item Full Unicode support is not required.
-Normalization is not provided.
-Character comparisons are
-defined by Unicode, but string comparisons are implementation-dependent.
-Non-Unicode characters are permitted.
+\item 完全なUnicodeのサポートは要求されません。
+正規化は用意されていません。
+文字の比較はUnicodeによって定義されますが、
+文字列の比較は処理系依存です。
+非Unicode文字が許容されています。
 
-\item The full numeric tower is optional as in \rfivers, but optional support for IEEE
-infinities, NaN, and {\mbox -0.0} was adopted from \rsixrs. Most clarifications on
-numeric results were also adopted, but the \rsixrs\ procedures {\cf real-valued?},
-{\cf rational-valued?}, and {\cf integer-valued}? were not. 
-The \rsixrs\ division operators {\cf div}, {\cf mod}, {\cf div-and-mod}, {\cf
-div0}, {\cf mod0} and {\cf div0-and-mod0} are not provided.
+\item 完全な数塔は \rfivers と同様にオプショナルですが、
+IEEEの無限大、NaN、{\mbox -0.0}のオプショナルなサポートが \rsixrs から採用されました。
+数値の結果の明確化もほとんど採用されましたが、
+\rsixrs の手続き{\cf real-valued?}、{\cf rational-valued?}
+および{\cf integer-valued?}は採用されていません。
+\rsixrs の除算演算子{\cf div}、{\cf mod}、{\cf div-and-mod}、
+{\cf div0}、{\cf mod0}および{\cf div0-and-mod0}は用意されていません。
 
-\item When a result is unspecified, it is still required to be a single value.
-However, non-final expressions
-in a body can return any number of values.
+\item 結果が規定されていないときでも、それが単一の値であることが要求されます。
+しかし、本体の最後でない式は任意の数の値を返せます。
 
-\item The semantics of {\cf map} and {\cf for-each} have been changed to use
-the SRFI 1~\cite{srfi1} early termination behavior. Likewise,
-{\cf assoc} and {\cf member} take an optional {\cf equal?} argument as in SRFI 1,
-instead of the separate {\cf assp} and {\cf memp} procedures of \rsixrs.
+\item {\cf map}および{\cf for-each}の意味論が変更され、
+SRFI 1~\cite{srfi1}の早期終了動作を用いるようになりました。
+同様に、{\cf assoc}および{\cf member}が変更され、
+\rsixrs にある別個の{\cf assp}および{\cf memp}手続きの代わりに、
+SRFI 1 のようにオプションの{\cf equal?}引数を取るようになりました。
 
-\item The \rsixrs~{\cf quasiquote} clarifications have been adopted, with the
-exception of multiple-argument {\cf unquote} and
-{\cf unquote-splicing}.
+\item \rsixrs の{\cf quasiquote}の明確化が採用されました。
+ただし{\cf unquote}および{\cf unquote-splicing}の多引数化は除かれています。
 
-\item The \rsixrs~method of specifying mantissa widths was not adopted.
+\item \rsixrs の仮数部の幅を指定する方法は採用されていません。
 
-\item String ports are compatible with SRFI 6~\cite{srfi6} rather than \rsixrs.
+\item 文字列ポートは \rsixrs の代わりにSRFI 6~\cite{srfi6}と互換です。
 
-\item \rsixrs{}-style bytevectors are included, but 
-only the unsigned byte ({\cf u8}) procedures have been provided.
-The lexical syntax uses {\cf \#u8} for compatibility
-with SRFI 4~\cite{srfi4}, rather than the \rsixrs~{\cf \#vu8} style.
+\item \rsixrs{}形式のバイトベクタが導入されていますが、
+符号無しバイト({\cf u8})の手続きのみ提供されています。
+字句的構文は \rsixrs の{\cf \#vu8}形式ではなく
+SRFI 4~\cite{srfi4}と互換性のある{\cf \#u8}を用います。
 
-\item The utility macros {\cf when} and {\cf unless} are provided, but 
-their result is left unspecified.
+\item 便利なマクロ{\cf when}および{\cf unless}が提供されていますが、
+結果は規定されていないままになっています。
 
-\item The remaining features of the Standard Libraries document were
-left to future standardization efforts.
+\item 標準ライブラリドキュメントの残りの機能は
+将来の標準化の努力に残されています。
 
 \end{itemize}
 
