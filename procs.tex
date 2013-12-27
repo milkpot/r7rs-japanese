@@ -4164,87 +4164,86 @@ datumラベルで共有構造を表現することはありません。
 \end{entry}
 
 
-\section{System interface}
+\section{システムインタフェース}
 
-Questions of system interface generally fall outside of the domain of this
-report.  However, the following operations are important enough to
-deserve description here.
+一般的に言って、システムインタフェースの問題はこの報告書の対称範囲外です。
+しかし以下の操作は重要であり、ここで述べるだけの価値があります。
 
 
 \begin{entry}{%
 \proto{load}{ filename}{load library procedure}
 \rproto{load}{ filename environment-specifier}{load library procedure}}
 
-\domain{It is an error if \var{filename} is not a string.}
-An implementation-dependent operation is used to transform
-\var{filename} into the name of an existing file
-containing Scheme source code.  The {\cf load} procedure reads
-expressions and definitions from the file and evaluates them
-sequentially in the environment specified by \var{environment-specifier}.
-If \var{environment-specifier} is omitted, {\cf (interaction-environment)}
-is assumed.
+\domain{\var{filename}が文字列でなければエラーです。}
+\var{filename}は処理系依存の方法により
+Schemeのソースコードを持つ既存のファイルの名前に変換されます。
+{\cf load}手続きはそのファイルから式と定義を読み取り、
+\var{environment-specifier}で指定された環境でそれらを逐次的に評価します。
+\var{environment-specifier}が省略された場合は
+{\cf (interaction-environment)}が想定されます。
 
-It is unspecified whether the results of the expressions
-are printed.  The {\cf load} procedure does not affect the values
-returned by {\cf current-input-port} and {\cf current-output-port}.
-It returns an unspecified value.
+式の結果がプリントされるか否かは規定されていません。
+{\cf load}手続きは
+{\cf current-input-port}や{\cf current-output-port}の戻り値に影響を与えません。
+{\cf load}手続きの戻り値は規定されていません。
 
 
 \begin{rationale}
-For portability, {\cf load} must operate on source files.
-Its operation on other kinds of files necessarily varies among
-implementations.
+移植性のため、{\cf load}はソースファイルに対して動作しなければなりません。
+他の種類のファイルに対する動作は処理系によって様々です。
 \end{rationale}
 \end{entry}
 
 \begin{entry}{%
 \proto{file-exists?}{ filename}{file library procedure}}
 
-\domain{It is an error if \var{filename} is not a string.}
-The {\cf file-exists?} procedure returns
-\schtrue{} if the named file exists at the time the procedure is called,
-and \schfalse{} otherwise.
+\domain{\var{filename}が文字列でなければエラーです。}
+{\cf file-exists?}手続きは、その名前のファイルが
+手続きが呼ばれた時点で存在していれば\schtrue{}を返し、
+そうでなければ\schfalse{}を返します。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{delete-file}{ filename}{file library procedure}}
 
-\domain{It is an error if \var{filename} is not a string.}
-The {\cf delete-file} procedure deletes the
-named file if it exists and can be deleted, and returns an unspecified
-value.  If the file does not exist or cannot be deleted, an error
-that satisfies {\cf file-error?} is signaled.
+\domain{\var{filename}が文字列でなければエラーです。}
+{\cf delete-file}手続きは、
+その名前のファイルが存在していて削除可能であれば、それを削除します。
+戻り値は規定されていません。
+そのファイルが存在しないか、削除可能でなければ、
+{\cf file-error?}を満たすエラーが通知されます。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{command-line}{}{process-context library procedure}}
 
-Returns the command line passed to the process as a list of
-strings.  The first string corresponds to the command name, and is
-implementation-dependent.  It is an error to mutate any of these strings.
+プロセスに渡されたコマンドラインを文字列のリストとして返します。
+最初の文字列はコマンド名に対応していますが、具体的な内容は処理系依存です。
+これらの文字列のいずれかを変更することはエラーです。
 \end{entry}
 
 \begin{entry}{%
 \proto{exit}{}{process-context library procedure}
 \rproto{exit}{ obj}{process-context library procedure}}
 
-Runs all outstanding dynamic-wind \var{after} procedures, terminates the
-running program, and communicates an exit value to the operating system.
-If no argument is supplied, or if \var{obj} is \schtrue{}, the {\cf
-exit} procedure should communicate to the operating system that the
-program exited normally.  If \var{obj} is \schfalse{}, the {\cf exit}
-procedure should communicate to the operating system that the program
-exited abnormally.  Otherwise, {\cf exit} should translate \var{obj} into
-an appropriate exit value for the operating system, if possible.
+待機中のdynamic-windの\var{after}手続きをすべて実行し、
+実行中のプログラムを終了し、
+オペレーテイングシステムに終了値を伝えます。
+引数が指定されていない場合、または\var{obj}が\schtrue{}の場合は、
+プログラムが正常終了した旨がオペレーティングシステムに伝えられます。
+\var{obj}が\schfalse{}の場合は、
+プログラムが異常終了した旨がオペレーティングシステムに伝えられます。
+それ以外の場合は、\var{obj}が
+そのオペレーティングシステム用の適切な終了値に変換されます(可能であれば)。
 
-The {\cf exit} procedure
-must not signal an exception or return to its continuation.
+{\cf exit}手続きは例外を通知したり
+その継続に戻ってはなりません。
 
 \begin{note}
-Because of the requirement to run handlers, this procedure is not just the
-operating system's exit procedure.
+ハンドラを実行するという要求のため、
+この手続きは単なるオペレーティングシステムの終了手続きではありません。
 \end{note}
 
 \end{entry}
@@ -4253,14 +4252,13 @@ operating system's exit procedure.
 \proto{emergency-exit}{}{process-context library procedure}
 \rproto{emergency-exit}{ obj}{process-context library procedure}}
 
-Terminates the program without running any
-outstanding dynamic-wind \var{after} procedures
-and communicates an exit value to the operating system
-in the same manner as {\cf exit}.
+待機中のdynamic-windの\var{after}手続きを実行せずに
+プログラムを終了し、
+{\cf exit}と同様の方法でオペレーティングシステムに終了値を伝えます。
 
 \begin{note}
-The {\cf emergency-exit} procedure corresponds to the {\cf \_exit} procedure
-in Windows and Posix.
+{\cf emergency-exit}手続きは
+WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
 \end{note}
 
 \end{entry}
@@ -4271,19 +4269,18 @@ in Windows and Posix.
 \begin{entry}{%
 \proto{get-environment-variable}{ name}{process-context library procedure}}
 
-Many operating systems provide each running process with an
-\defining{environment} consisting of \defining{environment variables}.
-(This environment is not to be confused with the Scheme environments that
-can be passed to {\cf eval}: see section~\ref{environments}.)
-Both the name and value of an environment variable are strings.
-The procedure {\cf get-environment-variable} returns the value 
-of the environment variable \var{name},
-or \schfalse{} if the named
-environment variable is not found.  It may
-use locale information to encode the name and decode the value
-of the environment variable.  It is an error if \\
-{\cf get-environment-variable} can't decode the value.
-It is also an error to mutate the resulting string.
+多くのオペレーティングシステムでは、
+実行中の各プロセスに\defining{環境変数}から成る\defining{環境}があります。
+(この環境を{\cf eval}に渡せるSchemeの環境と混乱しないようにしてください。
+\ref{environments}~節を参照。)
+環境変数の名前と値は両方とも文字列です。
+手続き{\cf get-environment-variable}は
+環境変数\var{name}の値を返します。
+その名前の環境変数が無ければ\schfalse{}を返します。
+環境変数の名前をエンコードしたり値をデコードするために
+ロケール情報を用いる場合があります。
+{\cf get-environment-variable}が値をデコード出来ない場合はエラーです。
+結果の文字列を変更することもエラーです。
 
 \begin{scheme}
 (get-environment-variable "PATH") \lev "/usr/local/bin:/usr/bin:/bin"%
@@ -4294,10 +4291,10 @@ It is also an error to mutate the resulting string.
 \begin{entry}{%
 \proto{get-environment-variables}{}{process-context library procedure}}
 
-Returns the names and values of all the environment variables as an
-alist, where the car of each entry is the name of an environment
-variable and the cdr is its value, both as strings.  The order of the list is unspecified.
-It is an error to mutate any of these strings or the alist itself.
+すべての環境変数の名前と値を連想リストとして返します。
+各エントリのcarが名前で、cdrが値で、両方とも文字列です。
+リストの順番は規定されていません。
+これらの文字列や連想リスト自体を変更することはエラーです。
 
 \begin{scheme}
 (get-environment-variables) \lev (("USER" . "root") ("HOME" . "/"))%
@@ -4308,33 +4305,33 @@ It is an error to mutate any of these strings or the alist itself.
 \begin{entry}{%
 \proto{current-second}{}{time library procedure}}
 
-Returns an inexact number representing the current time on the International Atomic
-Time (TAI) scale.  The value 0.0 represents midnight
-on January 1, 1970 TAI (equivalent to ten seconds before midnight Universal Time)
-and the value 1.0 represents one TAI
-second later.  Neither high accuracy nor high precision are required; in particular,
-returning Coordinated Universal Time plus a suitable constant might be
-the best an implementation can do.
+国際原子時(TAI)を基準とした現在の時刻を表す不正確な数値を返します。
+値0.0がTAIにおける1970年1月1日の真夜中 (世界時の真夜中の10秒前と同等)
+を表し、値1.0がその1秒後を表します。
+正確さや精度の高さは要求されません。
+処理系によっては
+協定世界時に適切な定数を加えて返す程度しか出来ない場合もあります。
 \end{entry}
 
 \begin{entry}{%
 \proto{current-jiffy}{}{time library procedure}}
 
-Returns the number of \defining{jiffies} as an exact integer that have elapsed since an arbitrary,
-implementation-defined epoch. A jiffy is an implementation-defined
-fraction of a second which is defined by the return value of the
-{\cf jiffies-per-second} procedure. The starting epoch is guaranteed to be
-constant during a run of the program, but may vary between runs.
+処理系定義の適切な基点から経過した
+\defining{jiffies}の数を正確な整数として返します。
+jiffiesは処理系定義の秒より細かい時間の単位で、
+{\cf jiffies-per-second}手続きの戻り値によって定義されます。
+始まりの基点はプログラムを実行している間は一定であることが保証されていますが、
+実行ごとに変わる場合があります。
 
 \begin{rationale}
-Jiffies are allowed to be implementation-dependent so that
-{\cf current-jiffy} can execute with minimum overhead. It
-should be very likely that a compactly represented integer will suffice
-as the returned value.  Any particular jiffy size will be inappropriate
-for some implementations: a microsecond is too long for a very fast
-machine, while a much smaller unit would force many implementations to
-return integers which have to be allocated for most calls, rendering 
-{\cf current-jiffy} less useful for accurate timing measurements.
+jiffiesは
+{\cf current-jiffy}を最小のオーバーヘッドで実行できるようにするために
+処理系依存であることが認められています。
+コンパクトに表現された整数で十分に戻り値を表せるようなものであるべきです。
+特定のjiffiesは処理系によっては不適切なサイズとなる場合があります。
+非常に速いマシンにおいてはマイクロ秒は長すぎますし、
+より小さな単位を用いると実装によってはほとんどの場合に割り当てが必要となり、
+正確な時間計測の手段としては利便性が下がるかもしれません。
 \end{rationale}
 
 \end{entry}
@@ -4342,8 +4339,8 @@ return integers which have to be allocated for most calls, rendering
 \begin{entry}{%
 \proto{jiffies-per-second}{}{time library procedure}}
 
-Returns an exact integer representing the number of jiffies per SI
-second. This value is an implementation-specified constant.
+1秒あたりのjiffiesの数を表す正確な整数を返します。
+この値は処理系固有の定数です。
 
 \begin{scheme}
 (define (time-length)
@@ -4358,9 +4355,9 @@ second. This value is an implementation-specified constant.
 \begin{entry}{%
 \proto{features}{}{procedure}}
 
-Returns a list of the feature identifiers which {\cf cond-expand}
-treats as true.  It is an error to modify this list.  Here is an
-example of what {\cf features} might return:
+{\cf cond-expand}が真とみなす特徴識別子のリストを返します。
+このリストを変更することはエラーです。
+{\cf features}が返すリストの例を以下に挙げます。
 
 \begin{scheme}
 (features) \ev
