@@ -3574,54 +3574,50 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 
 \end{entry}
 
-\section{Input and output}
+\section{入出力}
 
-\subsection{Ports}
+\subsection{ポート}
 \label{portsection}
 
-Ports represent input and output devices.  To Scheme, an input port is
-a Scheme object that can deliver data upon command, while an output
-port is a Scheme object that can accept data.\mainindex{port}
-Whether the input and output port types are disjoint is
-implementation-dependent.
+ポートは入出力機器を表します。
+Schemeでは、入力ポートは命令に応じてデータを供給するSchemeオブジェクトで、
+出力ポートはデータを消費するSchemeオブジェクトです\mainindex{port}。
+入力ポートと出力ポートの型が独立しているかどうかは処理系依存です。
 
-Different {\em port types} operate on different data.  Scheme
-imple\-men\-ta\-tions are required to support {\em textual ports}
-and {\em binary ports}, but may also provide other port types.
+{\em ポート型}によって操作するデータは異なります。
+Schemeの処理系は{\em テキストポート}と{\em バイナリポート}を
+サポートすることが要求されますが、他のポート型を用意していても構いません。
 
-A textual port supports reading or writing of individual characters
-from or to a backing store containing characters
-using {\cf read-char} and {\cf write-char} below, and it supports operations
-defined in terms of characters, such as {\cf read} and {\cf write}.
+テキストポートは後述する{\cf read-char}および{\cf write-char}を用いた
+バッキングストアへの個々の文字の読み書きをサポートします。
+また{\cf read}や{\cf write}といった、
+文字の観点で定義される操作もサポートします。
 
-A binary port supports reading or writing of individual bytes from
-or to a backing store containing bytes using {\cf read-u8} and {\cf
-write-u8} below, as well as operations defined in terms of bytes.
-Whether the textual and binary port types are disjoint is
-implementation-dependent.
+バイナリポートは後述する{\cf read-u8}および{\cf write-u8}を用いた
+バッキングストアへの個々のバイトの読み書きをサポートします。
+またバイトの観点で定義される操作も同様にサポートします。
+テキストポート型とバイナリポート型が独立しているかどうかは処理系依存です。
 
-Ports can be used to access files, devices, and similar things on the host
-system on which the Scheme program is running.
+ポートはSchemeのプログラムを実行しているホストシステム上の
+ファイル、機器、およびその類似物にアクセスするために使うことが出来ます。
 
 \begin{entry}{%
 \proto{call-with-port}{ port proc}{procedure}}
 
-\domain{It is an error if \var{proc} does not accept one argument.}
-The {\cf call-with-port}
-procedure calls \var{proc} with \var{port} as an argument.  
-If \var{proc} returns,
-then the port is closed automatically and the values yielded by the
-\var{proc} are returned.  If \var{proc} does not return, then 
-the port must not be closed automatically unless it is possible to
-prove that the port will never again be used for a read or write
-operation.
+\domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
+{\cf call-with-port}手続きは\var{port}を引数として\var{proc}を呼びます。
+\var{proc}から戻ると、そのポートは自動的に閉じられ、
+\var{proc}の生成した値が返されます。
+\var{proc}から戻らない場合、
+そのポートが今後読み書き操作に使われることがないと保証できない限り、
+自動的に閉じられてはなりません。
 
 \begin{rationale}
-Because Scheme's escape procedures have unlimited extent, it  is
-possible to escape from the current continuation but later to resume it. 
-If implementations were permitted to close the port on any escape from the
-current continuation, then it would be impossible to write portable code using
-both {\cf call-with-current-continuation} and {\cf call-with-port}.
+Schemeの脱出手続きは無制限の存続期間を持つため、
+現在の継続から脱出して後に再開することが可能です。
+現在の継続から脱出した際にポートを閉じることを認めた場合、
+{\cf call-with-current-continuation}と{\cf call-with-port}を両方用いた
+移植性のあるコードを書くことが不可能になってしまいます。
 \end{rationale} 
 
 \end{entry}
@@ -3630,12 +3626,11 @@ both {\cf call-with-current-continuation} and {\cf call-with-port}.
 \proto{call-with-input-file}{ string proc}{file library procedure}
 \proto{call-with-output-file}{ string proc}{file library procedure}}
 
-\domain{It is an error if \var{proc} does not accept one argument.}
-These procedures obtain a
-textual port obtained by opening the named file for input or output
-as if by {\cf open-input-file} or {\cf open-output-file}.  
-The port and \var{proc} are then passed to a procedure equivalent
-to {\cf call-with-port}.
+\domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
+これらの手続きは、
+{\cf open-input-file}または{\cf open-output-file}を用いたかのように
+指定された名前のファイルを開き、テキストポートを取得します。
+そして、そのポートと\var{proc}が{\cf call-with-port}と同等の手続きに渡されます。
 \end{entry}
 
 \begin{entry}{%
@@ -3645,9 +3640,10 @@ to {\cf call-with-port}.
 \proto{binary-port?}{ obj}{procedure}
 \proto{port?}{ obj}{procedure}}
 
-These procedures return \schtrue{} if \var{obj} is an input port, output port, 
-textual port, binary port, or any
-kind of port, respectively.  Otherwise they return \schfalse.
+これらの手続きは\var{obj}がそれぞれ入力ポートである、
+出力ポートである、テキストポートである、バイナリポートである、
+または任意の種類のポートである場合、\schtrue{}を返します。
+そうでなければ\schfalse{}を返します。
 
 \end{entry}
 
@@ -3656,8 +3652,8 @@ kind of port, respectively.  Otherwise they return \schfalse.
 \proto{input-port-open?}{ port}{procedure}
 \proto{output-port-open?}{ port}{procedure}}
 
-Returns \schtrue{} if \var{port} is still open and capable of
-performing input or output, respectively, and \schfalse{} otherwise.
+\var{port}がまだ開かれていて、それぞれ入力または出力が可能であれば、
+\schtrue{}を返します。 そうでなければ\schfalse{}を返します。
 
 
 \end{entry}
@@ -3668,11 +3664,11 @@ performing input or output, respectively, and \schfalse{} otherwise.
 \proto{current-output-port}{}{procedure}
 \proto{current-error-port}{}{procedure}}
 
-Returns the current default input port, output port, or error port (an
-output port), respectively.  These procedures are parameter objects, which can be
-overridden with {\cf parameterize} (see
-section~\ref{make-parameter}).  The initial bindings for these
-are implementation-defined textual ports.
+それぞれ現在のデフォルトの入力ポート、出力ポート、
+またはエラーポート(出力ポートの一種)を返します。
+これらの手続きはパラメータオブジェクトであり、
+{\cf parameterize} (\ref{make-parameter}~節を参照)でオーバーライドできます。
+これらに対する束縛の初期値は処理系定義のテキストポートです。
 
 \end{entry}
 
@@ -3681,19 +3677,19 @@ are implementation-defined textual ports.
 \proto{with-input-from-file}{ string thunk}{file library procedure}
 \proto{with-output-to-file}{ string thunk}{file library procedure}}
 
-The file is opened for input or output
-as if by {\cf open-input-file} or {\cf open-output-file}, 
-and the new port is made to be the value returned by
-{\cf current-input-port} or {\cf current-output-port}
-(as used by {\tt (read)}, {\tt (write \var{obj})}, and so forth).
-The \var{thunk} is then called with no arguments.  When the \var{thunk} returns,
-the port is closed and the previous default is restored.
-It is an error if \var{thunk} does not accept zero arguments.
-Both procedures return the values yielded by \var{thunk}.
-If an escape procedure
-is used to escape from the continuation of these procedures, they
-behave exactly as if the current input or output port had been bound
-dynamically with {\cf parameterize}.
+{\cf open-input-file}または{\cf open-output-file}を用いたかのように
+入力用または出力用にファイルが開かれ、
+そのポートが
+{\cf current-input-port}または{\cf current-output-port}
+({\tt (read)}、{\tt (write \var{obj})}などでも使われます)
+から返されるようにします。
+\var{thunk}は引数無しで呼ばれます。
+\var{thunk}が戻ると、そのポートは閉じられ、以前のデフォルト値が復元されます。
+\var{thunk}がゼロ個の引数を取らない場合はエラーです。
+どちらの手続きでも\var{thunk}の生成した値が返されます。
+脱出手続きを用いてこれらの手続きから脱出した場合、
+現在の入力または出力ポートは
+{\cf parameterize}で動的束縛されているかのように動作します。
 
 
 \end{entry}
@@ -3703,9 +3699,11 @@ dynamically with {\cf parameterize}.
 \proto{open-input-file}{ string}{file library procedure}
 \proto{open-binary-input-file}{ string}{file library procedure}}
  
-Takes a \var{string} for an existing file and returns a textual
-input port or binary input port that is capable of delivering data from the
-file.  If the file does not exist or cannot be opened, an error that satisfies {\cf file-error?} is signaled.
+既存のファイルを表す\var{string}を取り、
+そのファイルからデータを供給することが出来る
+テキスト入力ポートまたはバイナリ入力ポートを返します。
+そのファイルが存在しない、または開くことが出来なかった場合は、
+{\cf file-error?}を満たすエラーが通知されます。
 
 \end{entry}
 
@@ -3714,14 +3712,13 @@ file.  If the file does not exist or cannot be opened, an error that satisfies {
 \proto{open-output-file}{ string}{file library procedure}
 \proto{open-binary-output-file}{ string}{file library procedure}}
 
-Takes a \var{string} naming an output file to be created and returns a
-textual output port or binary output port that is capable of writing
-data to a new file by that name.
+作成される出力ファイルに名前を付ける\var{string}を取り、
+その名前の新しいファイルにデータを書き出すことが出来る
+テキスト出力ポートまたはバイナリ出力ポートを返します。
 \todo{consider removing unspecified effect}
-If a file with the given name already exists,
-the effect is unspecified.
-If the file cannot be opened,
-an error that satisfies {\cf file-error?} is signaled.
+与えられた名前のファイルがすでに存在していた場合の効果は規定されていません。
+ファイルを開くことが出来なかった場合は、
+{\cf file-error?}を満たすエラーが通知されます。
 
 \end{entry}
 
@@ -3731,17 +3728,16 @@ an error that satisfies {\cf file-error?} is signaled.
 \proto{close-input-port}{ port}{procedure}
 \proto{close-output-port}{ port}{procedure}}
 
-Closes the resource associated with \var{port}, rendering the \var{port}
-incapable of delivering or accepting data.  
-It is an error
-to apply the last two procedures to a port which is not an input
-or output port, respectively.
-Scheme implementations may provide ports which are simultaneously
-input and output ports, such as sockets; the {\cf close-input-port}
-and {\cf close-output-port} procedures can then be used to close the
-input and output sides of the port independently.
+\var{port}に関連付けられているリソースを閉じ、
+\var{port}のデータ読み書きを行えないようにします。
+最後の2つの手続きをそれぞれ入力または出力ポートでないポートに適用した場合はエラーです。
+Schemeの処理系は入力ポートであると同時に
+出力ポートでもあるようなポートを用意している場合があります。
+例えばソケットなどです。
+{\cf close-input-port}および{\cf close-output-port}手続きを使うと
+そういったポートの入力側および出力側を個々に閉じることが出来ます。
 
-These routines have no effect if the port has already been closed.
+ポートがすでに閉じられている場合、これらのルーチンは何の効果もありません。
 
 
 \end{entry}
@@ -3749,29 +3745,27 @@ These routines have no effect if the port has already been closed.
 \begin{entry}{%
 \proto{open-input-string}{ string}{procedure}}
 
-Takes a string and returns a textual input port that delivers
-characters from the string.
-If the string is modified, the effect is unspecified.
+文字列を取り、その文字列から文字を供給するテキスト入力ポートを返します。
+その文字列が変更された場合の効果は規定されていません。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{open-output-string}{}{procedure}}
 
-Returns a textual output port that will accumulate characters for
-retrieval by {\cf get-output-string}.
+{\cf get-output-string}によって取得するために文字を蓄積する
+テキスト出力ポートを返します。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{get-output-string}{ port}{procedure}}
 
-\domain{It is an error if \var{port} was not created with
-{\cf open-output-string}.}
-Returns a string consisting of the
-characters that have been output to the port so far in the order they
-were output.
-If the result string is modified, the effect is unspecified.
+\domain{\var{port}が{\cf open-output-string}を用いて作成した
+ものでない場合はエラーです。}
+それまでにポートに出力された文字から成る文字列を返します。
+文字はそれらが出力された順番に格納されます。
+結果の文字列が変更された場合の効果は規定されていません。
 
 \begin{scheme}
 (parameterize
@@ -3790,26 +3784,26 @@ If the result string is modified, the effect is unspecified.
 \begin{entry}{%
 \proto{open-input-bytevector}{ bytevector}{procedure}}
 
-Takes a bytevector and returns a binary input port that delivers
-bytes from the bytevector.
+バイトベクタを取り、そのバイトベクタからバイトを供給する
+バイナリ入力ポートを返します。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{open-output-bytevector}{}{procedure}}
 
-Returns a binary output port that will accumulate bytes for
-retrieval by {\cf get-output-bytevector}.
+{\cf get-output-bytevector}で取得するためにバイトを蓄積する
+バイナリ出力ポートを返します。
 
 \end{entry}
 
 \begin{entry}{%
 \proto{get-output-bytevector}{ port}{procedure}}
 
-\domain{It is an error if \var{port} was not created with
-{\cf open-output-bytevector}.}  Returns a bytevector consisting
-of the bytes that have been output to the port so far in the
-order they were output.
+\domain{\var{port}が{\cf open-output-bytevector}を用いて作成した
+ものでない場合はエラーです。}
+それまでにポートに出力されたバイトから成るバイトベクタを返します。
+バイトはそれらが出力された順番に格納されます。
 \end{entry}
 
 
