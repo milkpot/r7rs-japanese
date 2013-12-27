@@ -1,30 +1,30 @@
-\chapter{Standard Libraries}
+\chapter{標準ライブラリ}
 \label{stdlibraries}
 
 %% Note, this is used to generate stdmod.tex.  The bindings could be
 %% extracted automatically from the document, but this lets us choose
 %% the ordering and optionally format manually where needed.
 
-This section lists the exports provided by the standard libraries.  The
-libraries are factored so as to separate features which might not be
-supported by all implementations, or which might be expensive to load.
+この節では標準ライブラリによって提供されるエクスポートの一覧を掲載しています。
+ライブラリは処理系によってはサポートされない可能性のある機能や
+ロードに時間がかかる機能を分離するように編成されています。
 
-The {\cf scheme} library prefix is used for all standard libraries, and
-is reserved for use by future standards.
+すべての標準ライブラリに対して{\cf scheme}ライブラリ接頭辞が使われています。
+またこれは将来の標準で使用するために予約されています。
 
-\textbf{Base Library}
+\textbf{baseライブラリ}
 
-The \texttt{(scheme base)} library exports many of the procedures and
-syntax bindings that are traditionally associated with Scheme.
-The division between the base library and the other standard libraries is
-based on use, not on construction. In particular, some facilities that are
-typically implemented as primitives by a compiler or the run-time system
-rather than in terms of other standard procedures or syntax are
-not part of the base library, but are defined in separate libraries.
-By the same token, some exports of the base library are implementable
-in terms of other exports.  They are redundant in the strict sense of
-the word, but they capture common patterns of usage, and are therefore
-provided as convenient abbreviations.
+\texttt{(scheme base)}ライブラリは
+伝統的にSchemeと紐付けられている多数の手続きと構文の束縛をエクスポートしています。
+baseライブラリと他の標準ライブラリは構造ではなく用途によって分けられています。
+特に、
+他の標準手続きや構文に基づいた機能ではなく
+一般的にコンパイラやランタイムシステムによりプリミティブとして実装されている機能には
+baseライブラリの一部ではなく別のライブラリで定義されているものもあります。
+同様に、baseライブラリのエクスポートには
+他のエクスポートに基づいて実装できるものもあります。
+これらは厳密に言うと冗長ではあるものの、共通の使用パターンを捕えており、
+そのため便利な短縮形として用意されています。
 
 \begin{scheme}
 ._               ...
@@ -127,19 +127,20 @@ provided as convenient abbreviations.
 .write-string             write-u8
 \end{scheme}
 
-\textbf{Case-Lambda Library}
+\textbf{case-lambdaライブラリ}
 
-The \texttt{(scheme case-lambda)} library exports the {\cf case-lambda}
-syntax.
+\texttt{(scheme case-lambda)}ライブラリは{\cf case-lambda}構文を
+エクスポートしています。
 
 \begin{scheme}
 .case-lambda
 \end{scheme}
 
-\textbf{Char Library}
+\textbf{charライブラリ}
 
-The \texttt{(scheme char)} library provides the procedures for dealing with
-characters that involve potentially large tables when supporting all of Unicode.
+\texttt{(scheme char)}ライブラリには
+Unicode全体をサポートすると巨大なテーブルが必要になる可能性がある
+文字を扱う手続きが用意されています。
 
 \begin{scheme}
 .char-alphabetic?
@@ -154,30 +155,32 @@ characters that involve potentially large tables when supporting all of Unicode.
 .digit-value
 \end{scheme}
 
-\textbf{Complex Library}
+\textbf{complexライブラリ}
 
-The \texttt{(scheme complex)} library exports procedures which are
-typically only useful with non-real numbers.
+\texttt{(scheme complex)}ライブラリは
+一般的に実数でない数値でのみ役に立つ手続きをエクスポートしています。
 
 \begin{scheme}
 .angle   magnitude   imag-part   real-part
 .make-polar           make-rectangular
 \end{scheme}
 
-\textbf{CxR Library}
+\textbf{cxrライブラリ}
 
-The \texttt{(scheme cxr)} library exports twenty-four procedures which
-are the compositions of from three to four {\cf car} and {\cf cdr}
-operations.  For example {\cf caddar} could be defined by
+\texttt{(scheme cxr)}ライブラリは
+{\cf car}および{\cf cdr}を3つまたは4つ合成した
+24個の手続きをエクスポートしています。
+例えば{\cf caddar}は以下のように定義出来ます。
 
 \begin{scheme}
 (define caddar
   (lambda (x) (car (cdr (cdr (car x)))))){\rm.}%
 \end{scheme}
 
-The procedures {\cf car} and {\cf cdr} themselves and the four
-two-level compositions are included in the base library.  See
-section~\ref{listsection}.
+手続き{\cf car}および{\cf cdr}自身、
+およびそれらの2段合成である4個の手続きは
+baseライブラリに含まれています。
+\ref{listsection}~節を参照してください。
 
 \begin{scheme}
 .caaaar caaadr caadar caaddr
@@ -188,20 +191,20 @@ section~\ref{listsection}.
 .cdaar cdadr cddar cdddr
 \end{scheme}
 
-\textbf{Eval Library}
+\textbf{evalライブラリ}
 
-The \texttt{(scheme eval)} library exports procedures for evaluating Scheme
-data as programs.
+\texttt{(scheme eval)}ライブラリは
+Schemeのデータをプログラムとして評価するための手続きをエクスポートしています。
 
 \begin{scheme}
 .eval
 .environment
 \end{scheme}
 
-\textbf{File Library}
+\textbf{fileライブラリ}
 
-The \texttt{(scheme file)} library provides procedures for accessing
-files.
+\texttt{(scheme file)}ライブラリには
+ファイルにアクセスするための手続きが用意されています。
 
 \begin{scheme}
 .call-with-input-file    call-with-output-file
@@ -211,10 +214,10 @@ files.
 .with-input-from-file    with-output-to-file
 \end{scheme}
 
-\textbf{Inexact Library}
+\textbf{inexactライブラリ}
 
-The \texttt{(scheme inexact)} library exports procedures which are
-typically only useful with inexact values.
+\texttt{(scheme inexact)}ライブラリは
+一般的に不正確な値を扱う場合にのみ役に立つ手続きをエクスポートしています。
 
 \begin{scheme}
 .acos      asin atan
@@ -223,27 +226,28 @@ typically only useful with inexact values.
 .sin       sqrt tan
 \end{scheme}
 
-\textbf{Lazy Library}
+\textbf{lazyライブラリ}
 
-The \texttt{(scheme lazy)} library exports procedures and syntax keywords for lazy evaluation.
+\texttt{(scheme lazy)}ライブラリは
+遅延評価のための手続きと構文キーワードをエクスポートしています。
 
 \begin{scheme}
 .delay   delay-force   force   make-promise   promise?
 \end{scheme}
 
-\textbf{Load Library}
+\textbf{loadライブラリ}
 
-The \texttt{(scheme load)} library exports procedures for loading
-Scheme expressions from files.
+\texttt{(scheme load)}ライブラリは
+ファイルからSchemeの式をロードする手続きをエクスポートしています。
 
 \begin{scheme}
 .load
 \end{scheme}
 
-\textbf{Process-Context Library}
+\textbf{process-contextライブラリ}
 
-The \texttt{(scheme process-context)} library exports procedures for
-accessing with the program's calling context.
+\texttt{(scheme process-context)}ライブラリは
+プログラムを呼び出している文脈にアクセスするための手続きをエクスポートしています。
 
 \begin{scheme}
 .get-environment-variable
@@ -253,27 +257,28 @@ accessing with the program's calling context.
 .exit
 \end{scheme}
 
-\textbf{Read Library}
+\textbf{readライブラリ}
 
-The \texttt{(scheme read)} library provides procedures for reading
-Scheme objects.
+\texttt{(scheme read)}ライブラリには
+Schemeのオブジェクトを読み取る手続きが用意されています。
 
 \begin{scheme}
 .read
 \end{scheme}
 
-\textbf{Repl Library}
+\textbf{replライブラリ}
 
-The \texttt{(scheme repl)} library exports the {\cf
-  interaction-environment} procedure.
+\texttt{(scheme repl)}ライブラリは
+{\cf interaction-environment}手続きをエクスポートしています。
 
 \begin{scheme}
 .interaction-environment
 \end{scheme}
 
-\textbf{Time Library}
+\textbf{timeライブラリ}
 
-The \texttt{(scheme time)} library provides access to time-related values.
+\texttt{(scheme time)}ライブラリには
+時間に関係する値へのアクセスが用意されています。
 
 \begin{scheme}
 .current-second
@@ -281,26 +286,25 @@ The \texttt{(scheme time)} library provides access to time-related values.
 .jiffies-per-second
 \end{scheme}
 
-\textbf{Write Library}
+\textbf{writeライブラリ}
 
-The \texttt{(scheme write)} library provides procedures for writing
-Scheme objects.
+\texttt{(scheme write)}ライブラリには
+Schemeのオブジェクトを書き出すための手続きが用意されています。
 
 \begin{scheme}
 .write  write-shared write-simple  display
 \end{scheme}
 
-\textbf{R5RS Library}
+\textbf{r5rsライブラリ}
 
-The \texttt{(scheme r5rs)} library provides the identifiers defined by
-\rfivers, except that
-{\cf transcript-on} and {\cf transcript-off} are not present.
-Note that
-the {\cf exact} and {\cf inexact} procedures appear under their \rfivers\ names
-{\cf inexact->exact} and {\cf exact->inexact} respectively.
-However, if an implementation does not provide a particular library such as the
-complex library, the corresponding identifiers will not appear in this
-library either.
+\texttt{(scheme r5rs)}ライブラリには
+\rfivers で定義されている識別子が用意されています。
+ただし{\cf transcript-on}および{\cf transcript-off}はありません。
+{\cf exact}および{\cf inexact}手続きはそれぞれ
+その \rfivers での名前である
+{\cf inexact->exact}および{\cf exact->inexact}として現れることに注意してください。
+ただし、処理系が特定のライブラリ(例えばcomplexライブラリ)を用意していない場合は、
+それに対応する識別子はこのライブラリにも現れません。
 
 \begin{scheme}
 .- * / + < <= = > >= abs acos and angle append apply asin assoc assq
