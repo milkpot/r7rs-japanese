@@ -1,20 +1,18 @@
 
-\extrapart{Example} % -*- Mode: Lisp; Package: SCHEME; Syntax: Common-lisp -*-
+\extrapart{例} % -*- Mode: Lisp; Package: SCHEME; Syntax: Common-lisp -*-
 
 \nobreak
-The procedure {\cf integrate-system} integrates the system 
+手続き{\cf integrate-system}は微分方程式系
 $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
-of differential equations with the method of Runge-Kutta.
+をルンゲ=クッタ法で積分します。
 
-The parameter {\tt system-derivative} is a function that takes a system
-state (a vector of values for the state variables $y_1, \ldots, y_n$)
-and produces a system derivative (the values $y_1^\prime, \ldots,
-y_n^\prime$).  The parameter {\tt initial-state} provides an initial
-system state, and {\tt h} is an initial guess for the length of the
-integration step.
+パラメータ{\tt system-derivative}は
+系の状態(状態変数 $y_1, \ldots, y_n$ に対する値のベクタ)を取り
+系の導関数(値 $y_1^\prime, \ldots, y_n^\prime$)を生成する関数です。
+パラメータ{\tt initial-state}は系の初期状態を与え、
+{\tt h}は積分ステップの長さの初期予想値です。
 
-The value returned by {\cf integrate-system} is an infinite stream of
-system states.
+{\cf integrate-system}の戻り値は系の状態の無限ストリームです。
 
 \begin{schemenoindent}
 (define (integrate-system system-derivative
@@ -28,10 +26,8 @@ system states.
       states)))%
 \end{schemenoindent}
 
-The procedure {\cf runge-kutta-4} takes a function, {\tt f}, that produces a
-system derivative from a system state.  It
-produces a function that takes a system state and
-produces a new system state.
+手続き{\cf runge-kutta-4}は系の状態から系の導関数を生成する関数{\tt f}を取ります。
+これは系の状態を取り新しい系の状態を生成する関数を生成します。
 
 \begin{schemenoindent}
 (define (runge-kutta-4 f h)
@@ -76,9 +72,8 @@ produces a new system state.
   (elementwise (lambda (x) (* x s))))%
 \end{schemenoindent}
 
-The {\cf map-streams} procedure is analogous to {\cf map}: it applies its first
-argument (a procedure) to all the elements of its second argument (a
-stream).
+{\cf map-streams}手続きは{\cf map}の類似です。
+第1引数(手続き)を第2引数(ストリーム)のすべての要素に適用します。
 
 \begin{schemenoindent}
 (define (map-streams f s)
@@ -86,9 +81,8 @@ stream).
         (delay (map-streams f (tail s)))))%
 \end{schemenoindent}
 
-Infinite streams are implemented as pairs whose car holds the first
-element of the stream and whose cdr holds a promise to deliver the rest
-of the stream.
+無限ストリームはcarがストリームの最初の要素を持ちcdrがストリームの残りを供給する
+プロミスを持つペアとして実装されています。
 
 \begin{schemenoindent}
 (define head car)
@@ -97,11 +91,10 @@ of the stream.
 \end{schemenoindent}
 
 \bigskip
-The following illustrates the use of {\cf integrate-system} in
-integrating the system
+{\cf integrate-system}の使い方として減衰振動子をモデル化した系
 $$ C {dv_C \over dt} = -i_L - {v_C \over R}$$\nobreak
 $$ L {di_L \over dt} = v_C$$
-which models a damped oscillator.
+を積分する例を以下に示します。
 
 \begin{schemenoindent}
 (define (damped-oscillator R L C)
