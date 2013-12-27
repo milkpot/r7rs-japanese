@@ -3812,7 +3812,7 @@ Schemeの処理系は入力ポートであると同時に
 
 入力手続きで\var{port}が省略された場合、
 {\cf (current-input-port)}の戻り値がデフォルト値となります。
-閉じたポートに対して入力操作を試みることはエラーです。
+閉じられたポートに対して入力操作を試みることはエラーです。
 
 \noindent \hbox{ }  %???
 \vspace{-5ex}
@@ -3829,8 +3829,8 @@ Schemeの処理系は入力ポートであると同時に
 与えられたテキスト入力ポート\var{port}からパース可能な次のオブジェクトを返し、
 そのオブジェクトの外部表現が終わった次の文字を指すよう\var{port}を更新します。
 
-処理系によってはdatumの表現を持たないレコード型や他の型を表現するための
-拡張された構文をサポートしている場合もあります。
+処理系によってはdatum表現を持たないレコード型や他の型を表現するために
+拡張された構文をサポートしている場合があります。
 
 \vest オブジェクトの始まりとなる文字が見つかる前に入力がファイルの終端に達した場合は、
 end-of-fileオブジェクトが返されます。
@@ -4016,12 +4016,12 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 
-\subsection{Output}
+\subsection{出力}
 \label{outputsection}
 
-If \var{port} is omitted from any output procedure, it defaults to the
-value returned by {\cf (current-output-port)}.
-It is an error to attempt an output operation on a closed port.
+出力手続きで\var{port}が省略された場合、
+{\cf (current-output-port)}の戻り値がデフォルト値となります。
+閉じられたポートに対して出力操作を試みることはエラーです。
 
 \noindent \hbox{}
 \vspace{-5ex}
@@ -4030,24 +4030,21 @@ It is an error to attempt an output operation on a closed port.
 \proto{write}{ obj}{write library procedure}
 \rproto{write}{ obj port}{write library procedure}}
 
-Writes a representation of \var{obj} to the given textual output
-\var{port}.  Strings
-that appear in the written representation are enclosed in quotation marks, and
-within those strings backslash and quotation mark characters are
-escaped by backslashes.  Symbols that contain non-ASCII characters
-are escaped with vertical lines.
-Character objects are written using the {\cf \#\backwhack} notation.
+与えられたテキスト出力ポート\var{port}に\var{obj}の表現を書き出します。
+書き出される表現内では、文字列はダブルクオートで囲まれ、
+文字列中のバックスラッシュおよびダブルクォートはバックスラッシュでエスケープされます。
+非ASCII文字を含むシンボルは垂直線でエスケープされます。
+文字オブジェクトは{\cf \#\backwhack}記法で書き出されます。
 
-If \var{obj} contains cycles which would cause an infinite loop using
-the normal written representation, then at least the objects that form
-part of the cycle must be represented using datum labels as described
-in section~\ref{labelsection}.  Datum labels must not be used if there
-are no cycles.
+\var{obj}が循環構造を持ち、通常の書き出される表現では無限ループが発生する場合は、
+少なくともその循環部分を形成するオブジェクトは
+\ref{labelsection}~節で説明されているdatumラベルを用いて表現されなければなりません。
+循環構造が無い場合はdatumラベルを用いてはなりません。
 
-Implementations may support extended syntax to represent record types or
-other types that do not have datum representations.
+処理系によってはdatum表現を持たないレコード型や他の型を表現するために
+拡張された構文をサポートしている場合があります。
 
-The {\cf write} procedure returns an unspecified value.
+{\cf write}手続きの戻り値は規定されていません。
 
 \end{entry}
 
@@ -4055,9 +4052,9 @@ The {\cf write} procedure returns an unspecified value.
 \proto{write-shared}{ obj}{write library procedure}
 \rproto{write-shared}{ obj port}{write library procedure}}
 
-The {\cf write-shared} procedure is the same as {\cf write}, except that
-shared structure must be represented using datum labels for all pairs
-and vectors that appear more than once in the output.
+{\cf write-shared}手続きは{\cf write}と同じですが、
+出力中に2回以上現れるすべてのペアおよびベクタに対して
+その共有構造をdatumラベルで表現しなければなりません。
 
 \end{entry}
 
@@ -4065,9 +4062,10 @@ and vectors that appear more than once in the output.
 \proto{write-simple}{ obj}{write library procedure}
 \rproto{write-simple}{ obj port}{write library procedure}}
 
-The {\cf write-simple} procedure is the same as {\cf write}, except that shared structure is
-never represented using datum labels.  This can cause {\cf write-simple} not to
-terminate if \var{obj} contains circular structure.
+{\cf write-simple}手続きは{\cf write}と同じですが、
+datumラベルで共有構造を表現することはありません。
+このため、\var{obj}が循環構造を持っていると
+{\cf write-simple}は終了しません。
 
 \end{entry}
 
@@ -4076,28 +4074,27 @@ terminate if \var{obj} contains circular structure.
 \proto{display}{ obj}{write library procedure}
 \rproto{display}{ obj port}{write library procedure}}
 
-Writes a representation of \var{obj} to the given textual output \var{port}.
-Strings that appear in the written representation are output as if by
-{\cf write-string} instead of by {\cf write}.
-Symbols are not escaped.  Character
-objects appear in the representation as if written by {\cf write-char}
-instead of by {\cf write}.
+与えられたテキスト出力ポート\var{port}に\var{obj}の表現を書き出します。
+書き出される表現内に現れる文字列は
+{\cf write}の代わりに{\cf write-string}を用いたかのように出力されます。
+シンボルはエスケープされません。
+表現内に現れる文字は{\cf write}の代わりに
+{\cf write-char}を用いたかのように出力されます。
 
-The {\cf display} representation of other objects is unspecified.
-However, {\cf display} must not loop forever on 
-self-referencing pairs, vectors, or records.  Thus if the
-normal {\cf write} representation is used, datum labels are needed
-to represent cycles as in {\cf write}.
+それ以外のオブジェクトに対する{\cf display}の表現は規定されていません。
+しかし、自己参照ペア、ベクタ、レコードに対して
+{\cf display}が無限ループしてはなりません。
+そのため、通常の{\cf write}の表現が使われる場合、
+{\cf write}同様に循環を表現するためdatumラベルが必要です。
 
-Implementations may support extended syntax to represent record types or
-other types that do not have datum representations.
+処理系によってはdatum表現を持たないレコード型や他の型を表現するために
+拡張された構文をサポートしている場合があります。
 
-The {\cf display} procedure returns an unspecified value.
+{\cf display}手続きの戻り値は規定されていません。
 
 \begin{rationale}
-The {\cf write} procedure is intended
-for producing mach\-ine-readable output and {\cf display} for producing
-human-readable output.  
+{\cf write}は機械処理用の出力を生成し、
+{\cf display}は人間が読める出力を生成する意図があります。
 \end{rationale}
 \end{entry}
 
@@ -4106,9 +4103,9 @@ human-readable output.
 \proto{newline}{}{procedure}
 \rproto{newline}{ port}{procedure}}
 
-Writes an end of line to textual output \var{port}.  Exactly how this
-is done differs
-from one operating system to another.  Returns an unspecified value.
+テキスト出力ポート\var{port}に行末を書き出します。
+これがどのように為されるかはオペレーティングシステムによって異なります。
+戻り値は規定されていません。
 
 \end{entry}
 
@@ -4117,9 +4114,9 @@ from one operating system to another.  Returns an unspecified value.
 \proto{write-char}{ char}{procedure}
 \rproto{write-char}{ char port}{procedure}}
 
-Writes the character \var{char} (not an external representation of the
-character) to the given textual output \var{port} and returns an unspecified
-value.  
+与えられたテキスト出力ポート\var{port}に文字\var{char}を書き出します
+(その文字の外部表現ではありません)。
+戻り値は規定されていません。
 
 \end{entry}
 
@@ -4129,10 +4126,9 @@ value.
 \rproto{write-string}{ string port start}{procedure}
 \rproto{write-string}{ string port start end}{procedure}}
 
-Writes the characters of \var{string}
-from \var{start} to \var{end}
-in left-to-right order to the
-textual output \var{port}.
+テキスト出力ポート\var{port}に
+\var{string}の\var{start}〜\var{end}の文字を
+左から右の順で書き出します。
 
 \end{entry}
 
@@ -4140,8 +4136,8 @@ textual output \var{port}.
 \proto{write-u8}{ byte}{procedure}
 \rproto{write-u8}{ byte port}{procedure}}
 
-Writes the \var{byte} to
-the given binary output \var{port} and returns an unspecified value.
+与えられたバイナリ出力ポート\var{port}に\var{byte}を書き出します。
+戻り値は規定されていません。
 
 \end{entry}
 
@@ -4151,10 +4147,9 @@ the given binary output \var{port} and returns an unspecified value.
 \rproto{write-bytevector}{ bytevector port start}{procedure}
 \rproto{write-bytevector}{ bytevector port start end}{procedure}}
 
-Writes the bytes of \var{bytevector}
-from \var{start} to \var{end}
-in left-to-right order to the
-binary output \var{port}.
+バイナリ出力ポート\var{port}に
+\var{bytevector}の\var{start}〜\var{end}のバイトを
+左から右の順で書き出します。
 
 \end{entry}
 
@@ -4162,8 +4157,9 @@ binary output \var{port}.
 \proto{flush-output-port}{}{procedure}
 \rproto{flush-output-port}{ port}{procedure}}
 
-Flushes any buffered output from the buffer of output-port to the
-underlying file or device and returns an unspecified value.
+バッファリングされているすべての出力を
+出力ポートのバッファから基礎となるファイルまたは機器にフラッシュします。
+戻り値は規定されていません。
 
 \end{entry}
 
