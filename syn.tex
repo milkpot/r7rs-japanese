@@ -1,66 +1,66 @@
-\chapter{Formal syntax and semantics}
+\chapter{正式な構文と意味論}
 \label{formalchapter}
 
-This chapter provides formal descriptions of what has already been
-described informally in previous chapters of this report.
+この章では
+この報告書のここまでの章で非公式に述べたことについて
+正式な記述を掲載します。
 
 
 
-\section{Formal syntax}
+\section{正式な構文}
 \label{BNF}
 
-This section provides a formal syntax for Scheme written in an extended
-BNF.
+この節では拡張BNF記法で書かれたSchemeの正式な構文を掲載します。
 
-All spaces in the grammar are for legibility.  Case is not significant
-except in the definitions of \meta{letter}, \meta{character name} and \meta{mnemonic escape}; for example, {\cf \#x1A}
-and {\cf \#X1a} are equivalent, but {\cf foo} and {\cf Foo}
-and {\cf \#\backwhack{}space} and {\cf \#\backwhack{}Space} are distinct.
-\meta{empty} stands for the empty string.
+文法中の空白はすべて可読性のためです。
+\meta{letter}、\meta{character name}および\meta{mnemonic escape}
+の定義におけるものを除いて、大文字小文字は区別されません。
+例えば{\cf \#x1A}と{\cf \#X1a}は同等ですが、
+{\cf foo}と{\cf Foo}や
+{\cf \#\backwhack{}space}と{\cf \#\backwhack{}Space}は
+別物です。
+\meta{empty}は空文字列を表します。
 
-The following extensions to BNF are used to make the description more
-concise:  \arbno{\meta{thing}} means zero or more occurrences of
-\meta{thing}; and \atleastone{\meta{thing}} means at least one
-\meta{thing}.
+記述をより簡潔化するためにBNFを以下のように拡張しています。
+\arbno{\meta{thing}}はゼロ回以上の\meta{thing}の出現を意味します。
+\atleastone{\meta{thing}}は少なくとも1回以上の\meta{thing}の出現を意味します。
 
 
-\subsection{Lexical structure}
+\subsection{字句構造}
 
-This section describes how individual tokens\index{token} (identifiers,
-numbers, etc.) are formed from sequences of characters.  The following
-sections describe how expressions and programs are formed from sequences
-of tokens.
+この節では個々のトークン\index{token} (識別子、数値、など)
+が文字の並びからどのように形成されるのかを記載しています。
+後続の節ではトークンの並びからどのように式とプログラムが形成されるのかを記載しています。
 
-\meta{Intertoken space} can occur on either side of any token, but not
-within a token.
+\meta{intertoken space}はいかなるトークンの隣にも現れることが出来ますが、
+トークンの中に現れることは出来ません。
 
-\vest Identifiers that do not begin with a vertical line are
-terminated by a \meta{delimiter} or by the end of the input.
-So are dot, numbers, characters, and booleans.
-Identifiers that begin with a vertical line are terminated by another vertical line.
+\vest 垂直線で始まっていない識別子は
+\meta{delimiter}または入力の終端で終わります。
+ドット、数値、文字、ブーリアンも同様です。
+垂直線で始まる識別子は別の垂直線で終わります。
 
-The following four characters from the ASCII repertoire
-are reserved for future extensions to the
-language: {\tt \verb"[" \verb"]" \verb"{" \verb"}"}
+ASCIIレパートリー中の4つの文字
+{\tt \verb"[" \verb"]" \verb"{" \verb"}"}
+は言語の将来の拡張のために予約されています。
 
-In addition to the identifier characters of the ASCII repertoire specified
-below, Scheme implementations may permit any additional repertoire of
-Unicode characters to be employed in identifiers,
-provided that each such character has a Unicode general category of Lu,
-Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So,
-or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner,
-respectively, which are needed for correct spelling in Persian, Hindi,
-and other languages).
-However, it is an error for the first character to have a general category
-of Nd, Mc, or Me.  It is also an error to use a non-Unicode character
-in symbols or identifiers.
+Schemeの処理系によっては、
+下記で規定されているASCIIレパートリーの識別子文字に加え、
+Unicode文字から追加のレパートリーを識別子に用いることが出来るものもあります。
+ただし、Unicode一般カテゴリが
+Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, Co
+のいずれかの文字であるか、
+U+200C (ゼロ幅非接合子) または U+200D (ゼロ幅接合子)
+である場合に限られます。
+最後の2つはペルシア語、ヒンディー語
+およびその他の言語を正しく書くために必要なものです。
+ただし、最初の文字が一般カテゴリ Nd, Mc, Me のいずれかの場合はエラーです。
+シンボルや識別子に非Unicode文字を用いることもエラーです。
 
-All Scheme implementations must permit the escape sequence
-{\tt \backwhack{}x<hexdigits>;}
-to appear in Scheme identifiers that are enclosed in vertical lines. If the character
-with the given Unicode scalar value is supported by the implementation,
-identifiers containing such a sequence are equivalent to identifiers
-containing the corresponding character. 
+すべてのScheme処理系は垂直線で囲まれたSchemeの識別子内に現れるエスケープシーケンス
+{\tt \backwhack{}x<hexdigits>;} をサポートしなければなりません。
+処理系がそのUnicodeスカラー値を持つ文字をサポートしていれば、
+そのようなシーケンスを含む識別子は対応する文字を含む識別子と同等です。
 
 \begin{grammar}%
 \meta{token} \: \meta{identifier} \| \meta{boolean} \| \meta{number}\index{identifier}
@@ -85,8 +85,9 @@ containing the corresponding character.
 \meta{directive} \: \#!fold-case \| \#!no-fold-case%
 \end{grammar}
 
-Note that it is ungrammatical to follow a \meta{directive} with anything
-but a \meta{delimiter} or the end of file.
+\meta{directive}に
+\meta{delimiter}またはファイルの終端以外のものが
+続いた場合は文法違反であることに注意してください。
 
 \begin{grammar}%
 \meta{atmosphere} \: \meta{whitespace} \| \meta{comment} \| \meta{directive}
@@ -99,9 +100,9 @@ but a \meta{delimiter} or the end of file.
 % This is a kludge, but \multicolumn doesn't work in tabbing environments.
 \setbox0\hbox{\cf\meta{identifier} \goesto{} $\langle$}
 
-Note that {\cf +i}, {\cf -i} and \meta{infnan} below are exceptions to the
-\meta{peculiar identifier} rule; they are parsed as numbers, not
-identifiers.
+下記の{\cf +i}、{\cf -i}および\meta{infnan}は
+\meta{peculiar identifier}規則の例外であることに注意してください。
+これらは識別子ではなく数値としてパースされます。
 
 \begin{grammar}%
 \meta{identifier} \: \meta{initial} \arbno{\meta{subsequent}}
@@ -158,14 +159,14 @@ identifiers.
    \>  \| \meta{num $10$} \| \meta{num $16$}
 \end{grammar}
 
-The following rules for \meta{num $R$}, \meta{complex $R$}, \meta{real
-$R$}, \meta{ureal $R$}, \meta{uinteger $R$}, and \meta{prefix $R$}
-are implicitly replicated for \hbox{$R = 2, 8, 10,$}
-and $16$.  There are no rules for \meta{decimal $2$}, \meta{decimal
-$8$}, and \meta{decimal $16$}, which means that numbers containing
-decimal points or exponents are always in decimal radix.
-Although not shown below, all alphabetic characters used in the grammar
-of numbers can appear in either upper or lower case.
+下記の規則 \meta{num $R$}, \meta{complex $R$}, \meta{real $R$},
+\meta{ureal $R$}, \meta{uinteger $R$}および\meta{prefix $R$}は、
+\hbox{$R = 2, 8, 10, 16$} について暗黙に複製されます。
+\meta{decimal $2$}, \meta{decimal $8$}および\meta{decimal $16$}
+の規則は存在しません。
+つまり小数点や指数を含む数値は必ず10進数だという意味です。
+以下には示していませんが、数値の文法で使われるアルファベットの文字はすべて、
+大文字でも小文字でも構いません。
 \begin{grammar}%
 \meta{num $R$} \: \meta{prefix $R$} \meta{complex $R$}
 \meta{complex $R$} \: %
@@ -215,12 +216,12 @@ of numbers can appear in either upper or lower case.
 \end{grammar}
 
 
-\subsection{External representations}
+\subsection{外部表現}
 \label{datumsyntax}
 
-\meta{Datum} is what the \ide{read} procedure (section~\ref{read})
-successfully parses.  Note that any string that parses as an
-\meta{ex\-pres\-sion} will also parse as a \meta{datum}.  \label{datum}
+\meta{datum}は\ide{read}手続き(\ref{read}~節を参照)が正常にパース出来るものです。
+\meta{expression}としてパースできる文字列はすべて
+\meta{datum}としてもパースできます。\label{datum}
 
 \begin{grammar}%
 \meta{datum} \: \meta{simple datum} \| \meta{compound datum}
@@ -237,11 +238,12 @@ successfully parses.  Note that any string that parses as an
 \end{grammar}
 
 
-\subsection{Expressions}
+\subsection{式}
 
-The definitions in this and the following subsections assume that all
-the syntax keywords defined in this report have been properly imported
-from their libraries, and that none of them have been redefined or shadowed.
+この節および後続の節にある定義は
+この報告書で定義されているすべての構文キーワードが
+そのライブラリから適切にインポートされており、
+いずれも再定義または隠蔽されていないものと仮定しています。
 
 \begin{grammar}%
 \meta{expression} \: \meta{identifier}
@@ -339,12 +341,12 @@ from their libraries, and that none of them have been redefined or shadowed.
 \> \| (include-ci \atleastone{\meta{string}})
 \end{grammar}
 
-\subsection{Quasiquotations}
+\subsection{quasiquote}
 
-The following grammar for quasiquote expressions is not context-free.
-It is presented as a recipe for generating an infinite number of
-production rules.  Imagine a copy of the following rules for $D = 1, 2,
-3, \ldots$, where $D$ is the nesting depth.
+quasiquote式に対する以下の文法は文脈自由文法ではありません。
+これは生成規則を無限に生成するレシピとして表現されています。
+$D = 1, 2, 3, \ldots$ に対して以下のルールが複製されると想像してください。
+ちなみに $D$ は入れ子の深さです。
 
 \begin{grammar}%
 \meta{quasiquotation} \: \meta{quasiquotation 1}
@@ -368,13 +370,15 @@ production rules.  Imagine a copy of the following rules for $D = 1, 2,
 \>    \| (unquote-splicing \meta{qq template $D-1$}) %
 \end{grammar}
 
-In \meta{quasiquotation}s, a \meta{list qq template $D$} can sometimes
-be confused with either an \meta{un\-quota\-tion $D$} or a \meta{splicing
-un\-quo\-ta\-tion $D$}.  The interpretation as an
-\meta{un\-quo\-ta\-tion} or \meta{splicing
-un\-quo\-ta\-tion $D$} takes precedence.
+\meta{quasiquotation}内において
+\meta{list qq template $D$}が
+\meta{unquotation $D$}または\meta{splicing unquotation $D$}のどちらかと
+曖昧になることがあります。
+この場合
+\meta{unquotation}または\meta{splicing unquotation $D$}
+として解釈する方を優先します。
 
-\subsection{Transformers}
+\subsection{変換器}
 
 \begin{grammar}%
 \meta{transformer spec} \:
@@ -409,7 +413,7 @@ un\-quo\-ta\-tion $D$} takes precedence.
 \meta{underscore} \: \meta{the identifier {\cf \_}}
 \end{grammar}
 
-\subsection{Programs and definitions}
+\subsection{プログラムおよび定義}
 
 \begin{grammar}%
 \meta{program} \:
@@ -437,7 +441,7 @@ un\-quo\-ta\-tion $D$} takes precedence.
 \>  (define-syntax \meta{keyword} \meta{transformer spec})
 \end{grammar}
 
-\subsection{Libraries}
+\subsection{ライブラリ}
 
 \begin{grammar}%
 \meta{library} \:
