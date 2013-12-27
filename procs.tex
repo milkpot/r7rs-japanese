@@ -7,7 +7,7 @@
 
 \mainindex{initial environment}
 \mainindex{global environment}
-\mainindex{procedure}
+\mainindex{手続き}
 
 この章ではSchemeの組み込み手続きを説明します。
 
@@ -40,7 +40,7 @@
 
 
 \begin{entry}{%
-\proto{eqv?}{ \vari{obj} \varii{obj}}{procedure}}
+\proto{eqv?}{ \vari{obj} \varii{obj}}{手続き}}
 
 {\cf eqv?}手続きはオブジェクトに対する有用な等値関係を定義します。
 大まかに言うと、{\cf eqv?}は
@@ -217,7 +217,7 @@
 
 
 \begin{entry}{%
-\proto{eq?}{ \vari{obj} \varii{obj}}{procedure}}
+\proto{eq?}{ \vari{obj} \varii{obj}}{手続き}}
 
 {\cf eq?}手続きは{\cf eqv?}手続きに似ています。
 ただし、いくつかの場合において{\cf eqv?}で検出可能なよりも細かい差異を識別する能力があります。
@@ -265,7 +265,7 @@
 
 
 \begin{entry}{%
-\proto{equal?}{ \vari{obj} \varii{obj}}{procedure}}
+\proto{equal?}{ \vari{obj} \varii{obj}}{手続き}}
 
 {\cf equal?}手続きは、ペア、ベクタ、文字列、バイトベクタに適用された場合、それらを再帰的に比較します。
 それらを(無限長の可能性もある)木構造に展開したとき、
@@ -630,11 +630,11 @@ $a+b\mathrm{i} = r \cos\theta + (r \sin\theta) \mathrm{i}$
 numbers, etc.}
 
 \begin{entry}{%
-\proto{number?}{ obj}{procedure}
-\proto{complex?}{ obj}{procedure}
-\proto{real?}{ obj}{procedure}
-\proto{rational?}{ obj}{procedure}
-\proto{integer?}{ obj}{procedure}}
+\proto{number?}{ obj}{手続き}
+\proto{complex?}{ obj}{手続き}
+\proto{real?}{ obj}{手続き}
+\proto{rational?}{ obj}{手続き}
+\proto{integer?}{ obj}{手続き}}
 
 これらの数値述語は、数値でないものを含むいかなる型の引数にも適用できます。
 オブジェクトがその名前の型であれば\schtrue{}を返し、
@@ -684,8 +684,8 @@ numbers, etc.}
 \end{entry}
 
 \begin{entry}{%
-\proto{exact?}{ \vr{z}}{procedure}
-\proto{inexact?}{ \vr{z}}{procedure}}
+\proto{exact?}{ \vr{z}}{手続き}
+\proto{inexact?}{ \vr{z}}{手続き}}
 
 これらの数値述語は値の正確性を判定します。
 あらゆるSchemeの数値は、これらの述語のいずれか一方だけが真になります。
@@ -700,7 +700,7 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{exact-integer?}{ \vr{z}}{procedure}}
+\proto{exact-integer?}{ \vr{z}}{手続き}}
 
 \vr{z}が\tupe{正確}かつ\tupe{整数}であれば\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -714,7 +714,7 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{finite?}{ \vr{z}}{inexact library procedure}}
+\proto{finite?}{ \vr{z}}{inexactライブラリの手続き}}
 
 {\cf finite?}手続きは
 {\cf +inf.0}、{\cf -inf.0}、{\cf +nan.0}以外のすべての実数、
@@ -729,7 +729,7 @@ numbers, etc.}
 \end{entry}
 
 \begin{entry}{%
-\proto{infinite?}{ \vr{z}}{inexact library procedure}}
+\proto{infinite?}{ \vr{z}}{inexactライブラリの手続き}}
 
 {\cf infinite?}手続きは
 {\cf +inf.0}、{\cf -inf.0}、および
@@ -745,7 +745,7 @@ numbers, etc.}
 \end{entry}
 
 \begin{entry}{%
-\proto{nan?}{ \vr{z}}{inexact library procedure}}
+\proto{nan?}{ \vr{z}}{inexactライブラリの手続き}}
 
 {\cf nan?}手続きは{\cf +nan.0}、および
 実部または虚部または両方が{\cf +nan.0}である複素数に対して、\schtrue{}を返します。
@@ -761,11 +761,11 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{=}{ \vri{z} \vrii{z} \vriii{z} \dotsfoo}{procedure}
-\proto{<}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
-\proto{>}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
-\proto{<=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
-\proto{>=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}}
+\proto{=}{ \vri{z} \vrii{z} \vriii{z} \dotsfoo}{手続き}
+\proto{<}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{手続き}
+\proto{>}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{手続き}
+\proto{<=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{手続き}
+\proto{>=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{手続き}}
 
 これらの手続きは引数が(それぞれ)
 等しい、単調に増加している、単調に減少している、
@@ -800,11 +800,11 @@ numbers, etc.}
 \end{entry}
 
 \begin{entry}{%
-\proto{zero?}{ \vr{z}}{procedure}
-\proto{positive?}{ \vr{x}}{procedure}
-\proto{negative?}{ \vr{x}}{procedure}
-\proto{odd?}{ \vr{n}}{procedure}
-\proto{even?}{ \vr{n}}{procedure}}
+\proto{zero?}{ \vr{z}}{手続き}
+\proto{positive?}{ \vr{x}}{手続き}
+\proto{negative?}{ \vr{x}}{手続き}
+\proto{odd?}{ \vr{n}}{手続き}
+\proto{even?}{ \vr{n}}{手続き}}
 
 これらの数値述語は特定の性質を判定し、\schtrue{} または \schfalse を返します。
 上記の注意点も参照してください。
@@ -812,8 +812,8 @@ numbers, etc.}
 \end{entry}
 
 \begin{entry}{%
-\proto{max}{ \vri{x} \vrii{x} \dotsfoo}{procedure}
-\proto{min}{ \vri{x} \vrii{x} \dotsfoo}{procedure}}
+\proto{max}{ \vri{x} \vrii{x} \dotsfoo}{手続き}
+\proto{min}{ \vri{x} \vrii{x} \dotsfoo}{手続き}}
 
 これらの手続きは引数の最大値または最小値を返します。
 
@@ -835,8 +835,8 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{+}{ \vri{z} \dotsfoo}{procedure}
-\proto{*}{ \vri{z} \dotsfoo}{procedure}}
+\proto{+}{ \vri{z} \dotsfoo}{手続き}
+\proto{*}{ \vri{z} \dotsfoo}{手続き}}
 
 これらの手続きは引数の和または積を返します。
 
@@ -852,10 +852,10 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{-}{ \vr{z}}{procedure}
-\rproto{-}{ \vri{z} \vrii{z} \dotsfoo}{procedure}
-\proto{/}{ \vr{z}}{procedure}
-\rproto{/}{ \vri{z} \vrii{z} \dotsfoo}{procedure}}
+\proto{-}{ \vr{z}}{手続き}
+\rproto{-}{ \vri{z} \vrii{z} \dotsfoo}{手続き}
+\proto{/}{ \vr{z}}{手続き}
+\rproto{/}{ \vri{z} \vrii{z} \dotsfoo}{手続き}}
 
 引数がふたつ以上の場合、
 これらの手続きは左結合で引数の差または商を返します。
@@ -878,7 +878,7 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{abs}{ x}{procedure}}
+\proto{abs}{ x}{手続き}}
 
 {\cf abs}手続きは引数の絶対値を返します。
 \begin{scheme}
@@ -888,12 +888,12 @@ numbers, etc.}
 
 
 \begin{entry}{%
-\proto{floor/}{ \vri{n} \vrii{n}}{procedure}
-\proto{floor-quotient}{ \vri{n} \vrii{n}}{procedure}
-\proto{floor-remainder}{ \vri{n} \vrii{n}}{procedure}
-\proto{truncate/}{ \vri{n} \vrii{n}}{procedure}
-\proto{truncate-quotient}{ \vri{n} \vrii{n}}{procedure}
-\proto{truncate-remainder}{ \vri{n} \vrii{n}}{procedure}}
+\proto{floor/}{ \vri{n} \vrii{n}}{手続き}
+\proto{floor-quotient}{ \vri{n} \vrii{n}}{手続き}
+\proto{floor-remainder}{ \vri{n} \vrii{n}}{手続き}
+\proto{truncate/}{ \vri{n} \vrii{n}}{手続き}
+\proto{truncate-quotient}{ \vri{n} \vrii{n}}{手続き}
+\proto{truncate-remainder}{ \vri{n} \vrii{n}}{手続き}}
 
 これらの手続きは数論的な(整数)除算を実装します。
 \vrii{n}がゼロの場合はエラーです。
@@ -946,9 +946,9 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 
 
 \begin{entry}{%
-\proto{quotient}{ \vri{n} \vrii{n}}{procedure}
-\proto{remainder}{ \vri{n} \vrii{n}}{procedure}
-\proto{modulo}{ \vri{n} \vrii{n}}{procedure}}
+\proto{quotient}{ \vri{n} \vrii{n}}{手続き}
+\proto{remainder}{ \vri{n} \vrii{n}}{手続き}
+\proto{modulo}{ \vri{n} \vrii{n}}{手続き}}
 
 {\cf quotient}および{\cf remainder}手続きはそれぞれ
 {\cf truncate-quotient}および{\cf truncate-remainder}と同等であり、
@@ -960,8 +960,8 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 \end{entry}
 
 \begin{entry}{%
-\proto{gcd}{ \vri{n} \dotsfoo}{procedure}
-\proto{lcm}{ \vri{n} \dotsfoo}{procedure}}
+\proto{gcd}{ \vri{n} \dotsfoo}{手続き}
+\proto{lcm}{ \vri{n} \dotsfoo}{手続き}}
 
 これらの手続きは引数の最大公約数または最小公倍数を返します。
 結果は必ず非負です。
@@ -978,8 +978,8 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 
 
 \begin{entry}{%
-\proto{numerator}{ \vr{q}}{procedure}
-\proto{denominator}{ \vr{q}}{procedure}}
+\proto{numerator}{ \vr{q}}{手続き}
+\proto{denominator}{ \vr{q}}{手続き}}
 
 これらの手続きは引数の分子または分母を返します。
 結果は引数が既約分数として表現されているかのように計算されます。
@@ -997,10 +997,10 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 
 
 \begin{entry}{%
-\proto{floor}{ x}{procedure}
-\proto{ceiling}{ x}{procedure}
-\proto{truncate}{ x}{procedure}
-\proto{round}{ x}{procedure}
+\proto{floor}{ x}{手続き}
+\proto{ceiling}{ x}{手続き}
+\proto{truncate}{ x}{手続き}
+\proto{round}{ x}{手続き}
 }
 
 これらの手続きは整数を返します。
@@ -1039,7 +1039,7 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 \end{entry}
 
 \begin{entry}{%
-\proto{rationalize}{ x y}{procedure}
+\proto{rationalize}{ x y}{手続き}
 }
 
 {\cf rationalize}手続きは\vr{x}から±\vr{y}以内の{\em 最も簡単}な有理数を返します。
@@ -1062,16 +1062,16 @@ $|p_1| \leq |p_2|$ かつ $|q_1| \leq |q_2|$ である場合のことを言い�
 \end{entry}
 
 \begin{entry}{%
-\proto{exp}{ \vr{z}}{inexact library procedure}
-\proto{log}{ \vr{z}}{inexact library procedure}
-\rproto{log}{ \vri{z} \vrii{z}}{inexact library procedure}
-\proto{sin}{ \vr{z}}{inexact library procedure}
-\proto{cos}{ \vr{z}}{inexact library procedure}
-\proto{tan}{ \vr{z}}{inexact library procedure}
-\proto{asin}{ \vr{z}}{inexact library procedure}
-\proto{acos}{ \vr{z}}{inexact library procedure}
-\proto{atan}{ \vr{z}}{inexact library procedure}
-\rproto{atan}{ \vr{y} \vr{x}}{inexact library procedure}}
+\proto{exp}{ \vr{z}}{inexactライブラリの手続き}
+\proto{log}{ \vr{z}}{inexactライブラリの手続き}
+\rproto{log}{ \vri{z} \vrii{z}}{inexactライブラリの手続き}
+\proto{sin}{ \vr{z}}{inexactライブラリの手続き}
+\proto{cos}{ \vr{z}}{inexactライブラリの手続き}
+\proto{tan}{ \vr{z}}{inexactライブラリの手続き}
+\proto{asin}{ \vr{z}}{inexactライブラリの手続き}
+\proto{acos}{ \vr{z}}{inexactライブラリの手続き}
+\proto{atan}{ \vr{z}}{inexactライブラリの手続き}
+\rproto{atan}{ \vr{y} \vr{x}}{inexactライブラリの手続き}}
 
 これらの手続きは通常の超越関数を計算します。
 {\cf log}手続きは引数がひとつの場合は\vr{z}の自然対数を計算し(底を10とする対数ではありません)、
@@ -1133,7 +1133,7 @@ $\ast$& $y = -0.0$ & $x = 0$    & $-\frac{\pi}{2}$
 \end{entry}
 
 \begin{entry}{%
-\proto{square}{ \vr{z}}{procedure}}
+\proto{square}{ \vr{z}}{手続き}}
 
 \vr{z}の平方を返します。
 これは \texttt{({\cf *} \var{z} \var{z})} と同等です。
@@ -1154,7 +1154,7 @@ $\ast$& $y = -0.0$ & $x = 0$    & $-\frac{\pi}{2}$
 \end{entry}
 
 \begin{entry}{%
-\proto{sqrt}{ \vr{z}}{inexact library procedure}}
+\proto{sqrt}{ \vr{z}}{inexactライブラリの手続き}}
 
 \vr{z}の正の平方根を返します。
 結果は正の実部を持つか、ゼロの実部と非負の虚部を持つかのいずれかです。
@@ -1167,7 +1167,7 @@ $\ast$& $y = -0.0$ & $x = 0$    & $-\frac{\pi}{2}$
 
 
 \begin{entry}{%
-\proto{exact-integer-sqrt}{ k}{procedure}}
+\proto{exact-integer-sqrt}{ k}{手続き}}
 
 $\var{k} = s^2 + r$ および $\var{k} < (s+1)^2$ が成り立つ
 ふたつの非負の正確な整数$s$および$r$を返します。
@@ -1180,7 +1180,7 @@ $\var{k} = s^2 + r$ および $\var{k} < (s+1)^2$ が成り立つ
 
 
 \begin{entry}{%
-\proto{expt}{ \vri{z} \vrii{z}}{procedure}}
+\proto{expt}{ \vri{z} \vrii{z}}{手続き}}
 
 \vri{z}の\vrii{z}乗を返します。
 \vri{z}がゼロでなければ、これは $${z_1}^{z_2} = e^{z_2 \log {z_1}}$$ です。
@@ -1194,12 +1194,12 @@ $0.0^z$の場合も同様ですが、不正確な結果になります。
 
 
 \begin{entry}{%
-\proto{make-rectangular}{ \vri{x} \vrii{x}}{complex library procedure}
-\proto{make-polar}{ \vriii{x} \vriv{x}}{complex library procedure}
-\proto{real-part}{ \vr{z}}{complex library procedure}
-\proto{imag-part}{ \vr{z}}{complex library procedure}
-\proto{magnitude}{ \vr{z}}{complex library procedure}
-\proto{angle}{ \vr{z}}{complex library procedure}}
+\proto{make-rectangular}{ \vri{x} \vrii{x}}{complexライブラリの手続き}
+\proto{make-polar}{ \vriii{x} \vriv{x}}{complexライブラリの手続き}
+\proto{real-part}{ \vr{z}}{complexライブラリの手続き}
+\proto{imag-part}{ \vr{z}}{complexライブラリの手続き}
+\proto{magnitude}{ \vr{z}}{complexライブラリの手続き}
+\proto{angle}{ \vr{z}}{complexライブラリの手続き}}
 
 実数\vri{x}、\vrii{x}、\vriii{x}、\vriv{x}および
 複素数\vr{z}について
@@ -1232,8 +1232,8 @@ $0.0^z$の場合も同様ですが、不正確な結果になります。
 
 
 \begin{entry}{%
-\proto{inexact}{ \vr{z}}{procedure}
-\proto{exact}{ \vr{z}}{procedure}}
+\proto{inexact}{ \vr{z}}{手続き}
+\proto{exact}{ \vr{z}}{手続き}}
 
 手続き{\cf inexact}は\vr{z}の\tupe{不正確}な表現を返します。
 戻り値は数値的に引数に最も近い\tupe{不正確}な数値です。
@@ -1271,8 +1271,8 @@ $0.0^z$の場合も同様ですが、不正確な結果になります。
 \subsection{数値の入出力}
 
 \begin{entry}{%
-\proto{number->string}{ z}{procedure}
-\rproto{number->string}{ z radix}{procedure}}
+\proto{number->string}{ z}{手続き}
+\rproto{number->string}{ z radix}{手続き}}
 
 \domain{\vr{radix}が2、8、10、16のいずれでもなければエラーです。}
 手続き{\cf number\coerce{}string}は数値と基数を取り、
@@ -1313,8 +1313,8 @@ $0.0^z$の場合も同様ですが、不正確な結果になります。
 
 
 \begin{entry}{%
-\proto{string->number}{ string}{procedure}
-\rproto{string->number}{ string radix}{procedure}}
+\proto{string->number}{ string}{手続き}
+\rproto{string->number}{ string radix}{手続き}}
 
 
 \vr{string}によって表現された最大限に正確な表現の数値を返します。
@@ -1390,7 +1390,7 @@ Schemeでは\schfalse{}と空リスト\index{empty list}はお互いに区別さ
 
 
 \begin{entry}{%
-\proto{not}{ obj}{procedure}}
+\proto{not}{ obj}{手続き}}
 
 {\cf not}手続きは
 \var{obj}が偽の場合\schtrue{}を返し、
@@ -1410,7 +1410,7 @@ Schemeでは\schfalse{}と空リスト\index{empty list}はお互いに区別さ
 
 
 \begin{entry}{%
-\proto{boolean?}{ obj}{procedure}}
+\proto{boolean?}{ obj}{手続き}}
 
 {\cf boolean?}述語は\var{obj}が\schtrue{}または\schfalse{}の場合
 \schtrue{}を返し、そうでなければ\schfalse{}を返します。
@@ -1424,7 +1424,7 @@ Schemeでは\schfalse{}と空リスト\index{empty list}はお互いに区別さ
 \end{entry}
 
 \begin{entry}{%
-\proto{boolean=?}{ \vari{boolean} \varii{boolean} \variii{boolean} \dotsfoo}{procedure}}
+\proto{boolean=?}{ \vari{boolean} \varii{boolean} \variii{boolean} \dotsfoo}{手続き}}
 
 引数がすべてブーリアンで、
 すべて\schtrue{}であるかすべて\schfalse{}であれば、
@@ -1536,7 +1536,7 @@ y                       \ev  (a . 4)
  
 
 \begin{entry}{%
-\proto{pair?}{ obj}{procedure}}
+\proto{pair?}{ obj}{手続き}}
 
 {\cf pair?}手続きは、\var{obj}がペアであれば\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -1551,7 +1551,7 @@ y                       \ev  (a . 4)
 
 
 \begin{entry}{%
-\proto{cons}{ \vari{obj} \varii{obj}}{procedure}}
+\proto{cons}{ \vari{obj} \varii{obj}}{手続き}}
 
 carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられたペアを返します。
 このペアは既存のいかなるオブジェクトとも({\cf eqv?}の意味で)異なることが保証されています。
@@ -1567,7 +1567,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{car}{ pair}{procedure}}
+\proto{car}{ pair}{手続き}}
 
 \var{pair}のcarフィールドの内容を返します。
 空リスト\index{empty list}のcarを取ることはエラーであることに注意してください。
@@ -1583,7 +1583,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{cdr}{ pair}{procedure}}
+\proto{cdr}{ pair}{手続き}}
 
 \var{pair}のcdrフィールドの内容を返します。
 空リストのcdrを取ることはエラーであることに注意してください。
@@ -1598,7 +1598,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{set-car!}{ pair obj}{procedure}}
+\proto{set-car!}{ pair obj}{手続き}}
 
 \var{pair}のcarフィールドに\var{obj}を格納します。
 \begin{scheme}
@@ -1612,20 +1612,20 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{set-cdr!}{ pair obj}{procedure}}
+\proto{set-cdr!}{ pair obj}{手続き}}
 
 \var{pair}のcdrフィールドに\var{obj}を格納します。
 \end{entry}
 
 \setbox0\hbox{\tt(cadr \var{pair})}
-\setbox1\hbox{procedure}
+\setbox1\hbox{手続き}
 
 
 \begin{entry}{%
-\proto{caar}{ pair}{procedure}
-\proto{cadr}{ pair}{procedure}
-\proto{cdar}{ pair}{procedure}
-\proto{cddr}{ pair}{procedure}}
+\proto{caar}{ pair}{手続き}
+\proto{cadr}{ pair}{手続き}
+\proto{cdar}{ pair}{手続き}
+\proto{cddr}{ pair}{手続き}}
 
 これらの手続きは以下のような{\cf car}および{\cf cdr}の合成関数です。
 
@@ -1639,8 +1639,8 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \end{entry}
 
 \begin{entry}{%
-\proto{caaar}{ pair}{cxr library procedure}%
-\proto{caadr}{ pair}{cxr library procedure}%
+\proto{caaar}{ pair}{cxrライブラリの手続き}%
+\proto{caadr}{ pair}{cxrライブラリの手続き}%
 \pproto{\hbox to 1\wd0 {\hfil$\vdots$\hfil}}{\hbox to 1\wd1 {\hfil$\vdots$\hfil}}%
 \mainschindex{cadar}\mainschindex{caddr}%
 \mainschindex{cdaar}\mainschindex{cdadr}\mainschindex{cddar}\mainschindex{cdddr}%
@@ -1648,8 +1648,8 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \mainschindex{cadaar}\mainschindex{cadadr}\mainschindex{caddar}\mainschindex{cadddr}%
 \mainschindex{cdaaar}\mainschindex{cdaadr}\mainschindex{cdadar}\mainschindex{cdaddr}%
 \mainschindex{cddaar}\mainschindex{cddadr}%
-\proto{cdddar}{ pair}{cxr library procedure}%
-\proto{cddddr}{ pair}{cxr library procedure}}
+\proto{cdddar}{ pair}{cxrライブラリの手続き}%
+\proto{cddddr}{ pair}{cxrライブラリの手続き}}
 
 これら24個の手続きは同じ考え方に基づいた{\cf car}および{\cf cdr}のさらなる合成関数です。
 例えば、{\cf caddr}は以下のように定義できます。
@@ -1664,7 +1664,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{null?}{ obj}{procedure}}
+\proto{null?}{ obj}{手続き}}
 
 \var{obj}が空リスト\index{empty list}であれば\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -1672,7 +1672,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \end{entry}
 
 \begin{entry}{%
-\proto{list?}{ obj}{procedure}}
+\proto{list?}{ obj}{手続き}}
 
 \var{obj}がリストであれば\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -1691,8 +1691,8 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \end{entry}
 
 \begin{entry}{%
-\proto{make-list}{ k}{procedure}
-\rproto{make-list}{ k fill}{procedure}}
+\proto{make-list}{ k}{手続き}
+\rproto{make-list}{ k fill}{手続き}}
 
 \var{k}要素の新しく割り当てられたリストを返します。
 第2引数が指定された場合は、その各要素が\var{fill}に初期化されます。
@@ -1707,7 +1707,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{list}{ \var{obj} \dotsfoo}{procedure}}
+\proto{list}{ \var{obj} \dotsfoo}{手続き}}
 
 その引数から成る新しく割り当てられたリストを返します。
 
@@ -1719,7 +1719,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{length}{ list}{procedure}}
+\proto{length}{ list}{手続き}}
 
 \var{list}の長さを返します。
 
@@ -1734,7 +1734,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{append}{ list \dotsfoo}{procedure}}
+\proto{append}{ list \dotsfoo}{手続き}}
 
 \domain{最後の引数(もしあれば)は任意の型を指定できます。}
 最初の\var{list}の要素に他の\var{list}の要素を続けたものを要素とするリストを返します。
@@ -1758,7 +1758,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{reverse}{ list}{procedure}}
+\proto{reverse}{ list}{手続き}}
 
 \var{list}の要素から成る逆順の新しく割り当てられたリストを返します。
 
@@ -1770,7 +1770,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{list-tail}{ list \vr{k}}{procedure}}
+\proto{list-tail}{ list \vr{k}}{手続き}}
 
 \domain{\var{list}の要素が\vr{k}個より少ない場合はエラーです。}
 最初の\vr{k}個の要素を除いて得られる\var{list}の部分リストを返します。
@@ -1786,7 +1786,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{list-ref}{ list \vr{k}}{procedure}}
+\proto{list-ref}{ list \vr{k}}{手続き}}
 
 \domain{\var{list}引数は循環構造でも構いません。
 \var{list}の要素が\vr{k}個より少ない場合はエラーです。}
@@ -1801,7 +1801,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \end{entry}
 
 \begin{entry}{%
-\proto{list-set!}{ list k obj}{procedure}}
+\proto{list-set!}{ list k obj}{手続き}}
 
 \domain{\vr{k}が\var{list}の有効なインデックスでない場合はエラーです。}
 {\cf list-set!}手続きは\var{list}の\vr{k}番目の要素に\var{obj}を格納します。
@@ -1818,10 +1818,10 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{memq}{ obj list}{procedure}
-\proto{memv}{ obj list}{procedure}
-\proto{member}{ obj list}{procedure}
-\rproto{member}{ obj list compare}{procedure}}
+\proto{memq}{ obj list}{手続き}
+\proto{memv}{ obj list}{手続き}
+\proto{member}{ obj list}{手続き}
+\rproto{member}{ obj list compare}{手続き}}
 
 これらの手続きはcarが\var{obj}である最初の\var{list}の部分リストを返します。
 \var{list}の部分リストは
@@ -1851,10 +1851,10 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 
 
 \begin{entry}{%
-\proto{assq}{ obj alist}{procedure}
-\proto{assv}{ obj alist}{procedure}
-\proto{assoc}{ obj alist}{procedure}
-\rproto{assoc}{ obj alist compare}{procedure}}
+\proto{assq}{ obj alist}{手続き}
+\proto{assv}{ obj alist}{手続き}
+\proto{assoc}{ obj alist}{手続き}
+\rproto{assoc}{ obj alist compare}{手続き}}
 
 \domain{\var{alist}(``association list''(連想リスト)の略)がペアのリストでなければエラーです。}
 これらの手続きはcarフィールドが\var{obj}である\var{alist}内の最初のペアを探し、
@@ -1892,7 +1892,7 @@ carに\var{obj}を持つペアが\var{alist}内に無ければ、
 \end{entry}
 
 \begin{entry}{%
-\proto{list-copy}{ obj}{procedure}}
+\proto{list-copy}{ obj}{手続き}}
 
 \var{obj}がリストの場合、その新しく割り当てられたコピーを返します。
 コピーされるのはペア自身だけです。
@@ -1936,7 +1936,7 @@ write/read不変原則を破る値を持つ処理系もあります。
 
 
 \begin{entry}{%
-\proto{symbol?}{ obj}{procedure}}
+\proto{symbol?}{ obj}{手続き}}
 
 \var{obj}がシンボルであれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 
@@ -1951,7 +1951,7 @@ write/read不変原則を破る値を持つ処理系もあります。
 \end{entry}
 
 \begin{entry}{%
-\proto{symbol=?}{ \vari{symbol} \varii{symbol} \variii{symbol} \dotsfoo}{procedure}}
+\proto{symbol=?}{ \vari{symbol} \varii{symbol} \variii{symbol} \dotsfoo}{手続き}}
 
 引数がすべてシンボルであり、その名前がすべて({\cf string=?}の意味で)同じであれば、
 \schtrue{}を返します。
@@ -1963,7 +1963,7 @@ write/read不変原則を破る値を持つ処理系もあります。
 \end{entry}
 
 \begin{entry}{%
-\proto{symbol->string}{ symbol}{procedure}}
+\proto{symbol->string}{ symbol}{手続き}}
 
 \var{symbol}の名前を文字列として返します。
 ただしエスケープは行われていません。
@@ -1981,7 +1981,7 @@ write/read不変原則を破る値を持つ処理系もあります。
 
 
 \begin{entry}{%
-\proto{string->symbol}{ string}{procedure}}
+\proto{string->symbol}{ string}{手続き}}
 
 名前が\var{string}であるシンボルを返します。
 この手続きにより、書き出すときにエスケープが必要な特殊な文字を含む名前のシンボルを
@@ -2074,7 +2074,7 @@ $$
 
 
 \begin{entry}{%
-\proto{char?}{ obj}{procedure}}
+\proto{char?}{ obj}{手続き}}
 
 \var{obj}が文字であれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 
@@ -2082,11 +2082,11 @@ $$
 
 
 \begin{entry}{%
-\proto{char=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char<?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char>?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}}
+\proto{char=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{手続き}
+\proto{char<?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{手続き}
+\proto{char>?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{手続き}
+\proto{char<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{手続き}
+\proto{char>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{手続き}}
 
 \label{characterequality}
 
@@ -2101,11 +2101,11 @@ $$
 
 
 \begin{entry}{%
-\proto{char-ci=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci<?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci>?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}}
+\proto{char-ci=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{charライブラリの手続き}
+\proto{char-ci<?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{charライブラリの手続き}
+\proto{char-ci>?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{charライブラリの手続き}
+\proto{char-ci<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{charライブラリの手続き}
+\proto{char-ci>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{charライブラリの手続き}}
 
 これらの手続きは{\cf char=?}等に似ていますが、大文字と小文字を同じとみなす点が異なります。
 例えば、 {\cf (char-ci=?\ \#\backwhack{}A \#\backwhack{}a)} は\schtrue{}を返します。
@@ -2116,11 +2116,11 @@ $$
 
 
 \begin{entry}{%
-\proto{char-alphabetic?}{ char}{char library procedure}
-\proto{char-numeric?}{ char}{char library procedure}
-\proto{char-whitespace?}{ char}{char library procedure}
-\proto{char-upper-case?}{ letter}{char library procedure}
-\proto{char-lower-case?}{ letter}{char library procedure}}
+\proto{char-alphabetic?}{ char}{charライブラリの手続き}
+\proto{char-numeric?}{ char}{charライブラリの手続き}
+\proto{char-whitespace?}{ char}{charライブラリの手続き}
+\proto{char-upper-case?}{ letter}{charライブラリの手続き}
+\proto{char-lower-case?}{ letter}{charライブラリの手続き}}
 
 これらの手続きは、引数がそれぞれアルファベットである、数字である、ホワイトスペースである、
 大文字である、または小文字である場合に\schtrue{}を返し、
@@ -2137,7 +2137,7 @@ Unicodeにはたくさんあることに注意してください。
 
 
 \begin{entry}{%
-\proto{digit-value}{ char}{char library procedure}}
+\proto{digit-value}{ char}{charライブラリの手続き}}
 
 この手続きは引数が数字(つまり{\cf char-numeric?}が\schtrue{}を返す)の場合、
 その引数の数値(0から9)を返し、それ以外の文字に対しては\schfalse{}を返します。
@@ -2152,8 +2152,8 @@ Unicodeにはたくさんあることに注意してください。
 
 
 \begin{entry}{%
-\proto{char->integer}{ char}{procedure}
-\proto{integer->char}{ \vr{n}}{procedure}}
+\proto{char->integer}{ char}{手続き}
+\proto{integer->char}{ \vr{n}}{手続き}}
 
 {\cf char\coerce{}integer}にUnicode文字を与えると、
 その文字のUnicodeスカラー値と等しい
@@ -2169,9 +2169,9 @@ Unicodeにはたくさんあることに注意してください。
 
 
 \begin{entry}{%
-\proto{char-upcase}{ char}{char library procedure}
-\proto{char-downcase}{ char}{char library procedure}
-\proto{char-foldcase}{ char}{char library procedure}}
+\proto{char-upcase}{ char}{charライブラリの手続き}
+\proto{char-downcase}{ char}{charライブラリの手続き}
+\proto{char-foldcase}{ char}{charライブラリの手続き}}
 
 
 {\cf char-upcase}手続きは、
@@ -2269,15 +2269,15 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 試みることもエラーです。
 
 \begin{entry}{%
-\proto{string?}{ obj}{procedure}}
+\proto{string?}{ obj}{手続き}}
 
 \var{obj}が文字列であれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 \end{entry}
 
 
 \begin{entry}{%
-\proto{make-string}{ \vr{k}}{procedure}
-\rproto{make-string}{ \vr{k} char}{procedure}}
+\proto{make-string}{ \vr{k}}{手続き}
+\rproto{make-string}{ \vr{k} char}{手続き}}
 
 {\cf make-string}手続きは新しく割り当てられた長さ\vr{k}の文字列を返します。
 \var{char}が与えられた場合は、その文字列のすべての文字が\var{char}で初期化されます。
@@ -2286,7 +2286,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \end{entry}
 
 \begin{entry}{%
-\proto{string}{ char \dotsfoo}{procedure}}
+\proto{string}{ char \dotsfoo}{手続き}}
 
 引数から成る新しく割り当てられた文字列を返します。
 これは{\cf list}の類似品です。
@@ -2294,14 +2294,14 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \end{entry}
 
 \begin{entry}{%
-\proto{string-length}{ string}{procedure}}
+\proto{string-length}{ string}{手続き}}
 
 与えられた\var{string}の文字数を返します。
 \end{entry}
 
 
 \begin{entry}{%
-\proto{string-ref}{ string \vr{k}}{procedure}}
+\proto{string-ref}{ string \vr{k}}{手続き}}
 
 \domain{\vr{k}が\var{string}の有効なインデックスでなければエラーです。}
 {\cf string-ref}手続きは\var{string}の\vr{k}番目の文字を返します。
@@ -2311,7 +2311,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 
 
 \begin{entry}{%
-\proto{string-set!}{ string k char}{procedure}}
+\proto{string-set!}{ string k char}{手続き}}
 
 \domain{\vr{k}が\var{string}の有効なインデックスでなければエラーです。}
 {\cf string-set!}手続きは\var{string}の\vr{k}番目の要素に\var{char}を格納します。
@@ -2331,7 +2331,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 
 
 \begin{entry}{%
-\proto{string=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}}
+\proto{string=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{手続き}}
 
 すべての文字列が同じ長さで、正確に同じ文字を同じ位置に持つ場合、\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -2339,7 +2339,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \end{entry}
 
 \begin{entry}{%
-\proto{string-ci=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}}
+\proto{string-ci=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{charライブラリの手続き}}
 
 大文字小文字畳み込みの後、
 すべての文字列が同じ長さで、同じ位置に同じ文字を持つ場合、\schtrue{}を返し、
@@ -2350,14 +2350,14 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 
 
 \begin{entry}{%
-\proto{string<?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci<?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}
-\proto{string>?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci>?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}
-\proto{string<=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci<=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}
-\proto{string>=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci>=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}}
+\proto{string<?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{手続き}
+\proto{string-ci<?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{charライブラリの手続き}
+\proto{string>?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{手続き}
+\proto{string-ci>?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{charライブラリの手続き}
+\proto{string<=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{手続き}
+\proto{string-ci<=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{charライブラリの手続き}
+\proto{string>=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{手続き}
+\proto{string-ci>=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{charライブラリの手続き}}
 
 これらの手続きは引数がそれぞれ単調に増加している、単調に減少している、
 単調に増加していない、または単調に減少していない場合に\schtrue{}を返します。
@@ -2388,9 +2388,9 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \end{entry}
 
 \begin{entry}{%
-\proto{string-upcase}{ string}{char library procedure}
-\proto{string-downcase}{ string}{char library procedure}
-\proto{string-foldcase}{ string}{char library procedure}}
+\proto{string-upcase}{ string}{charライブラリの手続き}
+\proto{string-downcase}{ string}{charライブラリの手続き}
+\proto{string-foldcase}{ string}{charライブラリの手続き}}
 
 
 これらの手続きは、引数に対して
@@ -2411,7 +2411,7 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 
 
 \begin{entry}{%
-\proto{substring}{ string start end}{procedure}}
+\proto{substring}{ string start end}{手続き}}
 
 {\cf substring}手続きは
 \var{string}内のインデックス\var{start}で始まりインデックス\var{end}で終わる文字から成る
@@ -2422,7 +2422,7 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 
 
 \begin{entry}{%
-\proto{string-append}{ \var{string} \dotsfoo}{procedure}}
+\proto{string-append}{ \var{string} \dotsfoo}{手続き}}
 
 与えられた文字列の文字を連結した文字を持つ新しく割り当てられた文字列を返します。
 
@@ -2430,10 +2430,10 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 
 
 \begin{entry}{%
-\proto{string->list}{ string}{procedure}
-\rproto{string->list}{ string start}{procedure}
-\rproto{string->list}{ string start end}{procedure}
-\proto{list->string}{ list}{procedure}}
+\proto{string->list}{ string}{手続き}
+\rproto{string->list}{ string start}{手続き}
+\rproto{string->list}{ string start end}{手続き}
+\proto{list->string}{ list}{手続き}}
 
 \domain{\var{list}の要素のいずれかが文字でなければエラーです。}
 {\cf string\coerce{}list}手続きは\var{string}内の\var{start}〜\var{end}間の文字の
@@ -2448,9 +2448,9 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 
 
 \begin{entry}{%
-\proto{string-copy}{ string}{procedure}
-\rproto{string-copy}{ string start}{procedure}
-\rproto{string-copy}{ string start end}{procedure}}
+\proto{string-copy}{ string}{手続き}
+\rproto{string-copy}{ string start}{手続き}
+\rproto{string-copy}{ string start end}{手続き}}
 
 与えられた\var{string}の\var{start}〜\var{end}の部分の
 新しく割り当てられたコピーを返します。
@@ -2459,9 +2459,9 @@ Unicode標準ではギリシア文字の $\Sigma$ に特別な扱いが規定さ
 
 
 \begin{entry}{%
-\proto{string-copy!}{ to at from}{procedure}
-\rproto{string-copy!}{ to at from start}{procedure}
-\rproto{string-copy!}{ to at from start end}{procedure}}
+\proto{string-copy!}{ to at from}{手続き}
+\rproto{string-copy!}{ to at from start}{手続き}
+\rproto{string-copy!}{ to at from start end}{手続き}}
 
 \domain{\var{at}がゼロより小さいか\var{to}の長さより大きい場合はエラーです。
 {\cf (- (string-length \var{to}) \var{at})} が
@@ -2486,9 +2486,9 @@ b \ev "a12de"%
 
 
 \begin{entry}{%
-\proto{string-fill!}{ string fill}{procedure}
-\rproto{string-fill!}{ string fill start}{procedure}
-\rproto{string-fill!}{ string fill start end}{procedure}}
+\proto{string-fill!}{ string fill}{手続き}
+\rproto{string-fill!}{ string fill start}{手続き}
+\rproto{string-fill!}{ string fill start end}{手続き}}
 
 \domain{\var{fill}が文字でなければエラーです。}
 
@@ -2526,15 +2526,15 @@ b \ev "a12de"%
 そのため、プログラム中でquoteする必要はありません。
 
 \begin{entry}{%
-\proto{vector?}{ obj}{procedure}}
+\proto{vector?}{ obj}{手続き}}
  
 \var{obj}がベクタであれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 \end{entry}
 
 
 \begin{entry}{%
-\proto{make-vector}{ k}{procedure}
-\rproto{make-vector}{ k fill}{procedure}}
+\proto{make-vector}{ k}{手続き}
+\rproto{make-vector}{ k fill}{手続き}}
 
 \var{k}個の要素を持つ新しく割り当てられたベクタを返します。
 第2引数が与えられた場合、各要素は\var{fill}に初期化されます。
@@ -2544,7 +2544,7 @@ b \ev "a12de"%
 
 
 \begin{entry}{%
-\proto{vector}{ obj \dotsfoo}{procedure}}
+\proto{vector}{ obj \dotsfoo}{手続き}}
 
 与えられた引数を要素に持つ新しく割り当てられたベクタを返します。
 これは{\cf list}の類似品です。
@@ -2556,14 +2556,14 @@ b \ev "a12de"%
 
 
 \begin{entry}{%
-\proto{vector-length}{ vector}{procedure}}
+\proto{vector-length}{ vector}{手続き}}
 
 \var{vector}の要素の数を正確な整数として返します。
 \end{entry}
 
 
 \begin{entry}{%
-\proto{vector-ref}{ vector k}{procedure}}
+\proto{vector-ref}{ vector k}{手続き}}
 
 \domain{\vr{k}が\var{vector}の有効なインデックスでなければエラーです。}
 {\cf vector-ref}手続きは\var{vector}の\vr{k}番目の要素の内容を返します。
@@ -2579,7 +2579,7 @@ b \ev "a12de"%
 
 
 \begin{entry}{%
-\proto{vector-set!}{ vector k obj}{procedure}}
+\proto{vector-set!}{ vector k obj}{手続き}}
 
 \domain{\vr{k}が\var{vector}の有効なインデックスでなければエラーです。}
 {\cf vector-set!}手続きは\var{vector}の\vr{k}番目の要素に\var{obj}を格納します。
@@ -2594,10 +2594,10 @@ b \ev "a12de"%
 
 
 \begin{entry}{%
-\proto{vector->list}{ vector}{procedure}
-\rproto{vector->list}{ vector start}{procedure}
-\rproto{vector->list}{ vector start end}{procedure}
-\proto{list->vector}{ list}{procedure}}
+\proto{vector->list}{ vector}{手続き}
+\rproto{vector->list}{ vector start}{手続き}
+\rproto{vector->list}{ vector start end}{手続き}
+\proto{list->vector}{ list}{手続き}}
 
 {\cf vector->list}手続きは\var{vector}の\var{start}〜\var{end}の要素に
 格納されているオブジェクトから成る新しく割り当てられたリストを返します。
@@ -2614,12 +2614,12 @@ b \ev "a12de"%
 \end{entry}
 
 \begin{entry}{%
-\proto{vector->string}{ vector}{procedure}
-\rproto{vector->string}{ vector start}{procedure}
-\rproto{vector->string}{ vector start end}{procedure}
-\proto{string->vector}{ string}{procedure}
-\rproto{string->vector}{ string start}{procedure}
-\rproto{string->vector}{ string start end}{procedure}}
+\proto{vector->string}{ vector}{手続き}
+\rproto{vector->string}{ vector start}{手続き}
+\rproto{vector->string}{ vector start end}{手続き}
+\proto{string->vector}{ string}{手続き}
+\rproto{string->vector}{ string start}{手続き}
+\rproto{string->vector}{ string start end}{手続き}}
 \label{vectortostring}
 
 \domain{\var{vector}の\var{start}〜\var{end}の要素の
@@ -2640,9 +2640,9 @@ b \ev "a12de"%
 \end{entry}
 
 \begin{entry}{%
-\proto{vector-copy}{ vector}{procedure}
-\rproto{vector-copy}{ vector start}{procedure}
-\rproto{vector-copy}{ vector start end}{procedure}}
+\proto{vector-copy}{ vector}{手続き}
+\rproto{vector-copy}{ vector start}{手続き}
+\rproto{vector-copy}{ vector start end}{手続き}}
 
 与えられた\var{vector}の\var{start}〜\var{end}の要素の
 新しく割り当てられたコピーを返します。
@@ -2662,9 +2662,9 @@ c \ev \#(8 2)%
 \end{entry}
 
 \begin{entry}{%
-\proto{vector-copy!}{ to at from}{procedure}
-\rproto{vector-copy!}{ to at from start}{procedure}
-\rproto{vector-copy!}{ to at from start end}{procedure}}
+\proto{vector-copy!}{ to at from}{手続き}
+\rproto{vector-copy!}{ to at from start}{手続き}
+\rproto{vector-copy!}{ to at from start end}{手続き}}
 
 \domain{\var{at}がゼロより小さいか\var{to}の長さよりも大きい場合はエラーです。
 {\cf (- (vector-length \var{to}) \var{at})} が
@@ -2688,7 +2688,7 @@ b \ev \#(10 1 2 40 50)%
 \end{entry}
 
 \begin{entry}{%
-\proto{vector-append}{ \var{vector} \dotsfoo}{procedure}}
+\proto{vector-append}{ \var{vector} \dotsfoo}{手続き}}
 
 与えられたベクタの要素を連結した要素を持つ新しく割り当てられたベクタを返します。
 
@@ -2699,9 +2699,9 @@ b \ev \#(10 1 2 40 50)%
 \end{entry}
 
 \begin{entry}{%
-\proto{vector-fill!}{ vector fill}{procedure}
-\rproto{vector-fill!}{ vector fill start}{procedure}
-\rproto{vector-fill!}{ vector fill start end}{procedure}}
+\proto{vector-fill!}{ vector fill}{手続き}
+\rproto{vector-fill!}{ vector fill start}{手続き}
+\rproto{vector-fill!}{ vector fill start end}{手続き}}
 
 {\cf vector-fill!}手続きは\var{vector}の\var{start}〜\var{end}の要素に
 \var{fill}を格納します。
@@ -2742,15 +2742,15 @@ a \lev \#(1 2 smash smash 5)%
 
 
 \begin{entry}{%
-\proto{bytevector?}{ obj}{procedure}}
+\proto{bytevector?}{ obj}{手続き}}
 
 \var{obj}がバイトベクタであれば\schtrue{}を返します。
 そうでなければ\schfalse{}を返します。
 \end{entry}
 
 \begin{entry}{%
-\proto{make-bytevector}{ k}{procedure}
-\rproto{make-bytevector}{ k byte}{procedure}}
+\proto{make-bytevector}{ k}{手続き}
+\rproto{make-bytevector}{ k byte}{手続き}}
 
 {\cf make-bytevector}手続きは長さ\vr{k}の
 新しく割り当てられたバイトベクタを返します。
@@ -2765,7 +2765,7 @@ a \lev \#(1 2 smash smash 5)%
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector}{ \var{byte} \dotsfoo}{procedure}}
+\proto{bytevector}{ \var{byte} \dotsfoo}{手続き}}
 
 引数を持つ新しく割り当てられたバイトベクタを返します。
 
@@ -2776,13 +2776,13 @@ a \lev \#(1 2 smash smash 5)%
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector-length}{ bytevector}{procedure}}
+\proto{bytevector-length}{ bytevector}{手続き}}
 
 \var{bytevector}のバイト単位の長さを正確な整数として返します。
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector-u8-ref}{ bytevector k}{procedure}}
+\proto{bytevector-u8-ref}{ bytevector k}{手続き}}
 
 \domain{\vr{k}が\var{bytevector}の有効なインデックスでなければエラーです。}
 \var{bytevector}の\var{k}番目のバイトを返します。
@@ -2794,7 +2794,7 @@ a \lev \#(1 2 smash smash 5)%
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector-u8-set!}{ bytevector k byte}{procedure}}
+\proto{bytevector-u8-set!}{ bytevector k byte}{手続き}}
 
 \domain{\vr{k}が\var{bytevector}の有効なインデックスでなければエラーです。}
 \var{bytevector}の\var{k}番目のバイトとして\var{byte}を格納します。
@@ -2806,9 +2806,9 @@ a \lev \#(1 2 smash smash 5)%
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector-copy}{ bytevector}{procedure}
-\rproto{bytevector-copy}{ bytevector start}{procedure}
-\rproto{bytevector-copy}{ bytevector start end}{procedure}}
+\proto{bytevector-copy}{ bytevector}{手続き}
+\rproto{bytevector-copy}{ bytevector start}{手続き}
+\rproto{bytevector-copy}{ bytevector start end}{手続き}}
 
 \var{bytevector}の\var{start}〜\var{end}のバイトを持つ
 新しく割り当てられたバイトベクタを返します。
@@ -2821,9 +2821,9 @@ a \lev \#(1 2 smash smash 5)%
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector-copy!}{ to at from}{procedure}
-\rproto{bytevector-copy!}{ to at from start}{procedure}
-\rproto{bytevector-copy!}{ to at from start end}{procedure}}
+\proto{bytevector-copy!}{ to at from}{手続き}
+\rproto{bytevector-copy!}{ to at from start}{手続き}
+\rproto{bytevector-copy!}{ to at from start end}{手続き}}
 
 \domain{\var{at}がゼロより小さいか\var{to}の長さよりも大きい場合はエラーです。
 {\cf (- (bytevector-length \var{to}) \var{at})} が
@@ -2853,7 +2853,7 @@ Schemeの他の同様の手続きとは逆に、
 \end{entry}
 
 \begin{entry}{%
-\proto{bytevector-append}{ \var{bytevector} \dotsfoo}{procedure}}
+\proto{bytevector-append}{ \var{bytevector} \dotsfoo}{手続き}}
 
 与えられたバイトベクタの要素を連結した要素を持つ
 新しく割り当てられたバイトベクタを返します。
@@ -2866,12 +2866,12 @@ Schemeの他の同様の手続きとは逆に、
 
 \label{utf8tostring}
 \begin{entry}{%
-\proto{utf8->string}{ bytevector} {procedure}
-\rproto{utf8->string}{ bytevector start} {procedure}
-\rproto{utf8->string}{ bytevector start end} {procedure}
-\proto{string->utf8}{ string} {procedure}
-\rproto{string->utf8}{ string start} {procedure}
-\rproto{string->utf8}{ string start end} {procedure}}
+\proto{utf8->string}{ bytevector} {手続き}
+\rproto{utf8->string}{ bytevector start} {手続き}
+\rproto{utf8->string}{ bytevector start end} {手続き}
+\proto{string->utf8}{ string} {手続き}
+\rproto{string->utf8}{ string start} {手続き}
+\rproto{string->utf8}{ string start end} {手続き}}
 
 \domain{\var{bytevector}が無効なUTF-8バイトシーケンスを含んでいる場合はエラーです。}
 これらの手続きは、文字列と、
@@ -2899,7 +2899,7 @@ Schemeの他の同様の手続きとは逆に、
 {\cf procedure?}述語もここで述べます。
 
 \begin{entry}{%
-\proto{procedure?}{ obj}{procedure}}
+\proto{procedure?}{ obj}{手続き}}
 
 \var{obj}が手続きであれば\schtrue{}を返し、そうでなければ\schfalse{}を返します。
 
@@ -2918,7 +2918,7 @@ Schemeの他の同様の手続きとは逆に、
 
 
 \begin{entry}{%
-\proto{apply}{ proc \vari{arg} $\ldots$ args}{procedure}}
+\proto{apply}{ proc \vari{arg} $\ldots$ args}{手続き}}
 
 {\cf apply}手続きはリスト
 {\cf(append (list \vari{arg} \dotsfoo) \var{args})}
@@ -2938,7 +2938,7 @@ Schemeの他の同様の手続きとは逆に、
 
 
 \begin{entry}{%
-\proto{map}{ proc \vari{list} \varii{list} \dotsfoo}{procedure}}
+\proto{map}{ proc \vari{list} \varii{list} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it list}の数と同じ数の引数を取らない場合、
 および単一の値を返さない場合はエラーです。}
@@ -2970,7 +2970,7 @@ Schemeの他の同様の手続きとは逆に、
 \end{entry}
 
 \begin{entry}{%
-\proto{string-map}{ proc \vari{string} \varii{string} \dotsfoo}{procedure}}
+\proto{string-map}{ proc \vari{string} \varii{string} \dotsfoo}{手続き}}
 \label{stringmap}
 
 \domain{\var{proc}が{\it string}の数と同じ数の引数を取らない場合、
@@ -3002,7 +3002,7 @@ Schemeの他の同様の手続きとは逆に、
 \end{entry}
 
 \begin{entry}{%
-\proto{vector-map}{ proc \vari{vector} \varii{vector} \dotsfoo}{procedure}}
+\proto{vector-map}{ proc \vari{vector} \varii{vector} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it vector}の数と同じ数の引数を取らない場合、
 および単一の値を返さない場合はエラーです。}
@@ -3034,7 +3034,7 @@ Schemeの他の同様の手続きとは逆に、
 
 
 \begin{entry}{%
-\proto{for-each}{ proc \vari{list} \varii{list} \dotsfoo}{procedure}}
+\proto{for-each}{ proc \vari{list} \varii{list} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it list}の数と同じ数の引数を取らない場合はエラーです。}
 {\cf for-each}の引数は{\cf map}の引数と同様ですが、
@@ -3061,7 +3061,7 @@ Schemeの他の同様の手続きとは逆に、
 \end{entry}
 
 \begin{entry}{%
-\proto{string-for-each}{ proc \vari{string} \varii{string} \dotsfoo}{procedure}}
+\proto{string-for-each}{ proc \vari{string} \varii{string} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it string}の数と同じ数の引数を取らない場合はエラーです。}
 {\cf string-for-each}の引数は{\cf string-map}の引数と同様ですが、
@@ -3085,7 +3085,7 @@ Schemeの他の同様の手続きとは逆に、
 \end{entry}
 
 \begin{entry}{%
-\proto{vector-for-each}{ proc \vari{vector} \varii{vector} \dotsfoo}{procedure}}
+\proto{vector-for-each}{ proc \vari{vector} \varii{vector} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it vector}の数と同じ数の引数を取らない場合はエラーです。}
 {\cf vector-for-each}の引数は{\cf vector-map}の引数と同様ですが、
@@ -3110,8 +3110,8 @@ Schemeの他の同様の手続きとは逆に、
 
 
 \begin{entry}{%
-\proto{call-with-current-continuation}{ proc}{procedure}
-\proto{call/cc}{ proc}{procedure}}
+\proto{call-with-current-continuation}{ proc}{手続き}
+\proto{call/cc}{ proc}{手続き}}
 
 \label{continuations}
 \domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
@@ -3233,7 +3233,7 @@ Schemeのプログラマーにはそれが可能となります。
 \end{entry}
 
 \begin{entry}{%
-\proto{values}{ obj $\ldots$}{procedure}}
+\proto{values}{ obj $\ldots$}{手続き}}
 
 引数をすべて継続に渡します。
 {\tt values}手続きは以下のように定義することが出来ます。
@@ -3246,7 +3246,7 @@ Schemeのプログラマーにはそれが可能となります。
 \end{entry}
 
 \begin{entry}{%
-\proto{call-with-values}{ producer consumer}{procedure}}
+\proto{call-with-values}{ producer consumer}{手続き}}
 
 \var{producer}が引数無しで呼ばれます。
 ただし、その\var{producer}の呼び出し元の継続に値が渡されると、
@@ -3265,7 +3265,7 @@ Schemeのプログラマーにはそれが可能となります。
 \end{entry}
 
 \begin{entry}{%
-\proto{dynamic-wind}{ before thunk after}{procedure}}
+\proto{dynamic-wind}{ before thunk after}{手続き}}
 
 \var{thunk}が引数無しで呼ばれ、その呼び出しの結果を返します。
 \var{before}および\var{after}も以下の規則に従って引数無しで呼ばれます。
@@ -3357,7 +3357,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 また、どんなオブジェクトでも例外を表すために用いることが出来ます。
 
 \begin{entry}{%
-\proto{with-exception-handler}{ \var{handler} \var{thunk}}{procedure}}
+\proto{with-exception-handler}{ \var{handler} \var{thunk}}{手続き}}
 
 \domain{\var{handler}が引数をひとつ取らない場合はエラーです。
 また\var{thunk}がゼロ個の引数を取らない場合もエラーです。}
@@ -3391,7 +3391,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{raise}{ \var{obj}}{procedure}}
+\proto{raise}{ \var{obj}}{手続き}}
 
 例外を発生させ、\var{obj}に対して現在の例外ハンドラを呼び出します。
 ハンドラは{\cf raise}の呼び出し元と同じ動的環境で呼ばれます。
@@ -3401,7 +3401,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{raise-continuable}{ \var{obj}}{procedure}}
+\proto{raise-continuable}{ \var{obj}}{手続き}}
 
 例外を発生させ、\var{obj}に対して現在の例外ハンドラを呼び出します。
 ハンドラは{\cf raise-continuable}の呼び出し元と同じ動的環境で呼ばれます。
@@ -3428,7 +3428,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{scheme}
 
 \begin{entry}{%
-\proto{error}{ \var{message} \var{obj} $\ldots$}{procedure}}
+\proto{error}{ \var{message} \var{obj} $\ldots$}{手続き}}
 
 \domain{\var{message}は文字列であるべきです。}
 \var{message}および\defining{刺激物}として知られる\var{obj}
@@ -3451,7 +3451,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{error-object?}{ obj}{procedure}}
+\proto{error-object?}{ obj}{手続き}}
 
 \var{obj}が{\cf error}によって作成されたオブジェクトであれば\schtrue{}を返します。
 何らかの処理系定義のオブジェクトに対して\schtrue{}を返す場合もあります。
@@ -3463,22 +3463,22 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{error-object-message}{ error-object}{procedure}}
+\proto{error-object-message}{ error-object}{手続き}}
 
 \var{error-object}にカプセル化されているメッセージを返します。
 
 \end{entry}
 
 \begin{entry}{%
-\proto{error-object-irritants}{ error-object}{procedure}}
+\proto{error-object-irritants}{ error-object}{手続き}}
 
 \var{error-object}にカプセル化されている刺激物のリストを返します。
 
 \end{entry}
 
 \begin{entry}{%
-\proto{read-error?}{ obj}{procedure}
-\proto{file-error?}{ obj}{procedure}}
+\proto{read-error?}{ obj}{手続き}
+\proto{file-error?}{ obj}{手続き}}
 
 エラー型の述語です。
 それぞれ、\var{obj}が{\cf read}手続きによって発生した場合、
@@ -3492,7 +3492,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \section{環境と評価}
 
 \begin{entry}{%
-\proto{environment}{ \vri{list} \dotsfoo}{eval library procedure}}
+\proto{environment}{ \vri{list} \dotsfoo}{evalライブラリの手続き}}
 \label{environments}
 
 この手続きは、空の環境を用意し、
@@ -3504,7 +3504,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{scheme-report-environment}{ version}{r5rs library procedure}}
+\proto{scheme-report-environment}{ version}{r5rsライブラリの手続き}}
 
 \var{version}が{\cf 5} (\rfivers に対応する) と等しければ、
 \rfivers ライブラリで定義されている束縛のみを持つ環境の指定子を返します。
@@ -3523,7 +3523,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{null-environment}{ version}{r5rs library procedure}}
+\proto{null-environment}{ version}{r5rsライブラリの手続き}}
 
 \var{version}が{\cf 5} (\rfivers に対応する) と等しければ、
 \rfivers ライブラリで定義されているすべての構文キーワードの束縛のみを持つ
@@ -3542,7 +3542,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{interaction-environment}{}{repl library procedure}}
+\proto{interaction-environment}{}{replライブラリの手続き}}
 
 この手続きは処理系定義の束縛の集合、
 一般的には{\cf(scheme base)}からエクスポートされているもののスーパーセットを持つ
@@ -3552,7 +3552,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 \end{entry}
 
 \begin{entry}{%
-\proto{eval}{ expr-or-def environment-specifier}{eval library procedure}}
+\proto{eval}{ expr-or-def environment-specifier}{evalライブラリの手続き}}
 
 \var{expr-or-def}が式の場合、指定された環境でそれが評価され、その値が返されます。
 定義の場合、指定された識別子が指定された環境で定義されます。
@@ -3602,7 +3602,7 @@ Schemeの処理系は{\em テキストポート}と{\em バイナリポート}�
 ファイル、機器、およびその類似物にアクセスするために使うことが出来ます。
 
 \begin{entry}{%
-\proto{call-with-port}{ port proc}{procedure}}
+\proto{call-with-port}{ port proc}{手続き}}
 
 \domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
 {\cf call-with-port}手続きは\var{port}を引数として\var{proc}を呼びます。
@@ -3623,8 +3623,8 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 \end{entry}
 
 \begin{entry}{%
-\proto{call-with-input-file}{ string proc}{file library procedure}
-\proto{call-with-output-file}{ string proc}{file library procedure}}
+\proto{call-with-input-file}{ string proc}{fileライブラリの手続き}
+\proto{call-with-output-file}{ string proc}{fileライブラリの手続き}}
 
 \domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
 これらの手続きは、
@@ -3634,11 +3634,11 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 \end{entry}
 
 \begin{entry}{%
-\proto{input-port?}{ obj}{procedure}
-\proto{output-port?}{ obj}{procedure}
-\proto{textual-port?}{ obj}{procedure}
-\proto{binary-port?}{ obj}{procedure}
-\proto{port?}{ obj}{procedure}}
+\proto{input-port?}{ obj}{手続き}
+\proto{output-port?}{ obj}{手続き}
+\proto{textual-port?}{ obj}{手続き}
+\proto{binary-port?}{ obj}{手続き}
+\proto{port?}{ obj}{手続き}}
 
 これらの手続きは\var{obj}がそれぞれ入力ポートである、
 出力ポートである、テキストポートである、バイナリポートである、
@@ -3649,8 +3649,8 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 
 \begin{entry}{%
-\proto{input-port-open?}{ port}{procedure}
-\proto{output-port-open?}{ port}{procedure}}
+\proto{input-port-open?}{ port}{手続き}
+\proto{output-port-open?}{ port}{手続き}}
 
 \var{port}がまだ開かれていて、それぞれ入力または出力が可能であれば、
 \schtrue{}を返します。 そうでなければ\schfalse{}を返します。
@@ -3660,9 +3660,9 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 
 \begin{entry}{%
-\proto{current-input-port}{}{procedure}
-\proto{current-output-port}{}{procedure}
-\proto{current-error-port}{}{procedure}}
+\proto{current-input-port}{}{手続き}
+\proto{current-output-port}{}{手続き}
+\proto{current-error-port}{}{手続き}}
 
 それぞれ現在のデフォルトの入力ポート、出力ポート、
 またはエラーポート(出力ポートの一種)を返します。
@@ -3674,8 +3674,8 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 
 \begin{entry}{%
-\proto{with-input-from-file}{ string thunk}{file library procedure}
-\proto{with-output-to-file}{ string thunk}{file library procedure}}
+\proto{with-input-from-file}{ string thunk}{fileライブラリの手続き}
+\proto{with-output-to-file}{ string thunk}{fileライブラリの手続き}}
 
 {\cf open-input-file}または{\cf open-output-file}を用いたかのように
 入力用または出力用にファイルが開かれ、
@@ -3696,8 +3696,8 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 
 \begin{entry}{%
-\proto{open-input-file}{ string}{file library procedure}
-\proto{open-binary-input-file}{ string}{file library procedure}}
+\proto{open-input-file}{ string}{fileライブラリの手続き}
+\proto{open-binary-input-file}{ string}{fileライブラリの手続き}}
  
 既存のファイルを表す\var{string}を取り、
 そのファイルからデータを供給することが出来る
@@ -3709,8 +3709,8 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 
 \begin{entry}{%
-\proto{open-output-file}{ string}{file library procedure}
-\proto{open-binary-output-file}{ string}{file library procedure}}
+\proto{open-output-file}{ string}{fileライブラリの手続き}
+\proto{open-binary-output-file}{ string}{fileライブラリの手続き}}
 
 作成される出力ファイルに名前を付ける\var{string}を取り、
 その名前の新しいファイルにデータを書き出すことが出来る
@@ -3724,9 +3724,9 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 
 \begin{entry}{%
-\proto{close-port}{ port}{procedure}
-\proto{close-input-port}{ port}{procedure}
-\proto{close-output-port}{ port}{procedure}}
+\proto{close-port}{ port}{手続き}
+\proto{close-input-port}{ port}{手続き}
+\proto{close-output-port}{ port}{手続き}}
 
 \var{port}に関連付けられているリソースを閉じ、
 \var{port}のデータ読み書きを行えないようにします。
@@ -3743,7 +3743,7 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 \begin{entry}{%
-\proto{open-input-string}{ string}{procedure}}
+\proto{open-input-string}{ string}{手続き}}
 
 文字列を取り、その文字列から文字を供給するテキスト入力ポートを返します。
 その文字列が変更された場合の効果は規定されていません。
@@ -3751,7 +3751,7 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 \begin{entry}{%
-\proto{open-output-string}{}{procedure}}
+\proto{open-output-string}{}{手続き}}
 
 {\cf get-output-string}によって取得するために文字を蓄積する
 テキスト出力ポートを返します。
@@ -3759,7 +3759,7 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 \begin{entry}{%
-\proto{get-output-string}{ port}{procedure}}
+\proto{get-output-string}{ port}{手続き}}
 
 \domain{\var{port}が{\cf open-output-string}を用いて作成した
 ものでない場合はエラーです。}
@@ -3782,7 +3782,7 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 \begin{entry}{%
-\proto{open-input-bytevector}{ bytevector}{procedure}}
+\proto{open-input-bytevector}{ bytevector}{手続き}}
 
 バイトベクタを取り、そのバイトベクタからバイトを供給する
 バイナリ入力ポートを返します。
@@ -3790,7 +3790,7 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 \begin{entry}{%
-\proto{open-output-bytevector}{}{procedure}}
+\proto{open-output-bytevector}{}{手続き}}
 
 {\cf get-output-bytevector}で取得するためにバイトを蓄積する
 バイナリ出力ポートを返します。
@@ -3798,7 +3798,7 @@ Schemeの処理系は入力ポートであると同時に
 \end{entry}
 
 \begin{entry}{%
-\proto{get-output-bytevector}{ port}{procedure}}
+\proto{get-output-bytevector}{ port}{手続き}}
 
 \domain{\var{port}が{\cf open-output-bytevector}を用いて作成した
 ものでない場合はエラーです。}
@@ -3819,8 +3819,8 @@ Schemeの処理系は入力ポートであると同時に
 
 
 \begin{entry}{%
-\proto{read}{}{read library procedure}
-\rproto{read}{ port}{read library procedure}}
+\proto{read}{}{readライブラリの手続き}
+\rproto{read}{ port}{readライブラリの手続き}}
 
 {\cf read}手続きはSchemeのオブジェクトの外部表現をそのオブジェクト自身に変換します。
 つまりこれは
@@ -3843,8 +3843,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{read-char}{}{procedure}
-\rproto{read-char}{ port}{procedure}}
+\proto{read-char}{}{手続き}
+\rproto{read-char}{ port}{手続き}}
 
 テキスト入力ポート\var{port}から利用可能な次の文字を返し、
 その次の文字を指すよう\var{port}を更新します。
@@ -3854,8 +3854,8 @@ end-of-fileオブジェクトが返されます。
 
 
 \begin{entry}{%
-\proto{peek-char}{}{procedure}
-\rproto{peek-char}{ port}{procedure}}
+\proto{peek-char}{}{手続き}
+\rproto{peek-char}{ port}{手続き}}
 
 テキスト入力ポート\var{port}から利用可能な次の文字を返しますが、
 その次の文字を指すよう\var{port}を更新{\em しません}。
@@ -3875,8 +3875,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{read-line}{}{procedure}
-\rproto{read-line}{ port}{procedure}}
+\proto{read-line}{}{手続き}
+\rproto{read-line}{ port}{手続き}}
 
 テキスト入力ポート\var{port}から利用可能な次の行のテキストを返し、
 その後の文字を指すよう\var{port}を更新します。
@@ -3893,7 +3893,7 @@ end-of-fileオブジェクトが返されます。
 
 
 \begin{entry}{%
-\proto{eof-object?}{ obj}{procedure}}
+\proto{eof-object?}{ obj}{手続き}}
 
 \var{obj}がend-of-fileオブジェクトであれば\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -3904,7 +3904,7 @@ end-of-fileオブジェクトとなることはありません。
 \end{entry}
 
 \begin{entry}{%
-\proto{eof-object}{}{procedure}}
+\proto{eof-object}{}{手続き}}
 
 end-of-fileオブジェクトを返します。
 end-of-fileオブジェクトは唯一であるとは限りません。
@@ -3913,8 +3913,8 @@ end-of-fileオブジェクトは唯一であるとは限りません。
 
 
 \begin{entry}{%
-\proto{char-ready?}{}{procedure}
-\rproto{char-ready?}{ port}{procedure}}
+\proto{char-ready?}{}{手続き}
+\rproto{char-ready?}{ port}{手続き}}
 
 テキスト入力ポート\var{port}において文字の準備が出来た状態であれば
 \schtrue{}を返し、そうでなければ\schfalse{}を返します。
@@ -3937,8 +3937,8 @@ end-of-fileオブジェクトは唯一であるとは限りません。
 \end{entry}
 
 \begin{entry}{%
-\proto{read-string}{ k}{procedure}
-\rproto{read-string}{ k port}{procedure}}
+\proto{read-string}{ k}{手続き}
+\rproto{read-string}{ k port}{手続き}}
 \label{readstring}
 
 テキスト入力ポート\var{port}から次の\var{k}個の文字
@@ -3952,8 +3952,8 @@ end-of-fileオブジェクトが返されます。
 
 
 \begin{entry}{%
-\proto{read-u8}{}{procedure}
-\rproto{read-u8}{ port}{procedure}}
+\proto{read-u8}{}{手続き}
+\rproto{read-u8}{ port}{手続き}}
 
 バイナリ入力ポート\var{port}から利用可能な次のバイトを返し、
 その次のバイトを指すよう\var{port}を更新します。
@@ -3962,8 +3962,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{peek-u8}{}{procedure}
-\rproto{peek-u8}{ port}{procedure}}
+\proto{peek-u8}{}{手続き}
+\rproto{peek-u8}{ port}{手続き}}
 
 バイナリ入力ポート\var{port}から利用可能な次のバイトを返しますが、
 その次のバイトを指すよう\var{port}を更新{\em しません}。
@@ -3972,8 +3972,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{u8-ready?}{}{procedure}
-\rproto{u8-ready?}{ port}{procedure}}
+\proto{u8-ready?}{}{手続き}
+\rproto{u8-ready?}{ port}{手続き}}
 
 
 バイナリ入力ポート\var{port}においてバイトの準備が出来た状態であれば
@@ -3986,8 +3986,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{read-bytevector}{ k}{procedure}
-\rproto{read-bytevector}{ k port}{procedure}}
+\proto{read-bytevector}{ k}{手続き}
+\rproto{read-bytevector}{ k port}{手続き}}
 
 バイナリ入力ポート\var{port}から次の\var{k}個のバイト
 またはファイルの終端までに有る限りのバイトを読み取り、
@@ -3999,10 +3999,10 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{read-bytevector!}{ bytevector}{procedure}
-\rproto{read-bytevector!}{ bytevector port}{procedure}
-\rproto{read-bytevector!}{ bytevector port start}{procedure}
-\rproto{read-bytevector!}{ bytevector port start end}{procedure}}
+\proto{read-bytevector!}{ bytevector}{手続き}
+\rproto{read-bytevector!}{ bytevector port}{手続き}
+\rproto{read-bytevector!}{ bytevector port start}{手続き}
+\rproto{read-bytevector!}{ bytevector port start end}{手続き}}
 
 バイナリ入力ポート\var{port}から次の $end - start$ 個のバイト、
 またはファイルの終端までに有る限りのバイトを読み取り、
@@ -4027,8 +4027,8 @@ end-of-fileオブジェクトが返されます。
 \vspace{-5ex}
 
 \begin{entry}{%
-\proto{write}{ obj}{write library procedure}
-\rproto{write}{ obj port}{write library procedure}}
+\proto{write}{ obj}{writeライブラリの手続き}
+\rproto{write}{ obj port}{writeライブラリの手続き}}
 
 与えられたテキスト出力ポート\var{port}に\var{obj}の表現を書き出します。
 書き出される表現内では、文字列はダブルクオートで囲まれ、
@@ -4049,8 +4049,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{write-shared}{ obj}{write library procedure}
-\rproto{write-shared}{ obj port}{write library procedure}}
+\proto{write-shared}{ obj}{writeライブラリの手続き}
+\rproto{write-shared}{ obj port}{writeライブラリの手続き}}
 
 {\cf write-shared}手続きは{\cf write}と同じですが、
 出力中に2回以上現れるすべてのペアおよびベクタに対して
@@ -4059,8 +4059,8 @@ end-of-fileオブジェクトが返されます。
 \end{entry}
 
 \begin{entry}{%
-\proto{write-simple}{ obj}{write library procedure}
-\rproto{write-simple}{ obj port}{write library procedure}}
+\proto{write-simple}{ obj}{writeライブラリの手続き}
+\rproto{write-simple}{ obj port}{writeライブラリの手続き}}
 
 {\cf write-simple}手続きは{\cf write}と同じですが、
 datumラベルで共有構造を表現することはありません。
@@ -4071,8 +4071,8 @@ datumラベルで共有構造を表現することはありません。
 
 
 \begin{entry}{%
-\proto{display}{ obj}{write library procedure}
-\rproto{display}{ obj port}{write library procedure}}
+\proto{display}{ obj}{writeライブラリの手続き}
+\rproto{display}{ obj port}{writeライブラリの手続き}}
 
 与えられたテキスト出力ポート\var{port}に\var{obj}の表現を書き出します。
 書き出される表現内に現れる文字列は
@@ -4100,8 +4100,8 @@ datumラベルで共有構造を表現することはありません。
 
 
 \begin{entry}{%
-\proto{newline}{}{procedure}
-\rproto{newline}{ port}{procedure}}
+\proto{newline}{}{手続き}
+\rproto{newline}{ port}{手続き}}
 
 テキスト出力ポート\var{port}に行末を書き出します。
 これがどのように為されるかはオペレーティングシステムによって異なります。
@@ -4111,8 +4111,8 @@ datumラベルで共有構造を表現することはありません。
 
 
 \begin{entry}{%
-\proto{write-char}{ char}{procedure}
-\rproto{write-char}{ char port}{procedure}}
+\proto{write-char}{ char}{手続き}
+\rproto{write-char}{ char port}{手続き}}
 
 与えられたテキスト出力ポート\var{port}に文字\var{char}を書き出します
 (その文字の外部表現ではありません)。
@@ -4121,10 +4121,10 @@ datumラベルで共有構造を表現することはありません。
 \end{entry}
 
 \begin{entry}{%
-\proto{write-string}{ string}{procedure}
-\rproto{write-string}{ string port}{procedure}
-\rproto{write-string}{ string port start}{procedure}
-\rproto{write-string}{ string port start end}{procedure}}
+\proto{write-string}{ string}{手続き}
+\rproto{write-string}{ string port}{手続き}
+\rproto{write-string}{ string port start}{手続き}
+\rproto{write-string}{ string port start end}{手続き}}
 
 テキスト出力ポート\var{port}に
 \var{string}の\var{start}〜\var{end}の文字を
@@ -4133,8 +4133,8 @@ datumラベルで共有構造を表現することはありません。
 \end{entry}
 
 \begin{entry}{%
-\proto{write-u8}{ byte}{procedure}
-\rproto{write-u8}{ byte port}{procedure}}
+\proto{write-u8}{ byte}{手続き}
+\rproto{write-u8}{ byte port}{手続き}}
 
 与えられたバイナリ出力ポート\var{port}に\var{byte}を書き出します。
 戻り値は規定されていません。
@@ -4142,10 +4142,10 @@ datumラベルで共有構造を表現することはありません。
 \end{entry}
 
 \begin{entry}{%
-\proto{write-bytevector}{ bytevector}{procedure}
-\rproto{write-bytevector}{ bytevector port}{procedure}
-\rproto{write-bytevector}{ bytevector port start}{procedure}
-\rproto{write-bytevector}{ bytevector port start end}{procedure}}
+\proto{write-bytevector}{ bytevector}{手続き}
+\rproto{write-bytevector}{ bytevector port}{手続き}
+\rproto{write-bytevector}{ bytevector port start}{手続き}
+\rproto{write-bytevector}{ bytevector port start end}{手続き}}
 
 バイナリ出力ポート\var{port}に
 \var{bytevector}の\var{start}〜\var{end}のバイトを
@@ -4154,8 +4154,8 @@ datumラベルで共有構造を表現することはありません。
 \end{entry}
 
 \begin{entry}{%
-\proto{flush-output-port}{}{procedure}
-\rproto{flush-output-port}{ port}{procedure}}
+\proto{flush-output-port}{}{手続き}
+\rproto{flush-output-port}{ port}{手続き}}
 
 バッファリングされているすべての出力を
 出力ポートのバッファから基礎となるファイルまたは機器にフラッシュします。
@@ -4171,8 +4171,8 @@ datumラベルで共有構造を表現することはありません。
 
 
 \begin{entry}{%
-\proto{load}{ filename}{load library procedure}
-\rproto{load}{ filename environment-specifier}{load library procedure}}
+\proto{load}{ filename}{loadライブラリの手続き}
+\rproto{load}{ filename environment-specifier}{loadライブラリの手続き}}
 
 \domain{\var{filename}が文字列でなければエラーです。}
 \var{filename}は処理系依存の方法により
@@ -4195,7 +4195,7 @@ Schemeのソースコードを持つ既存のファイルの名前に変換さ�
 \end{entry}
 
 \begin{entry}{%
-\proto{file-exists?}{ filename}{file library procedure}}
+\proto{file-exists?}{ filename}{fileライブラリの手続き}}
 
 \domain{\var{filename}が文字列でなければエラーです。}
 {\cf file-exists?}手続きは、その名前のファイルが
@@ -4205,7 +4205,7 @@ Schemeのソースコードを持つ既存のファイルの名前に変換さ�
 \end{entry}
 
 \begin{entry}{%
-\proto{delete-file}{ filename}{file library procedure}}
+\proto{delete-file}{ filename}{fileライブラリの手続き}}
 
 \domain{\var{filename}が文字列でなければエラーです。}
 {\cf delete-file}手続きは、
@@ -4217,7 +4217,7 @@ Schemeのソースコードを持つ既存のファイルの名前に変換さ�
 \end{entry}
 
 \begin{entry}{%
-\proto{command-line}{}{process-context library procedure}}
+\proto{command-line}{}{process-contextライブラリの手続き}}
 
 プロセスに渡されたコマンドラインを文字列のリストとして返します。
 最初の文字列はコマンド名に対応していますが、具体的な内容は処理系依存です。
@@ -4225,8 +4225,8 @@ Schemeのソースコードを持つ既存のファイルの名前に変換さ�
 \end{entry}
 
 \begin{entry}{%
-\proto{exit}{}{process-context library procedure}
-\rproto{exit}{ obj}{process-context library procedure}}
+\proto{exit}{}{process-contextライブラリの手続き}
+\rproto{exit}{ obj}{process-contextライブラリの手続き}}
 
 待機中のdynamic-windの\var{after}手続きをすべて実行し、
 実行中のプログラムを終了し、
@@ -4249,8 +4249,8 @@ Schemeのソースコードを持つ既存のファイルの名前に変換さ�
 \end{entry}
 
 \begin{entry}{%
-\proto{emergency-exit}{}{process-context library procedure}
-\rproto{emergency-exit}{ obj}{process-context library procedure}}
+\proto{emergency-exit}{}{process-contextライブラリの手続き}
+\rproto{emergency-exit}{ obj}{process-contextライブラリの手続き}}
 
 待機中のdynamic-windの\var{after}手続きを実行せずに
 プログラムを終了し、
@@ -4267,7 +4267,7 @@ WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
 \todo{Shinn: Do we need any description of what an environment variable is?}
 
 \begin{entry}{%
-\proto{get-environment-variable}{ name}{process-context library procedure}}
+\proto{get-environment-variable}{ name}{process-contextライブラリの手続き}}
 
 多くのオペレーティングシステムでは、
 実行中の各プロセスに\defining{環境変数}から成る\defining{環境}があります。
@@ -4289,7 +4289,7 @@ WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
 \end{entry}
 
 \begin{entry}{%
-\proto{get-environment-variables}{}{process-context library procedure}}
+\proto{get-environment-variables}{}{process-contextライブラリの手続き}}
 
 すべての環境変数の名前と値を連想リストとして返します。
 各エントリのcarが名前で、cdrが値で、両方とも文字列です。
@@ -4303,7 +4303,7 @@ WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
 \end{entry}
 
 \begin{entry}{%
-\proto{current-second}{}{time library procedure}}
+\proto{current-second}{}{timeライブラリの手続き}}
 
 国際原子時(TAI)を基準とした現在の時刻を表す不正確な数値を返します。
 値0.0がTAIにおける1970年1月1日の真夜中 (世界時の真夜中の10秒前と同等)
@@ -4314,7 +4314,7 @@ WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
 \end{entry}
 
 \begin{entry}{%
-\proto{current-jiffy}{}{time library procedure}}
+\proto{current-jiffy}{}{timeライブラリの手続き}}
 
 処理系定義の適切な基点から経過した
 \defining{jiffy}の数を正確な整数として返します。
@@ -4337,7 +4337,7 @@ jiffyは
 \end{entry}
 
 \begin{entry}{%
-\proto{jiffies-per-second}{}{time library procedure}}
+\proto{jiffies-per-second}{}{timeライブラリの手続き}}
 
 1秒あたりのjiffyの数を表す正確な整数を返します。
 この値は処理系固有の定数です。
@@ -4353,7 +4353,7 @@ jiffyは
 \end{entry}
 
 \begin{entry}{%
-\proto{features}{}{procedure}}
+\proto{features}{}{手続き}}
 
 {\cf cond-expand}が真とみなす特徴識別子のリストを返します。
 このリストを変更することはエラーです。

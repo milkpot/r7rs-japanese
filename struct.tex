@@ -187,7 +187,7 @@ RFC~2119~\cite{rfc2119}で述べられているように解釈されるものと
 
 この場合はbaseライブラリの識別子です。
 
-\noindent\pproto{\var{template}}{\var{name} library \var{category}}\unpenalty
+\noindent\pproto{\var{template}}{\var{name}ライブラリの\var{category}}\unpenalty
 
 この\var{name}は付録~\ref{stdlibraries}で定義されているライブラリの短縮名です。
 
@@ -215,14 +215,14 @@ RFC~2119~\cite{rfc2119}で述べられているように解釈されるものと
 見出し行はその手続きを呼び出すためのテンプレートを表しています。
 テンプレート内の引数名は\var{斜体}で示されています。
 
-\noindent\pproto{(vector-ref \var{vector} \var{k})}{procedure}\unpenalty
+\noindent\pproto{(vector-ref \var{vector} \var{k})}{手続き}\unpenalty
 
 この見出し行は、{\tt vector-ref}変数に束縛されている手続きが2つの引数、
 ベクタ\var{vector}および正確な負でない整数\var{k}(下記を参照してください)を取ることを表しています。
 
 \noindent%
-\pproto{(make-vector \var{k})}{procedure}
-\pproto{(make-vector \var{k} \var{fill})}{procedure}\unpenalty
+\pproto{(make-vector \var{k})}{手続き}
+\pproto{(make-vector \var{k} \var{fill})}{手続き}\unpenalty
 
 この見出し行は、
 {\tt make-vector}手続きが1つまたは2つの引数を取るように定義されていなければならないことを表しています。

@@ -76,8 +76,8 @@
 \newcommand{\defining}[1]{\mainindex{#1}{\em #1}}
 \newcommand{\ide}[1]{{\schindex{#1}\frenchspacing\tt{#1}}}
 
-\newcommand{\lambdaexp}{{\cf lambda} expression}
-\newcommand{\Lambdaexp}{{\cf Lambda} expression}
+\newcommand{\lambdaexp}{{\cf lambda} 式}
+\newcommand{\Lambdaexp}{{\cf lambda} 式}
 
 \newcommand{\callcc}{{\tt call-with-current-continuation}}
 
@@ -160,13 +160,13 @@
 % Rationale
 
 \newenvironment{rationale}{%
-\bgroup\small\noindent{\em Rationale:}\space}{%
+\bgroup\small\noindent{\em 論拠:}\space}{%
 \egroup}
 
 % Notes
 
 \newenvironment{note}{%
-\bgroup\small\noindent{\em Note:}\space}{%
+\bgroup\small\noindent{\em メモ:}\space}{%
 \egroup}
 
 % Manual entries
@@ -175,9 +175,9 @@
   \vspace{3.1ex plus .5ex minus .3ex}\noindent#1%
 \unpenalty\nopagebreak}{\vspace{0ex plus 1ex minus 1ex}}
 
-\newcommand{\exprtype}{syntax}
+\newcommand{\exprtype}{構文}
 
-\newcommand{\auxiliarytype}{auxiliary syntax}
+\newcommand{\auxiliarytype}{補助構文}
 
 % Primitive prototype
 \newcommand{\pproto}[2]{\unskip%
@@ -231,13 +231,12 @@
 \def\theindex{%\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
 \clearpage
 \@topnewpage[
-    \centerline{\large\bf\uppercase{Alphabetic index of definitions of concepts,}}
-    \centerline{\large\bf\uppercase{keywords, and procedures}}
+    \centerline{\large\bf\uppercase{概念、キーワード、手続き定義の}}
+    \centerline{\large\bf\uppercase{アルファベット順の索引}}
     \vskip 1ex \bigskip]
-    \markboth{Index}{Index}
+    \markboth{Index}{索引}
     \phantomsection
-    \addcontentsline{toc}{chapter}{Alphabetic index of 
- definitions of concepts,\hfil\penalty0 \hbox{\hspace*{2em} keywords, and procedures}}
+    \addcontentsline{toc}{chapter}{概念、キーワード、手続き定義の\hfil\penalty0 \hbox{\hspace*{2em} アルファベット順の索引}}
     \bgroup %\small
     \parindent\z@
     \parskip\z@ plus .1pt\relax\let\item\@idxitem}

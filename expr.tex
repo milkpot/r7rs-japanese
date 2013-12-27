@@ -526,7 +526,6 @@ else節があれば、その\hyper{expression}が含まれます。
 そうでなければ、\ide{cond-expand}の動作は規定されていません。
 {\cf cond}と異なり、{\cf cond-expand}は何の変数の値にも依存しません。
 
-appendix~\ref{stdfeatures}.
 用意されている正確な特徴は処理系定義ですが、
 移植性のために特徴の中核となる集合が付録~\ref{stdfeatures}掲載されています。
 
@@ -918,7 +917,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 \subsection{遅延評価}\unsection
 
 \begin{entry}{%
-\proto{delay}{ \hyper{expression}}{lazy library syntax}}
+\proto{delay}{ \hyper{expression}}{lazyライブラリの構文}}
 
 \todo{Fix.}
 
@@ -934,7 +933,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 \end{entry}
 
 \begin{entry}{%
-\proto{delay-force}{ \hyper{expression}}{lazy library syntax}}
+\proto{delay-force}{ \hyper{expression}}{lazyライブラリの構文}}
 
 \todo{Fix.}
 
@@ -952,7 +951,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 \end{entry}
 
 \begin{entry}{%
-\proto{force}{ promise}{lazy library procedure}}
+\proto{force}{ promise}{lazyライブラリの手続き}}
 
 {\cf force}手続きは\ide{delay}、\ide{delay-force}または\ide{make-promise}
 によって作成された\var{promise}の値を要求します。\index{promise}
@@ -1059,7 +1058,7 @@ arguments, like {\cf list}, must not force them.
 \end{entry}
 
 \begin{entry}{%
-\proto{promise?} { \var{obj}}{lazy library procedure}}
+\proto{promise?} { \var{obj}}{lazyライブラリの手続き}}
 
 {\cf promise?}手続きは、その引数がプロミスであれば\schtrue{}を返し、
 そうでなければ\schfalse{}を返します。
@@ -1068,7 +1067,7 @@ arguments, like {\cf list}, must not force them.
 \end{entry}
 
 \begin{entry}{%
-\proto{make-promise} { \var{obj}}{lazy library procedure}}
+\proto{make-promise} { \var{obj}}{lazyライブラリの手続き}}
 
 {\cf make-promise}手続きは、forceされたときに\var{obj}を返すプロミスを返します。
 {\cf delay}に似ていますが、引数は遅延されません。
@@ -1090,8 +1089,8 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
 ある時点でのすべてのパラメータの束縛の集合は\defining{動的環境}と呼ばれます。
 
 \begin{entry}{%
-\proto{make-parameter}{ init}{procedure}
-\rproto{make-parameter}{ init converter}{procedure}}
+\proto{make-parameter}{ init}{手続き}
+\rproto{make-parameter}{ init converter}{手続き}}
 
 新しく割り当てられたパラメータオブジェクトを返します。
 パラメータオブジェクトは引数を取らない手続きで、
@@ -1104,7 +1103,7 @@ Schemeでは、{\cf call-with-current-continuation} (\ref{continuations}~節)
 \end{entry}
 
 \begin{entry}{%
-\pproto{(parameterize ((\hyperi{param} \hyperi{value}) \dotsfoo)}{syntax}
+\pproto{(parameterize ((\hyperi{param} \hyperi{value}) \dotsfoo)}{構文}
 {\tt\obeyspaces%
 \hspace*{1em}\hyper{body})}}
 \mainschindex{parameterize}
