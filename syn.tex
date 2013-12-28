@@ -32,8 +32,8 @@
 が文字の並びからどのように形成されるのかを記載しています。
 後続の節ではトークンの並びからどのように式とプログラムが形成されるのかを記載しています。
 
-\meta{intertoken space}はいかなるトークンの隣にも現れることが出来ますが、
-トークンの中に現れることは出来ません。
+\meta{intertoken space}はいかなるトークンの隣にも現れることができますが、
+トークンの中に現れることはできません。
 
 \vest 垂直線で始まっていない識別子は
 \meta{delimiter}または入力の終端で終わります。
@@ -44,17 +44,17 @@ ASCIIレパートリー中の4つの文字
 {\tt \verb"[" \verb"]" \verb"{" \verb"}"}
 は言語の将来の拡張のために予約されています。
 
-Schemeの処理系によっては、
+Scheme処理系は
 下記で規定されているASCIIレパートリーの識別子文字に加え、
-Unicode文字から追加のレパートリーを識別子に用いることが出来るものもあります。
-ただし、Unicode一般カテゴリが
-Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, Co
+Unicode文字から追加のレパートリーを識別子に用いることができても構いません。
+ただしUnicode一般カテゴリが
+Lu、 Ll、 Lt、 Lm、 Lo、 Mn、 Mc、 Me、 Nd、 Nl、 No、 Pd、 Pc、 Po、 Sc、 Sm、 Sk、 So、 Co
 のいずれかの文字であるか、
 U+200C (ゼロ幅非接合子) または U+200D (ゼロ幅接合子)
 である場合に限られます。
 最後の2つはペルシア語、ヒンディー語
 およびその他の言語を正しく書くために必要なものです。
-ただし、最初の文字が一般カテゴリ Nd, Mc, Me のいずれかの場合はエラーです。
+ただし最初の文字が一般カテゴリ Nd、Mc、Me のいずれかの場合はエラーです。
 シンボルや識別子に非Unicode文字を用いることもエラーです。
 
 すべてのScheme処理系は垂直線で囲まれたSchemeの識別子内に現れるエスケープシーケンス
@@ -159,10 +159,10 @@ U+200C (ゼロ幅非接合子) または U+200D (ゼロ幅接合子)
    \>  \| \meta{num $10$} \| \meta{num $16$}
 \end{grammar}
 
-下記の規則 \meta{num $R$}, \meta{complex $R$}, \meta{real $R$},
-\meta{ureal $R$}, \meta{uinteger $R$}および\meta{prefix $R$}は、
+下記の規則 \meta{num $R$}、\meta{complex $R$}、\meta{real $R$}、
+\meta{ureal $R$}、\meta{uinteger $R$}および\meta{prefix $R$}は、
 \hbox{$R = 2, 8, 10, 16$} について暗黙に複製されます。
-\meta{decimal $2$}, \meta{decimal $8$}および\meta{decimal $16$}
+\meta{decimal $2$}、\meta{decimal $8$}および\meta{decimal $16$}
 の規則は存在しません。
 つまり小数点や指数を含む数値は必ず10進数だという意味です。
 以下には示していませんが、数値の文法で使われるアルファベットの文字はすべて、
@@ -219,7 +219,7 @@ U+200C (ゼロ幅非接合子) または U+200D (ゼロ幅接合子)
 \subsection{外部表現}
 \label{datumsyntax}
 
-\meta{datum}は\ide{read}手続き(\ref{read}~節を参照)が正常にパース出来るものです。
+\meta{datum}は\ide{read}手続き(\ref{read}~節を参照)が正常にパースできるものです。
 \meta{expression}としてパースできる文字列はすべて
 \meta{datum}としてもパースできます。\label{datum}
 
