@@ -511,7 +511,7 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 
 \semantics
 各処理系はインポート可能なライブラリのリストと同様に
-存在する特徴識別子のリストを管理しています。
+存在する機能識別子のリストを管理しています。
 それぞれの\hyper{feature identifier}および{\tt(library \hyper{library name})}を、
 それが処理系の持つリストにある場合は\schtrue{}、ない場合は\schfalse{}に置き換え、
 その結果の式を{\cf and}、{\cf or}、{\cf not}の通常の解釈の下で
@@ -527,8 +527,8 @@ else節があればその\hyper{expression}が含まれます。
 そうでなければ\ide{cond-expand}の動作は規定されていません。
 {\cf cond}と異なり{\cf cond-expand}は何の変数の値にも依存しません。
 
-提供されている正確な特徴は処理系定義ですが、
-移植性のために特徴の中核となる集合が付録~\ref{stdfeatures}に掲載されています。
+提供されている正確な機能は処理系定義ですが、
+移植性のために機能の中核的なセットが付録~\ref{stdfeatures}に掲載されています。
 
 \end{entry}
 
