@@ -1578,7 +1578,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 \begin{itemize}
 \item $P$ がアンダースコア ({\cf \_}) である。
 
-\item $P$ がリテラル識別子でない。または
+\item $P$ がリテラルでない識別子である。または
 
 \item $P$ がリテラル識別子であり、 $E$ が同じ束縛を持つ識別子である。または
 
@@ -1603,7 +1603,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 \item $P$ が
       {\cf ($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$ . $P_x$)}
       の形であり、
-      $E$ が $n$ 個の要素を持つリストまたは真正でないリストであり、
+      $E$ が $n$ 個の要素を持つリストまたは非真正リストであり、
       その最初の $k$ 個の要素が $P_1$ から $P_k$ にマッチし、
       続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
       残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチし、
@@ -1641,12 +1641,12 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 %%% This description of output construction is very vague.  It should
 %%% probably be formalized, but that is not easy...
 
-テンプレート内に現れたパターン変数でも識別子\hyper{ellipsis}でもない識別子は
+テンプレート内に現れた、パターン変数でも識別子\hyper{ellipsis}でもない識別子は、
 リテラル識別子として出力中に挿入されます。
-リテラル識別子が自由識別子として挿入される場合、
+リテラル識別子が自由識別子として挿入された場合、
 それは{\cf syntax-rules}のインスタンスが現れたスコープ内のその識別子の束縛を参照します。
-リテラル識別子が束縛識別子として挿入された場合は
-自由識別子を意図せず捕捉しないよう実質的に改名されます。
+リテラル識別子が束縛識別子として挿入された場合、
+それは自由識別子を意図せず捕捉しないよう実質的に改名されます。
 
 {\cf (\hyper{ellipsis} \hyper{template})}
 の形のテンプレートは
@@ -1715,7 +1715,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 展開のパスと評価のパスが分かれている処理系では
 {\cf syntax-error}が展開されたら直ちにエラーを通知するべきです。
 これはマクロの無効な使用方法である\hyper{pattern}に対する
-{\cf syntax-rules} \hyper{template}として使うことができ、
+{\cf syntax-rules}の\hyper{template}として使うことができ、
 より説明的なエラーメッセージを提供することができます。
 \hyper{message}は文字列リテラルで、
 \hyper{args}は追加の情報を提供する任意の式です。
