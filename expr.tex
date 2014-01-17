@@ -306,7 +306,7 @@ Schemeではエラーです。
 \begin{scheme}
 (\hyper{test} => \hyper{expression})%
 \end{scheme}
-最後の\hyper{clause}は以下のような``else節''にすることもできます。
+最後の\hyper{clause}は以下のような「else節」にすることもできます。
 \begin{scheme}
 (else \hyperi{expression} \hyperii{expression} \dotsfoo)\rm.%
 \end{scheme}
@@ -366,7 +366,7 @@ else節があれば、その\hyper{expression}が順に評価され、
 \begin{scheme}
 ((\hyperi{datum} \dotsfoo) => \hyper{expression})%
 \end{scheme}
-最後の\hyper{clause}は以下のいずれかの形を持つ``else節''にできます。
+最後の\hyper{clause}は以下のいずれかの形を持つ「else節」にできます。
 \begin{scheme}
 (else \hyperi{expression} \hyperii{expression} \dotsfoo)
 (else => \hyper{expression})\rm.%
@@ -495,7 +495,7 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 
 {\tt(\hyper{feature requirement} \hyper{expression} \dotsfoo)}
 
-最後の節は以下の形の``else節''にできます。
+最後の節は以下の形の「else節」にできます。
 
 {\tt(else \hyper{expression} \dotsfoo)}
 
@@ -581,7 +581,7 @@ else節があればその\hyper{expression}が含まれます。
     (* z x)))                   \ev  35%
 \end{scheme}
 
-\ref{namedlet}節の``名前付き{\cf let}''も参照してください。
+\ref{namedlet}節の「名前付き{\cf let}」も参照してください。
 
 \end{entry}
 
@@ -889,7 +889,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 
 \label{namedlet}
 \semantics
-``名前付き{\cf let}''は\ide{let}構文の亜種で、
+「名前付き{\cf let}」は\ide{let}構文の亜種で、
 {\cf do}よりも一般的なループ構文です。
 再帰を表現するために使うこともできます。
 普通の{\cf let}と同じ構文と意味論を持ちますが、
@@ -960,7 +960,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 によって作成された\var{promise}の値を要求します。\index{promise}
 そのプロミスに対する値が計算されていなければ値が計算されて返されます。
 プロミスの値は二回目要求されたとき以前計算した値を返すために
-キャッシュ(または``メモ化'')されます。
+キャッシュ(または「メモ化」)されます。
 そのため遅延式は最初に値を要求した{\cf force}呼び出しの
 パラメータおよび例外ハンドラを用いて評価されます。
 \var{promise}がプロミスでなければ、その値が変更されずに返されます。
@@ -1042,7 +1042,7 @@ p                     \ev  {\it{}プロミス(未だに)}
 (pair? (delay (cons 1 2)))  \ev  \unspecified%
 \end{scheme}
 
-\item 処理系は``暗黙のforce''を実装しても構いません。
+\item 処理系は「暗黙のforce」を実装しても構いません。
 これは{\cf cdr}や{\cf *}のような特定の型の引数にのみ作用する手続きが
 プロミスの値をforceするという機能です。
 ただし{\cf list}のように引数を一様に処理する手続きはそれらをforceしてはなりません。
@@ -1215,17 +1215,17 @@ Schemeでは{\cf call-with-current-continuation} (\ref{continuations}~節)
 \pproto{unquote-splicing}{\auxiliarytype}
 \pproto{\commaatsign}{\auxiliarytype}}
 
-``quasiquote''\index{backquote}式は
+「quasiquote」\index{backquote}式は
 全部ではないけれど部分的にあらかじめ判っているような
 リストやベクタ構造を構築する場合に便利です。
 \hyper{qq template}内にコンマが無ければ
 \backquote\hyper{qq template}を評価した結果は
 \singlequote\hyper{qq template}を評価した結果と同等です。
 しかし\hyper{qq template}内にコンマ\mainschindex{,}がある場合、
-コンマに続く式は評価(``unquote'')され、その結果がそのコンマと式の代わりにその構造内に挿入されます。
+コンマに続く式は評価(「unquote」)され、その結果がそのコンマと式の代わりにその構造内に挿入されます。
 コンマにホワイトスペースを挟まずアットマーク(\atsign)\mainschindex{,@}が続いた場合、
 後続の式はリストに評価できなければエラーであり、
-そのリストの開き括弧および閉じ括弧は``剥ぎ取られ''、
+そのリストの開き括弧および閉じ括弧は「剥ぎ取られ」、
 そのリストの要素がコンマ・アットマーク・式の並びのあった場所に挿入されます。
 通常コンマ・アットマークはリストおよびベクタの\hyper{qq template}内にのみ現れます。
 
@@ -1395,7 +1395,7 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 \end{itemize}
 
 これにより
-パターン言語を用いて定義されたマクロはすべて``健全''かつ``参照透明''であり、
+パターン言語を用いて定義されたマクロはすべて「健全」かつ「参照透明」であり、
 Schemeの字句的スコープが保たれます。\cite{Kohlbecker86,
 hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 \mainindex{hygienic}\mainindex{referentially transparent}
