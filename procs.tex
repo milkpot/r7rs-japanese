@@ -13,7 +13,7 @@
 
 {\cf force}、{\cf promise?}および{\cf make-promise}は
 式型{\cf delay}および{\cf delay-force}と密接に関連しているため、\ref{force}~節で説明しています。
-同様に手続き{\cf make-parameter}は式型{\cf parameterize}と密接に関連しているため、
+同様に手続き{\cf make-\+parameter}は式型{\cf parameterize}と密接に関連しているため、
 \ref{make-parameter}~節で説明しています。
 
 \todo{consider removing unspecified effect}
@@ -950,9 +950,9 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 \proto{remainder}{ \vri{n} \vrii{n}}{手続き}
 \proto{modulo}{ \vri{n} \vrii{n}}{手続き}}
 
-{\cf quo\-tient}および{\cf re\-main\-der}手続きはそれぞれ
-{\cf trun\-cate-\+quo\-tient}および{\cf trun\-cate-\+re\-main\-der}と同等であり、
-{\cf modulo}は{\cf floor-\+re\-main\-der}と同等です。
+{\cf quotient}および{\cf remainder}手続きはそれぞれ
+{\cf truncate-\+quotient}および{\cf truncate-\+remainder}と同等であり、
+{\cf modulo}は{\cf floor-\+remainder}と同等です。
 
 \begin{note}
 これらの手続きは以前のバージョンの報告書との後方互換性のために提供されています。
@@ -3065,14 +3065,14 @@ Schemeの他の同様の手続きとは逆に、
 \proto{string-for-each}{ proc \vari{string} \varii{string} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it string}の数と同じ数の引数を取らない場合はエラーです。}
-{\cf string-for-each}の引数は{\cf string-map}の引数と同様ですが、
-{\cf string-for-each}では値のためではなく副作用のために\var{proc}が呼ばれます。
-{\cf string-map}と異なり、{\cf string-for-each}では
+{\cf string-\+for-\+each}の引数は{\cf string-\+map}の引数と同様ですが、
+{\cf string-\+for-\+each}では値のためではなく副作用のために\var{proc}が呼ばれます。
+{\cf string-\+map}と異なり、{\cf string-\+for-\+each}では
 最初の要素から最後の要素まで順番通りに
 \var{list}の要素に対して\var{proc}が呼ばれることが保証されています。
-{\cf string-for-each}の戻り値は規定されていません。
+{\cf string-\+for-\+each}の戻り値は規定されていません。
 \var{string}が2つ以上与えられ、長さの異なる文字列がある場合、
-{\cf string-for-each}は最も短いリストを使い切った時点で終了します。
+{\cf string-\+for-\+each}は最も短いリストを使い切った時点で終了します。
 \var{proc}が文字列のいずれかを変更した場合はエラーです。
 
 \begin{scheme}
@@ -3089,14 +3089,14 @@ Schemeの他の同様の手続きとは逆に、
 \proto{vector-for-each}{ proc \vari{vector} \varii{vector} \dotsfoo}{手続き}}
 
 \domain{\var{proc}が{\it vector}の数と同じ数の引数を取らない場合はエラーです。}
-{\cf vector-for-each}の引数は{\cf vector-map}の引数と同様ですが、
-{\cf vector-for-each}では値のためではなく副作用のために\var{proc}が呼ばれます。
-{\cf vector-map}と異なり、{\cf vector-for-each}では
+{\cf vector-\+for-\+each}の引数は{\cf vector-\+map}の引数と同様ですが、
+{\cf vector-\+for-\+each}では値のためではなく副作用のために\var{proc}が呼ばれます。
+{\cf vector-\+map}と異なり、{\cf vector-\+for-\+each}では
 最初の要素から最後の要素まで順番通りに
 \var{vector}の要素に対して\var{proc}が呼ばれることが保証されています。
-{\cf vector-for-each}の戻り値は規定されていません。
+{\cf vector-\+for-\+each}の戻り値は規定されていません。
 \var{vector}が2つ以上与えられ、長さの異なるベクタがある場合、
-{\cf vector-for-each}は最も短いリストを使い切った時点で終了します。
+{\cf vector-\+for-\+each}は最も短いリストを使い切った時点で終了します。
 \var{proc}がベクタのいずれかを変更した場合はエラーです。
 
 \begin{scheme}
@@ -3179,7 +3179,7 @@ Schemeの他のどんな手続きとも同様に無制限の存続期間を持�
 
 \vest {\cf call-with-current-continuation}の良く有る使い方は、
 ループや手続き本体からの構造化された非局所的な脱出です。
-しかし{\cf call-with-current-continuation}は
+しかし{\cf call-\+with-\+current-\+continuation}は
 幅広い様々な行動な制御構造を実装する役に立ちます。
 実際{\cf raise}および{\cf guard}は非局所的脱出のための
 より構造化された仕組みです。
@@ -3196,7 +3196,7 @@ Schemeの他のどんな手続きとも同様に無制限の存続期間を持�
 通常これらの普遍的な継続は水面下に隠されており、
 プログラマーはこれについて深く考えたりしません。
 しかしプログラマーが明示的に継続を扱わなければならない状況も稀にあります。
-{\cf call-with-current-continuation}手続きが
+{\cf call-\+with-\+current-\+continuation}手続きが
 現在の継続の同様に動作する手続きを作成することにより、
 Schemeのプログラマーにはそれが可能となります。
 
@@ -3617,7 +3617,7 @@ Schemeの処理系は{\em テキストポート}と{\em バイナリポート}�
 Schemeの脱出手続きは無制限の存続期間を持つため、
 現在の継続から脱出して後に再開することが可能です。
 現在の継続から脱出した際にポートを閉じることを認めた場合、
-{\cf call-with-current-continuation}と{\cf call-with-port}を両方用いた
+{\cf call-\+with-\+current-\+continuation}と{\cf call-\+with-\+port}を両方用いた
 移植性のあるコードを書くことが不可能になってしまいます。
 \end{rationale} 
 
@@ -3629,9 +3629,9 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 
 \domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
 これらの手続きは
-{\cf open-input-file}または{\cf open-output-file}を用いたかのように
+{\cf open-input-file}または{\cf open-\+output-\+file}を用いたかのように
 指定された名前のファイルを開き、テキストポートを取得します。
-そしてそのポートと\var{proc}が{\cf call-with-port}と同等の手続きに渡されます。
+そしてそのポートと\var{proc}が{\cf call-\+with-\+port}と同等の手続きに渡されます。
 \end{entry}
 
 \begin{entry}{%
@@ -4259,7 +4259,7 @@ Schemeのソースコードを持つ既存のファイルの名前に変換さ�
 
 \begin{note}
 {\cf emergency-exit}手続きは
-WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
+WindowsやPosixにおける {\cf \_exit}手続きに対応しています。
 \end{note}
 
 \end{entry}
@@ -4280,7 +4280,7 @@ WindowsやPosixにおける{\cf \_exit}手続きに対応しています。
 その名前の環境変数が無ければ\schfalse{}を返します。
 環境変数の名前をエンコードしたり値をデコードするために
 ロケール情報を用いる場合があります。
-{\cf get-environment-variable}が値をデコードできない場合はエラーです。
+{\cf get-\+environment-\+variable}が値をデコードできない場合はエラーです。
 結果の文字列を変更することもエラーです。
 
 \begin{scheme}

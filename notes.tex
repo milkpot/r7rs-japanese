@@ -71,7 +71,7 @@ baseライブラリに追加されました。
 
 \item {\cf raise}、{\cf raise-continuable}あるいは{\cf error}を用いて
 明示的に例外を通知できるようになり、
-{\cf with-exception-handler}および{\cf guard}構文を用いて
+{\cf with-\+exception-\+handler}および{\cf guard}構文を用いて
 例外を処理できるようになりました。
 任意のオブジェクトがエラー状況を規定できます。
 {\cf error}によって通知される処理系定義の状況には
@@ -86,9 +86,9 @@ baseライブラリに追加されました。
 
 \item {\cf make-parameter}を用いてパラメータオブジェクトを作成し、
 {\cf parameterize}を用いてそれを動的に再束縛できます。
-手続き{\cf current-input-port}および{\cf current-output-port}は
+手続き{\cf current-\+input-\+port}および{\cf current-\+output-\+port}は
 パラメータオブジェクトになりました。
-新しく導入された{\cf current-error-port}も同様です。
+新しく導入された{\cf current-\+error-\+port}も同様です。
 
 \item プロミスに対するサポートが
 SRFI 45~\cite{srfi45}に基づいて強化されました。
@@ -187,11 +187,11 @@ EOFオブジェクトは独立した型であることが要求されるよう�
 \item 形式\sharptrue{}および\sharpfalse{}が
 \schtrue{}および\schfalse{}と同様にサポートされるようになりました。
 
-\item 手続き{\cf make-\+list}, {\cf list-\+copy}, {\cf list-\+set!},
-{\cf string-\+map}, {\cf string-\+for-\+each}, {\cf string->\+vector}, 
-{\cf vector-\+append},
-{\cf vector-\+copy}, {\cf vector-\+map}, {\cf vector-\+for-\+each}, 
-{\cf vector->\+string}, {\cf vector-\+copy!}および{\cf string-\+copy!}
+\item 手続き{\cf make-\+list}、{\cf list-\+copy}、{\cf list-\+set!}、
+{\cf string-\+map}、{\cf string-\+for-\+each}、{\cf string->\+vector}、
+{\cf vector-\+append}、
+{\cf vector-\+copy}、{\cf vector-\+map}、{\cf vector-\+for-\+each}、
+{\cf vector->\+string}、{\cf vector-\+copy!}、{\cf string-\+copy!}
 がシーケンス操作の完全化のために追加されました。
 
 \item 文字列およびベクタの手続きのいくつかは
@@ -259,7 +259,7 @@ Unicodeと矛盾しないようにサポートしなければなりません。
 \rsevenrs{}ではコマンドと定義は本体に直接書くことはできません。
 それらは{\cf begin}ライブラリ宣言にラップする必要があります。
 
-\item {\cf include}、{\cf include-\+ci}、{\cf include-\+library-\+dec\-la\-ra\-tions}
+\item {\cf include}、{\cf include-\+ci}、{\cf include-\+library-\+declarations}
 および{\cf cond-\+expand}ライブラリ宣言に直接対応するものは\rsixrs{}にありません。
 一方で\rsevenrs{}のライブラリはフェーズやバージョン仕様をサポートしていません。
 
