@@ -379,7 +379,7 @@ Schemeでは正確な定数として書かれたか、
 その2つの最終結果は数学的に等しくなります。
 このことは\tupe{不正確}な数値を生成する計算では一般に真ではありません。
 浮動小数点計算のような近似的な手法が使われる場合があるためです。
-しかし各々の処理系は数学上の理想的な結果に実用上十分な程度近い結果を生成する義務があります。
+しかし各々の処理系は数学上の理想的な結果に実用上十分近い結果を生成する義務があります。
 
 \vest {\cf +}のような有理数の演算は
 \tupe{正確}な引数が与えられると必ず\tupe{正確}な結果を生成します。
@@ -466,7 +466,7 @@ truncate-remainder
 \vest 処理系は
 事実上無制限の大きさと精度を持つ\tupe{正確}な\tupe{整数}と\tupe{正確}な\tupe{有理数}とサポートし、
 上記の手続きと{\cf /}手続きを\tupe{正確}な引数に対して必ず\tupe{正確}な結果を返すよう実装することが
-推奨されますが、要求はされません。
+推奨されますが要求されません。
 これらの手続きはいずれも
 \tupe{正確}な引数を与えられたとき\tupe{正確}な結果を返すことができなければ、
 処理系の制限の違反を報告しても構いませんし、
@@ -476,9 +476,9 @@ truncate-remainder
 処理系の制限を報告するよりも\tupe{不正確}な有理数を返す方が良いでしょう。
 
 \vest 処理系は\tupe{不正確}な数値に対して浮動小数点や他の近似表現戦略を用いても構いません。
-この報告書では IEEE 754 標準に従った浮動小数点表現を用いること、
-他の表現方法を用いる処理系はこの浮動小数点の標準を用いて達成可能な精度と同等かそれを超えることが
-推奨されていますが、要求はされません。
+この報告書では IEEE 754 標準に従った浮動小数点表現を用いることが推奨されますが要求されません。
+他の表現方法を用いる処理系ではこの浮動小数点標準を用いて達成可能な精度と同等かそれを超えることが
+推奨されますが要求されません。
 特にそのような実装は IEEE 754-2008 の超越関数の記述に、とりわけ無限大とNaNに関して、従うべきです。
 
 Schemeは数値に対する様々な書き方を規定していますが、
@@ -2013,8 +2013,8 @@ Schemeの処理系はすべて少なくともASCII文字のレパートリーを
 特に規定のない限り、
 以下の手続きに非Unicode文字を適用した結果は処理系依存です。
 
-文字は \sharpsign\backwhack\hyper{character} または
-\sharpsign\backwhack\hyper{character name} または
+文字は \sharpsign\backwhack\hyper{character} または %
+\sharpsign\backwhack\hyper{character name} または %
 \sharpsign\backwhack{}x\meta{hex scalar value} の記法を用いて書かれます。
 
 以下の文字名は記載された値と共にすべての処理系でサポートされていなければなりません。
@@ -2049,7 +2049,7 @@ $$
 $$
 
 \sharpsign\backwhack\hyper{character}
-および
+および %
 \sharpsign\backwhack{\rm$\langle$character name$\rangle$}
 では大文字小文字は区別されますが、
 {\cf\sharpsign\backwhack{}x}\meta{hex scalar value}
@@ -2070,7 +2070,7 @@ $$
 
 \vest 文字を操作する手続きには大文字小文字の違いを無視するものがあります。
 大文字小文字を無視する手続きは名前に
-\hbox{``{\tt -ci}''} (``case insensitive''の略) が入っています。
+\hbox{``{\tt -ci}''} (``case insensitive''(大文字小文字を区別しない)の略) が入っています。
 
 
 \begin{entry}{%
@@ -2140,7 +2140,7 @@ Unicodeにはたくさんあることに注意してください。
 \proto{digit-value}{ char}{charライブラリの手続き}}
 
 この手続きは引数が数字(つまり{\cf char-numeric?}が\schtrue{}を返す)の場合、
-その引数の数値(0から9)を返し、それ以外の文字に対しては\schfalse{}を返します。
+その引数の数値(0〜9)を返し、それ以外の文字に対しては\schfalse{}を返します。
 
 \begin{scheme}
 (digit-value \#\backwhack{}3) \ev 3
@@ -2157,7 +2157,7 @@ Unicodeにはたくさんあることに注意してください。
 
 {\cf char\coerce{}integer}にUnicode文字を与えると、
 その文字のUnicodeスカラー値と等しい
-0〜{\tt \#xD7FF}または{\tt \#xE000}〜{\tt \#x10FFFF}の
+0〜{\tt \#xD7FF} または {\tt \#xE000}〜{\tt \#x10FFFF} の
 正確な整数を返します。
 非Unicode文字を与えると、
 {\tt \#x10FFFF}より大きい正確な整数を返します。
@@ -2218,7 +2218,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \item{\cf\backwhack{}\backwhack{}} : バックスラッシュ, U+005C 
 \item{\cf\backwhack{}|} : 垂直線, U+007C
 \item{\cf\backwhack{}\arbno{\hyper{intraline whitespace}}\hyper{line ending}
-      \arbno{\hyper{intraline whitespace}}} : 何も無し
+      \arbno{\hyper{intraline whitespace}}} : 無
 \item{\cf\backwhack{}x\meta{hex scalar value};} : 指定された文字
 (最後にセミコロンが付いていることに注意)
 \end{itemize}
@@ -2228,7 +2228,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \vest 文字列リテラル中のエスケープシーケンス外の任意の文字は、改行を除き、
 それ自身を表します。
 {\cf\backwhack{}\hyper{intraline whitespace}} に改行が続いたものは
-(後続の intraline whitespace も含めて) 何も無しに展開されるので、
+(後続の intraline whitespace も含めて) 無に展開されるので、
 可読性向上のため文字列をインデントするのに使うことができます。
 それ以外の改行はすべて文字列中に {\cf\backwhack{}n} 文字を入れるのと
 同じ効果を持ちます。
@@ -2251,7 +2251,7 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 
 \vest 文字列を操作する手続きには大文字小文字の違いを無視するものがあります。
 大文字小文字を無視するバージョンは名前の最後に
-\hbox{``{\cf -ci}''} (``case insensitive''の略)が付いています。
+\hbox{``{\cf -ci}''} (``case insensitive''(大文字小文字を区別しない)の略)が付いています。
 
 処理系によっては文字列中に特定の文字が現れることを禁止している場合があります。
 ただし{\tt \#\backwhack{}null}以外のASCII文字が禁止されることはありません。
@@ -3459,7 +3459,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 そうでなければ\schfalse{}を返します。
 エラーを通知するオブジェクトは、
 述語{\cf file-error?}や{\cf read-error?}を満たすものも含め、
-{\cf error-object?}を満たす場合も満たさない場合もあります。
+{\cf error-object?}を満たしても満たさなくても構いません。
 
 \end{entry}
 
@@ -3736,7 +3736,7 @@ Schemeの脱出手続きは無制限の存続期間を持つため、
 ポートを提供している場合があります。
 例えばソケットなどです。
 {\cf close-input-port}および{\cf close-output-port}手続きを使うと
-そういったポートの入力側および出力側を個別に閉じることができます。
+そのようなポートの入力側と出力側を個別に閉じることができます。
 
 ポートがすでに閉じられている場合、これらのルーチンは何の効果もありません。
 

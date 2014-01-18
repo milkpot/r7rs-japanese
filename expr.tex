@@ -6,7 +6,7 @@
 
 式型は{\em プリミティブ}または{\em 派生}に分類されます。
 プリミティブ式型は変数や手続き呼び出しなどです。
-派生式型は意味論上のプリミティブでなく、代わりにマクロで定義できるものを言います。
+派生式型は意味論上プリミティブでなく、マクロで定義できるものを言います。
 \ref{derivedsection}~節にいくつかの派生式型の適切な構文定義が掲載されています。
 
 {\cf delay}、{\cf delay-force}および{\cf parameterize}式型と密接に関連する手続き
@@ -217,8 +217,7 @@ Schemeではエラーです。
 \semantics
 {\cf if}式は以下のように評価されます。
 まず\hyper{test}が評価されます。
-その結果が真の値\index{true}であった場合
-(\ref{booleansection}~節を参照)、
+その結果が真の値\index{true}(\ref{booleansection}~節を参照)であった場合、
 \hyper{consequent}が評価され、その値が返されます。
 そうでなければ\hyper{alternate}が評価され、その値が返されます。
 \hyper{test}の結果が偽の値であり、\hyper{alternate}が指定されていない場合、
@@ -298,14 +297,13 @@ Schemeではエラーです。
 \pproto{=>}{\auxiliarytype}}
 
 \syntax
-\hyper{clauses}は以下のいずれかの形をひとつ以上取ります。
+\hyper{clause}は以下のいずれかの形をひとつ以上取ります。
 \begin{scheme}
-(\hyper{test} \hyperi{expression} \dotsfoo)%
-\end{scheme}
-ただし\hyper{test}は任意の式です。
-\begin{scheme}
+(\hyper{test} \hyperi{expression} \dotsfoo)
 (\hyper{test} => \hyper{expression})%
 \end{scheme}
+ただし\hyper{test}は任意の式です。
+
 最後の\hyper{clause}は以下のような「else節」にすることもできます。
 \begin{scheme}
 (else \hyperi{expression} \hyperii{expression} \dotsfoo)\rm.%
@@ -513,7 +511,7 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 各処理系はインポート可能なライブラリのリストと同様に
 存在する機能識別子のリストを管理しています。
 それぞれの\hyper{feature identifier}および{\tt(library \hyper{library name})}を、
-それが処理系の持つリストにある場合は\schtrue{}、ない場合は\schfalse{}に置き換え、
+処理系の持つリストにある場合は\schtrue{}、ない場合は\schfalse{}に置き換え、
 その結果の式を{\cf and}、{\cf or}、{\cf not}の通常の解釈の下で
 Schemeのブーリアン式として評価することによって、
 \hyper{feature requirement}の値が決定されます。
@@ -549,7 +547,7 @@ else節があればその\hyper{expression}が含まれます。
 {\cf let-values}構文および{\cf let*-values}構文は
 それぞれ{\cf let}および{\cf let*}に似たものですが、
 多値の式を処理できるよう設計されており、
-返された複数の値をそれぞれ異なる識別子に束縛できます。
+返された多値をそれぞれ異なる識別子に束縛できます。
 
 \begin{entry}{%
 \proto{let}{ \hyper{bindings} \hyper{body}}{\exprtype}}
@@ -760,7 +758,7 @@ else節があればその\hyper{expression}が含まれます。
 \hyper{init}が評価され、左から右に逐次的に束縛が作成されます。
 それぞれの\hyper{formals}の束縛の有効範囲は
 \hyper{body}と同様にその\hyper{init}の右側も含まれます。
-従って2番目の\hyper{init}は最初の束縛の集合が見え初期化された環境で評価され、
+従って2番目の\hyper{init}は最初の束縛の集合が見えて初期化された環境で評価され、
 以下同様です。
 
 \begin{scheme}
@@ -931,7 +929,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 これは\hyper{expression}を評価してその戻り値を取得するために
 将来のある時点で({\cf force}手続きによって)問い合わせることができるオブジェクトです。
 \todo{consider removing unspecified effect}
-\hyper{expression}が複数の値を返す場合の効果は規定されていません。
+\hyper{expression}が多値を返した場合の効果は規定されていません。
 
 \end{entry}
 
@@ -1385,7 +1383,7 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 
 \item マクロ変換器が識別子(変数またはキーワード)に対する束縛を挿入した場合、
 その識別子は他の識別子との衝突を避けるためにそのスコープにおいて実質的に改名されます。
-グローバル変数の定義は束縛を導入する場合もしない場合もあることに注意してください。
+ちなみに大域変数の定義は束縛を導入してもしなくても構いません。
 \ref{defines}~節を参照してください。
 
 \item マクロ変換器が識別子の自由参照を挿入した場合、
@@ -1409,7 +1407,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 {\cf let}および{\cf letrec}に似ていますが、
 値を持つ場所に変数を束縛する代わりに
 構文キーワードをマクロ変換器に束縛します。
-構文キーワードは{\cf define-syntax}を使って大域的にまたは局所的に束縛することもできます。
+構文キーワードは{\cf define-syntax}を使って大域的または局所的に束縛することもできます。
 \ref{define-syntax}~節を参照してください。
 
 \begin{entry}{%
@@ -1421,8 +1419,8 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 ((\hyper{keyword} \hyper{transformer spec}) \dotsfoo)%
 \end{scheme}
 \hyper{keyword}は識別子、
-\hyper{transformer spec}は{\cf syntax-rules}のインスタンスで、
-\hyper{body}はゼロ個以上の定義にひとつ以上の式が続いたものです。
+\hyper{transformer spec}は{\cf syntax-rules}のインスタンス、
+\hyper{body}はひとつ以上の定義にひとつ以上の式が続いたものです。
 束縛されるキーワードのリストに同じ\hyper{keyword}が2回以上現れた場合はエラーです。
 
 \semantics
@@ -1552,7 +1550,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 マッチングに影響せず、パターン変数ともリテラル識別子とも見なされません。
 
 パターン変数は任意の入力要素とマッチし、
-テンプレート内のその入力要素を参照するために使われます。
+テンプレート内でその入力要素を参照するために使われます。
 ひとつの\hyper{pattern}内に同じパターン変数が2回以上現れた場合はエラーです。
 
 アンダースコアは任意の入力要素とマッチしますがパターン変数ではなく、
@@ -1583,45 +1581,45 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 \item $P$ がリテラル識別子であり、 $E$ が同じ束縛を持つ識別子である。または
 
 \item $P$ がリスト {\cf ($P_1$ $\dots$ $P_n$)} であり、 $E$ が $n$ 個の要素を持つリストであり、
-      その要素が $P_1$ から $P_n$ にそれぞれマッチする。または
+      その要素が $P_1$〜$P_n$ にそれぞれマッチする。または
 
 \item $P$ が非真正リスト
       {\cf ($P_1$ $P_2$ $\dots$ $P_n$ . $P_{n+1}$)}
       であり、 $E$ が $n$ 個以上の要素を持つリストであるか非真正リストであり、
-      その要素が $P_1$ から $P_n$ にそれぞれマッチし、
+      その要素が $P_1$〜$P_n$ にそれぞれマッチし、
       その $n$ 番目の末尾が $P_{n+1}$ にマッチする。または
 
 \item $P$ が
       {\cf ($P_1$ $\dots$ $P_k$ $P_e$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$)}
       の形であり、
       $E$ が $n$ 個の要素を持つ真正リストであり、
-      その最初の $k$ 個がそれぞれ $P_1$ から $P_k$ にマッチし、
+      その最初の $k$ 個がそれぞれ $P_1$〜$P_k$ にマッチし、
       続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
-      残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチする。
+      残りの $n-m$ 個の要素が $P_{m+1}$〜$P_n$ にマッチする。
       または
 
 \item $P$ が
       {\cf ($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$ . $P_x$)}
       の形であり、
       $E$ が $n$ 個の要素を持つリストまたは非真正リストであり、
-      その最初の $k$ 個の要素が $P_1$ から $P_k$ にマッチし、
+      その最初の $k$ 個の要素が $P_1$〜$P_k$ にマッチし、
       続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
-      残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチし、
+      残りの $n-m$ 個の要素が $P_{m+1}$〜$P_n$ にマッチし、
       $n$ 番目の要素である最後の cdr が $P_x$ にマッチする。
       または
 
 \item $P$ が {\cf \#($P_1$ $\dots$ $P_n$)} の形のベクタであり、
       $E$ が $n$ 個の要素を持つベクタであり、
-      その要素が $P_1$ から $P_n$ にマッチする。
+      その要素が $P_1$〜$P_n$ にマッチする。
       または
 
 \item $P$ が
       {\cf \#($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo $P_n$)}
       の形であり、
       $E$ が $n$ 個の要素を持つベクタであり、
-      その最初の $k$ 個の要素が $P_1$ から $P_k$ にマッチし、
+      その最初の $k$ 個の要素が $P_1$〜$P_k$ にマッチし、
       続く $m-k$ 個の要素それぞれが $P_e$ にマッチし、
-      残りの $n-m$ 個の要素が $P_{m+1}$ から $P_n$ にマッチする。
+      残りの $n-m$ 個の要素が $P_{m+1}$〜$P_n$ にマッチする。
       または
 
 \item $P$ が定数であり、 $E$ が $P$ と{\cf equal?}手続きの意味において等しい。

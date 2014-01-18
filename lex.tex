@@ -47,19 +47,19 @@ the-word-recursion-has-many-meanings%
 
 識別子の正式な構文は\ref{extendedalphas}~節を参照してください。
 
-\vest Schemeのプログラムでは識別子に2種類の用途があります。
+\vest Schemeのプログラムでは識別子に2つの用途があります。
 \begin{itemize}
 \item あらゆる識別子は変数\index{variable}として
 あるいは構文キーワード\index{syntactic keyword}として使うことができます
 (\ref{variablesection}~節および\ref{macrosection}~節を参照)。
 
-\item 識別子がリテラルとしてあるいはリテラル内に現れることで(\ref{quote}~節を参照)
-{\em シンボル}を表します(\ref{symbolsection}~節を参照)。
+\item 識別子がリテラル(\ref{quote}~節を参照)としてあるいはリテラル内に現れることで
+{\em シンボル}(\ref{symbolsection}~節を参照)を表します。
 \end{itemize}
 
 以前のバージョンの報告書\cite{R5RS}と異なり、
 識別子および文字の名前で使われる大文字小文字は区別されます。
-しかし識別子、文字、文字列構文中の\meta{inline hex escapes}や数値の中では
+しかし識別子、文字、文字列の構文の中の\meta{inline hex escapes}や数値では
 大文字小文字は区別されません。
 この報告書で定義されている識別子に大文字を含むものはありません。
 
@@ -69,12 +69,12 @@ the-word-recursion-has-many-meanings%
 {\cf{}\#!fold-case}\sharpbangindex{fold-case}\\
 {\cf{}\#!no-fold-case}\sharpbangindex{no-fold-case}}
 
-これらの指令はコメントを書ける場所ならどこにでも書くことができます(\ref{wscommentsection}~節を参照)。
+これらの指令はコメントを書ける場所(\ref{wscommentsection}~節を参照)ならどこにでも書くことができます。
 指令の後にはデリミタを置かなければなりません。
 指令はコメントとして扱われます。
 ただし同じポートから読み込む後続のデータに影響を与えます。
 {\cf{}\#!fold-case}指令は後続の識別子と文字名の大文字小文字を区別しないようにします。
-これは{\cf string-foldcase}を適用したかのように扱われます(\ref{stringsection}~節を参照)。
+これは{\cf string-foldcase}(\ref{stringsection}~節を参照)を適用したかのように扱われます。
 文字リテラルには影響しません。
 {\cf{}\#!no-fold-case}指令は大文字小文字を区別するデフォルトの動作に戻します。
 \end{entry}
@@ -183,7 +183,7 @@ the-word-recursion-has-many-meanings%
 ベクタ定数は~{\tt)}~で終わります。
 
 \item[\sharpsign\tt u8(]
-これはバイトベクタ定数(\ref{bytevectorsection}~節)の始まりです。
+これはバイトベクタ定数の始まりです(\ref{bytevectorsection}~節)。
 バイトベクタ定数は~{\tt)}~で終わります。
 
 \item[{\tt\#e \#i \#b \#o \#d \#x}]
@@ -202,11 +202,11 @@ the-word-recursion-has-many-meanings%
 \pproto{\#\hyper{n}\#}{字句構文}}
 
 字句構文 \texttt{\#\hyper{n}=\hyper{datum}} は\hyper{datum}と同様に解釈されますが、
-その結果の\hyper{datum}を\hyper{n}でラベル付けします。
+その結果の\hyper{datum}に\hyper{n}でラベルを付けます。
 \hyper{n}が数字の並びでない場合はエラーです。
 
 字句構文 \texttt{\#\hyper{n}\#} は \texttt{\#\hyper{n}=}
-でラベル付けされた何らかのオブジェクトへの参照として機能します。
+でラベルを付けたオブジェクトへの参照として機能します。
 \texttt{\#\hyper{n}}= と同じオブジェクトが結果となります
 (\ref{equivalencesection}~節を参照)。
 
@@ -221,9 +221,9 @@ the-word-recursion-has-many-meanings%
 datumラベルのスコープはそれが現れた最外のdatumのうちそのラベルより右側の部分です。
 従って \texttt{\#\hyper{n}\#} はラベル \texttt{\#\hyper{n}=} より後にだけ現れることができます。
 前方参照を試みることはエラーです。
-また参照がラベル付けされたオブジェクトそれ自身として現れた場合はエラーです。
+またラベルを付けたオブジェクトそれ自身として参照が現れた場合はエラーです。
 例えば \texttt{\#\hyper{n}= \#\hyper{n}\#} のような場合です。
-この場合 \texttt{\#\hyper{n}=} がラベル付けしているオブジェクトが何であるか不明なためです。
+この場合 \texttt{\#\hyper{n}=} がラベルを付けているオブジェクトが何であるか不明なためです。
 
 \hyper{program}または\hyper{library}にリテラル以外の循環参照がある場合はエラーです。
 特に{\cf quasiquote}(\ref{quasiquote}~節)に循環参照がある場合はエラーです。

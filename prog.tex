@@ -107,7 +107,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 この形は以下と同等です。
 \begin{scheme}
 (define \hyper{variable}
-  (lambda (\hyper{formals}) \hyper{body}))\rm.%
+  (lambda (\hyper{formals}) \hyper{body}))\rm%
 \end{scheme}
 
 \item{\tt(define (\hyper{variable} .\ \hyper{formal}) \hyper{body})}
@@ -116,7 +116,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 この形は以下と同等です。
 \begin{scheme}
 (define \hyper{variable}
-  (lambda \hyper{formal} \hyper{body}))\rm.%
+  (lambda \hyper{formal} \hyper{body}))\rm%
 \end{scheme}
 
 \end{itemize}
@@ -193,7 +193,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 \subsection{多値の定義}
 
 もうひとつの種類の定義は{\cf define-values}です。
-複数の値を返すひとつの式から複数の定義を作成します。
+多値を返す式から複数の定義を作成します。
 {\cf define}が書ける場所ならどこでも書くことができます。
 
 \begin{entry}{%
@@ -587,7 +587,7 @@ Schemeの定義済みの型や他のレコード型、同じ名前や同じ構�
 
 \section{REPL}
 
-処理系は \defining{REPL} (Read-Eval-Print Loop) と呼ばれる対話環境を提供しても構いません。
+処理系は \defining{REPL} (Read-Eval-Print Loop) と呼ばれる対話環境を提供していても構いません。
 これはインポート宣言、式、定義を一度にひとつずつ入力し評価することができる環境です。
 利便性と使用の容易さのためREPLにおけるSchemeの大域環境は空であってはならず、
 少なくともbaseライブラリで提供されている束縛を持った状態で開始しなければなりません。
@@ -598,11 +598,11 @@ Schemeの定義済みの型や他のレコード型、同じ名前や同じ構�
 付録~\ref{stdlibraries}に掲載されています。
 
 処理系はすべての有り得る変数がすでに場所に束縛されているかのように動作する
-初期状態のREPL環境を提供しても構いません。
+初期状態のREPL環境を提供していても構いません。
 その場合ほとんどの場所は初期値が規定されていません。
 そのような処理系では最上位のREPLの定義は真に代入と同等です。
 ただしその識別子が構文キーワードとして定義されている場合を除きます。
 
-処理系はファイルから入力を読み込むREPLの動作モードを提供しても構いません。
+処理系はファイルから入力を読み込むREPLの動作モードを提供していても構いません。
 そういったファイルは開始以外の場所にインポート宣言を持つことができるので、
 一般的にプログラムと同じではありません。
