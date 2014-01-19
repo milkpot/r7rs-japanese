@@ -132,7 +132,7 @@
          body1 body2 ...)))))
 \end{scheme}
 
-以下の{\cf letrec}マクロはシンボル{\cf <undefined>}を使っています。
+以下の{\cf letrec}マクロはシンボル {\cf <undefined>} を使っています。
 これは格納した場所から値を取り出そうとするとエラーになる何らかのものを返す式です。
 (Schemeではそのような式は定義されていません。)
 値を評価する順序を規定することを避けるために必要な
@@ -407,8 +407,8 @@
 
 以下の{\cf make-parameter}および{\cf parameterize}の実装は
 スレッドをサポートしていない処理系用です。
-ここでは適当な2つの唯一オブジェクト
-\texttt{<param-set!>}および\texttt{<param-convert>}
+ここでは適当な2つの唯一オブジェクト %
+\texttt{<param-\+set!>} および \texttt{<param-\+convert>} %
 を用い、手続きとしてパラメータオブジェクトを実装しています。
 
 \begin{scheme}

@@ -50,7 +50,7 @@ Schemeのコードにリテラル定数を含めるためにこの記法を使�
 (quote (+ 1 2))               \ev  (+ 1 2)%
 \end{scheme}
 
-{\cf (quote \hyper{datum})}は省略して\singlequote\hyper{datum}と書くことができます。
+{\cf (quote \hyper{datum})}は省略して \singlequote\hyper{datum}と書くことができます。
 この2種類の記法はあらゆる点で同等です。
 
 \begin{scheme}
@@ -82,7 +82,7 @@ quoteする必要はありません。
 \end{scheme}
 
 \ref{storagemodel}~節で述べたように
-{\cf set-car!}や{\cf string-set!}のような変更手続きを使用して定数
+{\cf set-car!} や{\cf string-set!} のような変更手続きを使用して定数
 (すなわちリテラル式の値)の変更を試みることはエラーです。
 
 \end{entry}
@@ -101,7 +101,7 @@ quoteする必要はありません。
 \end{scheme}
 
 この文章に掲載されている手続きは標準ライブラリからエクスポートされている変数の値として利用可能です。
-例えば上記の例の加算手続きと乗算手続きはbaseライブラリの変数{\cf +}および{\cf *}の値です。
+例えば上記の例の加算手続きと乗算手続きはbaseライブラリの変数 {\cf +} および {\cf *} の値です。
 \lambdaexp{} (\ref{lambda}~節を参照) を評価することで新しい手続きを作ることができます。
 
 手続きは任意の個数の値を返すことができます(\ref{proceduresection}~節の\ide{values}を参照)。
@@ -147,7 +147,7 @@ Schemeではエラーです。
 対応する実引数の値がそれらの場所に格納されます。
 (\defining{新しい}場所とはそれまで存在していたどの場所とも異なる場所のことです。)
 次にラムダ式の本体の式
-(定義があれば{\cf letrec*}の形で表されます --- \ref{letrecstar}~節を参照)
+(定義があれば{\cf letrec*} の形で表されます --- \ref{letrecstar}~節を参照)
 がその拡張された環境で逐次的に評価されます。
 その本体の最後の式の結果がその手続き呼び出しの結果として返されます。
 
@@ -201,7 +201,7 @@ Schemeではエラーです。
 
 \lambdaexp{} を評価した結果作成された手続きはそれぞれ
 (概念的に)ある記憶領域の位置に紐付けられます。
-それにより手続きに対して\ide{eqv?}および\ide{eq?}を適用することができます
+それにより手続きに対して\ide{eqv?} および\ide{eq?} を適用することができます
 (\ref{equivalencesection}~節を参照)。
 
 
@@ -243,9 +243,9 @@ Schemeではエラーです。
 \semantics
 \hyper{expression}が評価され、
 その結果の値が\hyper{variable}の束縛されている場所に格納されます。
-\hyper{variable}が{\cf set!}式を囲むいずれの有効範囲\index{region}にも
+\hyper{variable}が{\cf set!} 式を囲むいずれの有効範囲\index{region}にも
 大域的にも束縛されていなければエラーです。
-{\cf set!}式の結果は規定されていません。
+{\cf set!} 式の結果は規定されていません。
 
 \begin{scheme}
 (define x 2)
@@ -270,7 +270,7 @@ Schemeではエラーです。
 そのファイルから読み込んだ内容を含む{\cf begin}式で
 その{\cf include}式または{\cf include-ci}式を実質的に置換します。
 この2つの違いは以下のようなものです。
-\ide{include-ci}は各ファイルの先頭に{\cf{}\#!fold-case}指令があるかのように読み込みます。
+\ide{include-ci}は各ファイルの先頭に {\cf{}\#!fold-case}指令があるかのように読み込みます。
 \ide{include}はそのようなことをしません。
 
 \begin{note}
@@ -322,13 +322,13 @@ Schemeではエラーです。
 
 選択された\hyper{clause}が\hyper{test}だけで\hyper{expression}を持たない場合、
 \hyper{test}の値が結果として返されます。
-選択された\hyper{clause}が\ide{=>}代理形を使っている場合、
+選択された\hyper{clause}が \ide{=>} 代理形を使っている場合、
 まず\hyper{expression}が評価されます。
 その値が引数をひとつ受け取る手続きでなければエラーです。
 \hyper{test}の値に対してその手続きが呼び出され、
 その手続きが返した値が{\cf cond}式から返されます。
 
-すべての\hyper{test}が\schfalse{}に評価され、else節がない場合、
+すべての\hyper{test}が \schfalse{}に評価され、else節がない場合、
 {\cf cond}式の結果は規定されていません。
 else節があれば、その\hyper{expression}が順に評価され、
 その最後の値が返されます。
@@ -375,7 +375,7 @@ else節があれば、その\hyper{expression}が順に評価され、
 {\cf case}式は以下のように評価されます。
 \hyper{key}が評価され、その結果が各々の\hyper{datum}と比較されます。
 \hyper{key}の評価結果が\hyper{datum}と等しい
-({\cf eqv?}の意味で; \ref{eqv?}~節を参照)
+({\cf eqv?} の意味で; \ref{eqv?}~節を参照)
 場合、対応する\hyper{clause}内の式が順番に評価され、
 その\hyper{clause}の最後の式の結果が{\cf case}式の結果として返されます。
 
@@ -383,7 +383,7 @@ else節があれば、その\hyper{expression}が順に評価され、
 else節があればその式が評価され、その最後の結果が{\cf case}式の結果になります。
 そうでなければ{\cf case}式の結果は規定されていません。
 
-選択された\hyper{clause}またはelse節が\ide{=>}代理形を使っている場合、
+選択された\hyper{clause}またはelse節が \ide{=>} 代理形を使っている場合、
 まず\hyper{expression}が評価されます。
 その値がひとつの引数を受け取る手続きでなければエラーです。
 \hyper{key}の値に対してその手続きが呼び出され、
@@ -410,10 +410,10 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 
 \semantics
 \hyper{test}式が左から右に評価され、
-いずれかの式が\schfalse{}に評価されるとそこで\schfalse{}が返されます。
+いずれかの式が \schfalse{}に評価されるとそこで \schfalse{}が返されます。
 残りの式は評価されません。
 すべての式が真の値に評価された場合、その最後の式の値が返されます。
-式がひとつも無ければ\schtrue{}を返します。
+式がひとつも無ければ \schtrue{}を返します。
 
 \begin{scheme}
 (and (= 2 2) (> 2 1))           \ev  \schtrue
@@ -433,8 +433,8 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 真の値(\ref{booleansection}~節を参照)
 に評価された最初の式の値が返されます。
 残りの式は評価されません。
-すべての式が\schfalse{}に評価された場合
-または式がひとつもない場合は\schfalse{}を返します。
+すべての式が \schfalse{}に評価された場合
+または式がひとつもない場合は \schfalse{}を返します。
 
 \begin{scheme}
 (or (= 2 2) (> 2 1))            \ev  \schtrue
@@ -472,7 +472,7 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 \hyper{test}は式です。
 
 \semantics
-\hyper{test}が評価され、それが\schfalse{}に評価された場合、
+\hyper{test}が評価され、それが \schfalse{}に評価された場合、
 \hyper{expression}が順番に評価されます。
 {\cf unless}式の戻り値は規定されていません。
 
@@ -511,16 +511,16 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 各処理系はインポート可能なライブラリのリストと同様に
 存在する機能識別子のリストを管理しています。
 それぞれの\hyper{feature identifier}および{\tt(library \hyper{library name})}を、
-処理系の持つリストにある場合は\schtrue{}、ない場合は\schfalse{}に置き換え、
+処理系の持つリストにある場合は \schtrue{}、ない場合は \schfalse{}に置き換え、
 その結果の式を{\cf and}、{\cf or}、{\cf not}の通常の解釈の下で
 Schemeのブーリアン式として評価することによって、
 \hyper{feature requirement}の値が決定されます。
 
-次に一連の\hyper{ce-clause}の\hyper{feature requirement}が
+次に一連の\hyper{ce-clause}の\hyper{feature requirement}が %
 \schtrue{}を返すまで順番に評価されます。
 真の値が見つかれば、対応する\hyper{expression}が{\cf begin}に展開されます。
 残りの節は無視されます。
-どの\hyper{feature requirement}も\schtrue{}に評価されない場合、
+どの\hyper{feature requirement}も \schtrue{}に評価されない場合、
 else節があればその\hyper{expression}が含まれます。
 そうでなければ\ide{cond-expand}の動作は規定されていません。
 {\cf cond}と異なり{\cf cond-expand}は何の変数の値にも依存しません。
@@ -540,12 +540,12 @@ else節があればその\hyper{expression}が含まれます。
 最初の4つは同じ構文ですが、
 それらが確立する変数束縛の有効範囲\index{region}が異なっています。
 {\cf let}式ではどの変数が束縛されるよりも前に初期値が計算されます。
-{\cf let*}式では束縛と評価が逐次的に行われます。
-{\cf letrec}式および{\cf letrec*}式では
+{\cf let*} 式では束縛と評価が逐次的に行われます。
+{\cf letrec}式および{\cf letrec*} 式では
 初期値が計算されている間もすべての束縛が有効であり、
 これによって相互再帰を定義することができます。
 {\cf let-values}構文および{\cf let*-values}構文は
-それぞれ{\cf let}および{\cf let*}に似たものですが、
+それぞれ{\cf let}および{\cf let*} に似たものですが、
 多値の式を処理できるよう設計されており、
 返された多値をそれぞれ異なる識別子に束縛できます。
 
@@ -597,9 +597,9 @@ else節があればその\hyper{expression}が含まれます。
 \ref{lambda}~節も参照してください。
 
 \semantics
-{\cf let*}束縛構文は{\cf let}と同様ですが、束縛が左から右に逐次的に行われます。
+{\cf let*} 束縛構文は{\cf let}と同様ですが、束縛が左から右に逐次的に行われます。
 {\cf(\hyper{variable} \hyper{init})} によって示される束縛の有効範囲\index{region}は
-{\cf let*}式のその束縛より右側の部分になります。
+{\cf let*} 式のその束縛より右側の部分になります。
 従って2番目の束縛は最初の束縛が見える環境で行われ、以下同様です。
 \hyper{variable}がそれぞれ異なっている必要はありません。
 
@@ -681,7 +681,7 @@ else節があればその\hyper{expression}が含まれます。
 その結果の環境で\hyper{body}が評価され、
 \hyper{body}の最後の式が返されます。
 左から右の評価代入の順番にもかかわらず、
-各\hyper{variable}の束縛は{\cf letrec*}式全体をその有効範囲\index{region}として持ちます。
+各\hyper{variable}の束縛は{\cf letrec*} 式全体をその有効範囲\index{region}として持ちます。
 それにより相互再帰手続きを定義することが可能です。
 
 各\hyper{init}は対応する\hyper{variable}の値およびそれより右側の
@@ -1032,8 +1032,8 @@ p                     \ev  {\it{}プロミス(未だに)}
 単にそのオブジェクトを返しても構いません。
 
 \item プロミスがそのforceされた値といかなる意味でも操作的に区別できない場合があります。
-つまり以下のような式は処理系によって
-\schtrue{}または\schfalse{}のいずれに評価されても構いません。
+つまり以下のような式は処理系によって %
+\schtrue{}または \schfalse{}のいずれに評価されても構いません。
 
 \begin{scheme}
 (eqv? (delay 1) 1)          \ev  \unspecified
@@ -1041,7 +1041,7 @@ p                     \ev  {\it{}プロミス(未だに)}
 \end{scheme}
 
 \item 処理系は「暗黙のforce」を実装しても構いません。
-これは{\cf cdr}や{\cf *}のような特定の型の引数にのみ作用する手続きが
+これは{\cf cdr}や {\cf *} のような特定の型の引数にのみ作用する手続きが
 プロミスの値をforceするという機能です。
 ただし{\cf list}のように引数を一様に処理する手続きはそれらをforceしてはなりません。
 
@@ -1056,8 +1056,8 @@ p                     \ev  {\it{}プロミス(未だに)}
 \begin{entry}{%
 \proto{promise?} { \var{obj}}{lazyライブラリの手続き}}
 
-{\cf promise?}手続きはその引数がプロミスであれば\schtrue{}を返し、
-そうでなければ\schfalse{}を返します。
+{\cf promise?} 手続きはその引数がプロミスであれば \schtrue{}を返し、
+そうでなければ \schfalse{}を返します。
 プロミスが他のSchemeの型(手続きなど)から独立している必要はないことに注意してください。
 
 \end{entry}
@@ -1178,7 +1178,7 @@ Schemeでは{\cf call-with-current-continuation} (\ref{continuations}~節)
 が\hyper{variable}に束縛され、
 その束縛のスコープ内でそれぞれの節が{\cf cond}式の節であるかのように評価されます。
 暗黙の{\cf cond}式は{\cf guard}式の継続と動的環境で評価されます。
-すべての\hyper{cond clause}の\hyper{test}が\schfalse{}に評価され、かつelse節が無い場合、
+すべての\hyper{cond clause}の\hyper{test}が \schfalse{}に評価され、かつelse節が無い場合、
 現在の例外ハンドラが{\cf guard}式のものであること以外
 {\cf raise}または{\cf raise-continuable}の呼び出し元と同じ動的環境で、
 その例外オブジェクトに対して{\cf raise-continuable}が呼び出されます。
@@ -1216,19 +1216,19 @@ Schemeでは{\cf call-with-current-continuation} (\ref{continuations}~節)
 「quasiquote」\index{backquote}式は
 全部ではないけれど部分的にあらかじめ判っているような
 リストやベクタ構造を構築する場合に便利です。
-\hyper{qq template}内にコンマが無ければ
-\backquote\hyper{qq template}を評価した結果は
+\hyper{qq template}内にコンマが無ければ %
+\backquote\hyper{qq template}を評価した結果は %
 \singlequote\hyper{qq template}を評価した結果と同等です。
 しかし\hyper{qq template}内にコンマ\mainschindex{,}がある場合、
 コンマに続く式は評価(「unquote」)され、その結果がそのコンマと式の代わりにその構造内に挿入されます。
-コンマにホワイトスペースを挟まずアットマーク(\atsign)\mainschindex{,@}が続いた場合、
+コンマにホワイトスペースを挟まずアットマーク (\atsign)\mainschindex{,@} が続いた場合、
 後続の式はリストに評価できなければエラーであり、
 そのリストの開き括弧および閉じ括弧は「剥ぎ取られ」、
 そのリストの要素がコンマ・アットマーク・式の並びのあった場所に挿入されます。
 通常コンマ・アットマークはリストおよびベクタの\hyper{qq template}内にのみ現れます。
 
 \begin{note}
-{\cf @}で始まる識別子をunquoteしたい場合は
+{\cf @} で始まる識別子をunquoteしたい場合は
 明示的に{\cf unquote}を使うか、
 コンマ・アットマークの並びと一致するのを避けるため
 コンマの後にホワイトスペースを置く必要があります。
@@ -1288,7 +1288,7 @@ quasiquote式は式の評価中に実行時に構築された任意の構造に�
 (let ((a 3)) (list (list 1 2) a 4 'five 6))%
 \end{scheme}
 
-2種類の記法\backquote\hyper{qq template}および
+2種類の記法 \backquote\hyper{qq template}および
 {\tt (quasiquote \hyper{qq template})}はあらゆる意味において同等です。
 {\cf,\hyper{expression}}は{\cf (unquote \hyper{expression})}と同等であり
 {\cf,@\hyper{expression}}は{\cf (unquote-splicing \hyper{expression})}と同等です。
@@ -1357,7 +1357,7 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 (\hyper{keyword} {\hyper{datum}} ...)%
 \end{scheme}%
 ただし\hyper{keyword}はその式型を唯一に決定する識別子です。
-この識別子はそのマクロの{\em 構文キーワード}\index{syntactic keyword}
+この識別子はそのマクロの{\em 構文キーワード}\index{syntactic keyword}%
 または単に{\em キーワード}\index{keyword}と呼ばれます\index{macro keyword}。
 \hyper{datum}の数およびその構文はその式型に依存します。
 
@@ -1622,7 +1622,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
       残りの $n-m$ 個の要素が $P_{m+1}$〜$P_n$ にマッチする。
       または
 
-\item $P$ が定数であり、 $E$ が $P$ と{\cf equal?}手続きの意味において等しい。
+\item $P$ が定数であり、 $E$ が $P$ と{\cf equal?} 手続きの意味において等しい。
 \end{itemize}
 
 マクロキーワードをその束縛のスコープ内において
@@ -1678,10 +1678,10 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
   (cond (\schtrue => 'ok)))           \ev ok%
 \end{scheme}
 
-{\cf cond}のマクロ変換器は
-{\cf =>}が局所変数であり、
+{\cf cond}のマクロ変換器は %
+{\cf =>} が局所変数であり、
 従ってそれは式であり、
-マクロ変換器が構文キーワードとして扱うべきbaseライブラリの識別子{\cf =>}とは異なる
+マクロ変換器が構文キーワードとして扱うべきbaseライブラリの識別子 {\cf =>} とは異なる
 ということを認識します。
 そのため上記の例は以下のように展開されます。
 
