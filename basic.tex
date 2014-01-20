@@ -6,12 +6,12 @@
 \label{specialformsection}
 \label{variablesection}
 
-識別子\index{identifier}は構文の種類または値が格納される場所に名前を付けるために使われます。
-構文の種類に名前を付けている識別子は{\em 構文キーワード}\mainindex{syntactic keyword}と呼ばれ、
+識別子\index{識別子}は構文の種類または値が格納される場所に名前を付けるために使われます。
+構文の種類に名前を付けている識別子は{\em 構文キーワード}\mainindex{構文キーワード}と呼ばれ、
 その構文の変換器に{\em 束縛されている}と言います。
-場所に名前を付けている識別子は{\em 変数}\mainindex{variable}と呼ばれ、
+場所に名前を付けている識別子は{\em 変数}\mainindex{変数}と呼ばれ、
 その場所に{\em 束縛されている}と言います。
-プログラム内のある地点で見える有効な束縛\mainindex{binding}すべての集合は
+プログラム内のある地点で見える有効な束縛\mainindex{束縛}すべての集合は
 その地点での有効な{\em 環境}と呼ばれます。
 ある変数が束縛されている場所に格納されている値はその変数の値と呼ばれます。
 しばしば用語の誤った使い方により、
@@ -21,7 +21,7 @@
 \vest 新しい種類の構文を作成し、その構文に構文キーワードを束縛するには、ある特定の式型を使います。
 新しい場所を作成し、その場所に変数を束縛するには、また別の式型を使います。
 これらの式型は{\em 束縛構文}と呼ばれます。
-\mainindex{binding construct}
+\mainindex{束縛構文}
 構文キーワードを束縛する式型は\ref{macrosection}~節に記載されています。
 最も基礎的な変数の束縛構文は{\cf lambda}式です。
 他の変数束縛構文はすべて{\cf lambda}式を使って説明できます。
@@ -43,7 +43,7 @@
 その使用場所を含んでいる有効範囲を持つその識別子の束縛がない場合、
 大域環境の変数に対する束縛があればそれを参照します。
 その識別子に対する束縛がなければ、
-その識別子は\defining{束縛されていない}と言います。\mainindex{bound}\index{globalenvironment}
+その識別子は\defining{束縛されていない}と言います。\mainindex{束縛されている}\index{大域環境}
 
 \section{型の独立性}
 \label{disjointness}
@@ -65,9 +65,9 @@ symbol?           vector?
 {\em EOFオブジェクト}、{\em 数値}、{\em ペア}、{\em ポート}、
 {\em 手続き}、{\em 文字列}、{\em シンボル}、{\em ベクタ}、
 およびすべてのレコード型が定義されます。
-\mainindex{type}\schindex{boolean?}\schindex{pair?}\schindex{symbol?}
+\mainindex{型}\schindex{boolean?}\schindex{pair?}\schindex{symbol?}
 \schindex{number?}\schindex{char?}\schindex{string?}\schindex{vector?}
-\schindex{bytevector?}\schindex{port?}\schindex{procedure?}\index{empty list}
+\schindex{bytevector?}\schindex{port?}\schindex{procedure?}\index{空リスト}
 \schindex{eof-object?}
 
 独立したブーリアン型が存在してはいますが、
@@ -75,7 +75,7 @@ symbol?           vector?
 \ref{booleansection}~で説明しているように
 条件判定では \schfalse{}以外のすべての値が真とみなされます。
 この報告書では「真」という言葉は \schfalse{}以外のすべてのSchemeの値を表し、
-「偽」という言葉は \schfalse{}を表します。\mainindex{true} \mainindex{false}
+「偽」という言葉は \schfalse{}を表します。\mainindex{真} \mainindex{偽}
 
 \section{外部表現}
 \label{externalreps}
@@ -123,7 +123,7 @@ Schemeの構文には、式を表す文字の並びが何らかのオブジェ�
 \label{storagemodel}
 
 ペア、文字列、ベクタ、バイトベクタといったオブジェクトや変数は、
-場所\mainindex{location}または場所の並びを暗黙に指します。
+場所\mainindex{場所}または場所の並びを暗黙に指します。
 例えば文字列はその文字列の長さと同じだけの数の場所を指します。
 {\tt string-set!} 手続きを使うとこれらの場所のひとつに新しい値を格納できます。
 しかしその文字列の指す場所が以前と異なる場所になるわけではありません。
@@ -147,8 +147,8 @@ Schemeの構文には、式を表す文字の並びが何らかのオブジェ�
 新たに割り当てることができてもできなくても構いません。
 
 場所を指すすべてのオブジェクトは
-可変\index{mutable}または不変\index{immutable}のいずれかです。
-リテラル定数および\ide{symbol->\+string}から返される文字列は不変オブジェクトです。
+可変\index{可変}または不変\index{不変}のいずれかです。
+リテラル定数および\ide{symbol->string}から返される文字列は不変オブジェクトです。
 {\cf scheme-\+report-\+environment}から返される環境は不変の場合があります。
 この報告書に掲載されているそれ以外の手続きから返されるオブジェクトはすべて可変です。
 不変オブジェクトの指す場所に新しい値を格納しようとすることはエラーです。
@@ -167,7 +167,7 @@ Schemeの構文には、式を表す文字の並びが何らかのオブジェ�
 
 \begin{rationale}
 多くのシステムにおいて、
-定数\index{constant}(例えばリテラル式の値)は
+定数\index{定数}(例えばリテラル式の値)は
 読み込み専用メモリに置くのが好ましいと考えられます。
 定数の変更をエラーとすることにより
 他のシステムに可変オブジェクトと不変オブジェクトの区別を要求することなく
@@ -177,7 +177,7 @@ Schemeの構文には、式を表す文字の並びが何らかのオブジェ�
 \section{真正末尾再帰}
 \label{proper tail recursion}
 
-Schemeの処理系は{\em 真正末尾再帰}\mainindex{proper tail recursion}であることが要求されます。
+Schemeの処理系は{\em 真正末尾再帰}\mainindex{真正末尾再帰}であることが要求されます。
 後述する特定の構文文脈で行われる手続き呼び出しを{\em 末尾呼び出し}と呼びます。
 真正末尾再帰であるとは、アクティブな末尾呼び出しの数に制限が無いということです。
 呼び出しが{\em アクティブ}であるとは、その呼び出された手続きがまだ戻っていないということです。
@@ -213,7 +213,7 @@ SteeleとSussmanは後に
 
 \end{rationale}
 
-{\em 末尾呼び出し}\mainindex{tail call}は
+{\em 末尾呼び出し}\mainindex{末尾呼び出し}は
 {\em 末尾文脈}で行われる手続き呼び出しです。
 末尾文脈は帰納的に定義されます。
 末尾文脈は常に特定のラムダ式について決定されることに注意してください。
@@ -292,8 +292,8 @@ SteeleとSussmanは後に
 
 この報告書で定義されている一部の手続きも末尾呼び出しを行うことが要求されます。
 \ide{apply}の第1引数、
-\ide{call-\+with-\+current-\+continuation}の第1引数および
-\ide{call-\+with-\+values}の第2引数は末尾呼び出しで呼び出されなければなりません。
+\ide{call-with-current-continuation}の第1引数および
+\ide{call-with-values}の第2引数は末尾呼び出しで呼び出されなければなりません。
 同様に\ide{eval}の第1引数は
 \ide{eval}内の末尾位置で呼び出されたかように評価されなければなりません。
 

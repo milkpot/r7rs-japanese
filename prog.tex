@@ -10,7 +10,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 定義は変数定義、構文定義、レコード型定義のいずれかで、これらはすべてこの章で説明します。
 これらは式を書ける場所のうちいくつかの部分(すべてではない)に、
 特に\hyper{program}の最も外側のレベルおよび\hyper{body}の最初の部分に書くことができます。
-\mainindex{definition}
+\mainindex{定義}
 
 プログラムの最も外側のレベルでは、
 {\tt(begin \hyperi{expression or definition} \dotsfoo)}は
@@ -90,7 +90,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 
 \section{変数定義}
 \label{defines}
-\mainindex{variable definition}
+\mainindex{変数定義}
 
 変数定義はひとつ以上の識別子を束縛し、その初期値を指定します。
 最も単純な種類の変数定義は以下のいずれかの形を取ります。\mainschindex{define}
@@ -135,7 +135,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 \end{scheme}
 ただし\hyper{variable}が束縛されていないか構文キーワードである場合、
 上記の定義は代入を行う前に\hyper{variable}を新しい場所に束縛します。
-それに対し{\cf set!} は束縛されていない\index{unbound}変数に対して行うとエラーです。
+それに対し{\cf set!} は束縛されていない\index{束縛されていない}変数に対して行うとエラーです。
 
 \begin{scheme}
 (define add3
@@ -154,7 +154,7 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 \ide{let-values}、\ide{let*-values}、\ide{let-syntax}、\ide{letrec-syntax}、
 \ide{parameterize}、\ide{guard}または\ide{case-lambda}の本体です。
 このような本体は他の構文の展開後まで現れない場合があることに注意してください。
-このような定義は前述の大域定義に対して{\em 内部定義}\mainindex{internal definition}と呼ばれます。
+このような定義は前述の大域定義に対して{\em 内部定義}\mainindex{内部定義}と呼ばれます。
 内部定義で定義された変数はその\hyper{body}に局所的です。
 つまり\hyper{variable}は代入されるのではなく束縛され、
 \hyper{body}全体をその束縛の有効範囲とします。
@@ -219,13 +219,13 @@ Schemeのプログラムはひとつ以上のインポート宣言に続く式�
 
 \section{構文定義}
 
-\mainindex{syntax definition}
+\mainindex{構文定義}
 構文定義は以下の形を取ります。\mainschindex{define-syntax}
 
 {\tt(define-syntax \hyper{keyword} \hyper{transformer spec})}
 
 \hyper{keyword}は識別子で、
-\hyper{transformer spec}は\ide{syntax-\+rules}のインスタンスです。
+\hyper{transformer spec}は\ide{syntax-rules}のインスタンスです。
 変数定義と同様に
 構文定義は最も外側のレベルか\ide{本体}内のネストしたレベルに書くことができます。
 

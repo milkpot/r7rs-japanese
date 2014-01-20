@@ -32,6 +32,8 @@ intro-ebook.tex: intro.tex
 r7rs.pdf: $(SOURCES) stdmod.tex
 	platex $<
 	platex $<
+	perl index.pl
+	platex $<
 	dvipdfmx $(basename $<).dvi
 
 overview.pdf: overview.tex overview-body.tex

@@ -21,9 +21,9 @@
 \begin{entry}{%
 \pproto{\hyper{variable}}{\exprtype}}
 
-変数\index{variable}(\ref{variablesection}~節)から成る式は変数参照です。
+変数\index{変数}(\ref{variablesection}~節)から成る式は変数参照です。
 変数参照の値はその変数が束縛されている場所に格納されている値です。
-束縛されていない\index{unbound}変数を参照することはエラーです。
+束縛されていない\index{束縛されていない}変数を参照することはエラーです。
 
 \begin{scheme}
 (define x 28)
@@ -94,7 +94,7 @@ quoteする必要はありません。
 
 手続き呼び出しは、呼び出す手続きの式の後に渡す引数の式を並べ、括弧で囲って書きます。
 演算子と被演算子の式が評価され(順番は規定されていません)、結果の手続きに結果の引数が渡されます。
-\mainindex{call}\mainindex{procedure call}
+\mainindex{呼び出し}\mainindex{手続き呼び出し}
 \begin{scheme}%
 (+ 3 4)                          \ev  7
 ((if \schfalse + *) 3 4)         \ev  12%
@@ -217,7 +217,7 @@ Schemeではエラーです。
 \semantics
 {\cf if}式は以下のように評価されます。
 まず\hyper{test}が評価されます。
-その結果が真の値\index{true}(\ref{booleansection}~節を参照)であった場合、
+その結果が真の値\index{真}(\ref{booleansection}~節を参照)であった場合、
 \hyper{consequent}が評価され、その値が返されます。
 そうでなければ\hyper{alternate}が評価され、その値が返されます。
 \hyper{test}の結果が偽の値であり、\hyper{alternate}が指定されていない場合、
@@ -243,7 +243,7 @@ Schemeではエラーです。
 \semantics
 \hyper{expression}が評価され、
 その結果の値が\hyper{variable}の束縛されている場所に格納されます。
-\hyper{variable}が{\cf set!} 式を囲むいずれの有効範囲\index{region}にも
+\hyper{variable}が{\cf set!} 式を囲むいずれの有効範囲\index{有効範囲}にも
 大域的にも束縛されていなければエラーです。
 {\cf set!} 式の結果は規定されていません。
 
@@ -313,7 +313,7 @@ Schemeではエラーです。
 
 \semantics
 {\cf cond}式は以下のように評価されます。
-まず真の値\index{true}(\ref{booleansection}~節を参照)
+まず真の値\index{真}(\ref{booleansection}~節を参照)
 に評価されるまで一連の\hyper{clause}の\hyper{test}式が順番に評価されます。
 \hyper{test}が真の値に評価されると、
 その\hyper{clause}の中の残りの\hyper{expression}が順に評価され、
@@ -538,7 +538,7 @@ else節があればその\hyper{expression}が含まれます。
 {\cf let-values}、{\cf let*-values}
 はAlgol 60のようなブロック構造をSchemeに持ち込みます。
 最初の4つは同じ構文ですが、
-それらが確立する変数束縛の有効範囲\index{region}が異なっています。
+それらが確立する変数束縛の有効範囲\index{有効範囲}が異なっています。
 {\cf let}式ではどの変数が束縛されるよりも前に初期値が計算されます。
 {\cf let*} 式では束縛と評価が逐次的に行われます。
 {\cf letrec}式および{\cf letrec*} 式では
@@ -567,7 +567,7 @@ else節があればその\hyper{expression}が含まれます。
 その結果を格納した新しい場所に\hyper{variable}が束縛され、
 その拡張された環境で\hyper{body}が評価され、
 \hyper{body}の最後の式の値が返されます。
-各\hyper{variable}の束縛は\hyper{body}をその有効範囲として持ちます。\index{region}
+各\hyper{variable}の束縛は\hyper{body}をその有効範囲として持ちます。\index{有効範囲}
 
 \begin{scheme}
 (let ((x 2) (y 3))
@@ -598,7 +598,7 @@ else節があればその\hyper{expression}が含まれます。
 
 \semantics
 {\cf let*} 束縛構文は{\cf let}と同様ですが、束縛が左から右に逐次的に行われます。
-{\cf(\hyper{variable} \hyper{init})} によって示される束縛の有効範囲\index{region}は
+{\cf(\hyper{variable} \hyper{init})} によって示される束縛の有効範囲\index{有効範囲}は
 {\cf let*} 式のその束縛より右側の部分になります。
 従って2番目の束縛は最初の束縛が見える環境で行われ、以下同様です。
 \hyper{variable}がそれぞれ異なっている必要はありません。
@@ -631,7 +631,7 @@ else節があればその\hyper{expression}が含まれます。
 \hyper{init}の結果がそれぞれ対応する\hyper{varible}に代入され、
 その結果の環境で\hyper{body}が評価され、
 \hyper{body}の最後の式の値が返されます。
-各\hyper{variable}の束縛は{\cf letrec}式全体をその有効範囲として持ちます。\index{region}
+各\hyper{variable}の束縛は{\cf letrec}式全体をその有効範囲として持ちます。\index{有効範囲}
 それにより相互再帰手続きを定義することが可能です。
 
 \begin{scheme}
@@ -671,7 +671,7 @@ else節があればその\hyper{expression}が含まれます。
 \begin{scheme}
 ((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm%
 \end{scheme}
-\hyper{body}\index{body}はゼロ個以上の定義に続くひとつ以上の式です。
+\hyper{body}\index{本体}はゼロ個以上の定義に続くひとつ以上の式です。
 \ref{lambda}~節も参照してください。
 束縛される変数のリストに同じ\hyper{variable}がふたつ以上現れた場合はエラーです。
 
@@ -681,7 +681,7 @@ else節があればその\hyper{expression}が含まれます。
 その結果の環境で\hyper{body}が評価され、
 \hyper{body}の最後の式が返されます。
 左から右の評価代入の順番にもかかわらず、
-各\hyper{variable}の束縛は{\cf letrec*} 式全体をその有効範囲\index{region}として持ちます。
+各\hyper{variable}の束縛は{\cf letrec*} 式全体をその有効範囲\index{有効範囲}として持ちます。
 それにより相互再帰手続きを定義することが可能です。
 
 各\hyper{init}は対応する\hyper{variable}の値およびそれより右側の
@@ -728,7 +728,7 @@ else節があればその\hyper{expression}が含まれます。
 その戻り値を一致させます。
 その後その拡張された環境で\hyper{body}が評価され、
 \hyper{body}の最後の式の値が返されます。
-それぞれの\hyper{variable}の束縛は\hyper{body}をその有効範囲とします。\index{region}
+それぞれの\hyper{variable}の束縛は\hyper{body}をその有効範囲とします。\index{有効範囲}
 
 \hyper{init}の返した値の数が対応する\hyper{formals}に一致しない場合はエラーです。
 
@@ -859,7 +859,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 最後の\hyper{expression}の値が返されます。
 \hyper{expression}が存在しなければ{\cf do}式の値は規定されていません。
 
-\vest \hyper{variable}の束縛の有効範囲\index{region}は
+\vest \hyper{variable}の束縛の有効範囲\index{有効範囲}は
 \hyper{init}を除く{\cf do}式全体から成ります。
 {\cf do}の変数リストに同じ\hyper{variable}がふたつ以上現れた場合はエラーです。
 
@@ -955,7 +955,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 \proto{force}{ promise}{lazyライブラリの手続き}}
 
 {\cf force}手続きは\ide{delay}、\ide{delay-force}または\ide{make-promise}
-によって作成された\var{promise}の値を要求します。\index{promise}
+によって作成された\var{promise}の値を要求します。\index{プロミス}
 そのプロミスに対する値が計算されていなければ値が計算されて返されます。
 プロミスの値は二回目要求されたとき以前計算した値を返すために
 キャッシュ(または「メモ化」)されます。
@@ -1213,7 +1213,7 @@ Schemeでは{\cf call-with-current-continuation} (\ref{continuations}~節)
 \pproto{unquote-splicing}{\auxiliarytype}
 \pproto{\commaatsign}{\auxiliarytype}}
 
-「quasiquote」\index{backquote}式は
+「quasiquote」\index{バッククォート}式は
 全部ではないけれど部分的にあらかじめ判っているような
 リストやベクタ構造を構築する場合に便利です。
 \hyper{qq template}内にコンマが無ければ %
@@ -1351,19 +1351,19 @@ quasiquote式は式の評価中に実行時に構築された任意の構造に�
 \label{macrosection}
 
 Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式型を
-定義して使うことができます。\mainindex{macro}
+定義して使うことができます。\mainindex{マクロ}
 プログラムによって定義された式型は以下の構文を持ちます。
 \begin{scheme}
 (\hyper{keyword} {\hyper{datum}} ...)%
 \end{scheme}%
 ただし\hyper{keyword}はその式型を唯一に決定する識別子です。
-この識別子はそのマクロの{\em 構文キーワード}\index{syntactic keyword}%
-または単に{\em キーワード}\index{keyword}と呼ばれます\index{macro keyword}。
+この識別子はそのマクロの{\em 構文キーワード}\index{構文キーワード}%
+または単に{\em キーワード}\index{キーワード}と呼ばれます\index{マクロキーワード}。
 \hyper{datum}の数およびその構文はその式型に依存します。
 
-マクロの実体化はそのマクロの{\em 使用}\index{macro use}と呼ばれます。
+マクロの実体化はそのマクロの{\em 使用}\index{マクロの使用}と呼ばれます。
 マクロの使用をよりプリミティブな式にどのように変換するかを指定する規則の集合は
-そのマクロの{\em 変換器}\index{macro transformer}と呼ばれます。
+そのマクロの{\em 変換器}\index{マクロ変換器}と呼ばれます。
 
 マクロ定義機能はふたつの部分から成ります。
 
@@ -1376,7 +1376,7 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 \end{itemize}
 
 マクロの構文キーワードは変数束縛を覆い隠し、
-局所変数束縛は構文束縛を覆い隠します。\index{keyword}
+局所変数束縛は構文束縛を覆い隠します。\index{キーワード}
 意図しない衝突を防ぐためにふたつの仕組みがあります。
 
 \begin{itemize}
@@ -1396,7 +1396,7 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 パターン言語を用いて定義されたマクロはすべて「健全」かつ「参照透明」であり、
 Schemeの字句的スコープが保たれます。\cite{Kohlbecker86,
 hygienic,Bawden88,macrosthatwork,syntacticabstraction}
-\mainindex{hygienic}\mainindex{referentially transparent}
+\mainindex{健全}\mainindex{参照透明}
 
 処理系は他の種類のマクロ機能を提供しても構いません。
 

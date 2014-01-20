@@ -5,8 +5,8 @@
 \label{initialenv}
 \label{builtinchapter}
 
-\mainindex{initial environment}
-\mainindex{global environment}
+\mainindex{初期環境}
+\mainindex{大域環境}
 \mainindex{手続き}
 
 この章ではSchemeの組み込み手続きを説明します。
@@ -307,7 +307,7 @@
 
 \section{数値}
 \label{numbersection}
-\index{number}
+\index{数値}
 
 \newcommand{\type}[1]{{\it#1}}
 \newcommand{\tupe}[1]{{#1}}
@@ -322,7 +322,7 @@
 
 \subsection{数値の型}
 \label{numericaltypes}
-\index{numerical types}
+\index{数値の型}
 
 \vest 数学的には、各階がそれより上の階の部分型であるような塔に、数値を編成することができます。
 \begin{tabbing}
@@ -351,7 +351,7 @@ Scheme処理系は数値の内部表現を複数用いても構いませんが�
 
 \subsection{正確性}
 
-\mainindex{exactness} \label{exactly}
+\mainindex{正確性} \label{exactly}
 
 正確に表現された数値とそうでない可能性のある数値の区別は有用です。
 例えばデータ構造へのインデックスは、
@@ -408,7 +408,7 @@ Schemeでは正確な定数として書かれたか、
 
 \subsection{処理系の制限}
 
-\index{implementation restriction}\label{restrictions}
+\index{処理系の制限}\label{restrictions}
 
 \vest Scheme処理系は\ref{numericaltypes}~節で述べた部分型の塔全体を実装することは要求されていません。
 しかし処理系の目的とScheme言語の精神の両方を満たす一貫性のある部分集合を実装しなければなりません。
@@ -489,7 +489,7 @@ Schemeは数値に対する様々な書き方を規定していますが、
 黙って\tupe{不正確}な数値で表現しても構いません。
 
 \subsection{処理系の拡張}
-\index{implementation extension}
+\index{処理系の拡張}
 
 \vest 処理系は2つ以上の異なる精度の浮動小数点数値表現を提供していても構いません。
 そのような処理系では不正確な結果は少なくともその演算に使われた
@@ -1043,7 +1043,7 @@ $\vr{n_r} = \vri{n} - \vrii{n} \vr{n_q}$
 }
 
 {\cf rationalize}手続きは\vr{x}から±\vr{y}以内の{\em 最も簡単}な有理数を返します。
-ある有理数 $r_1$ が別の有理数 $r_2$ より{\em 簡単}であるとは、\mainindex{simplest rational}
+ある有理数 $r_1$ が別の有理数 $r_2$ より{\em 簡単}であるとは、\mainindex{最も簡単な有理数}
 $r_1 = p_1/q_1$ および $r_2 = p_2/q_2$ (いずれも既約) としたとき、
 $|p_1| \leq |p_2|$ かつ $|q_1| \leq |q_2|$ である場合のことを言います。
 つまり $3/5$ は $4/7$ より簡単です。
@@ -1363,10 +1363,10 @@ $0.0^z$の場合も同様ですが不正確な結果になります。
 代わりに、それぞれ \sharptrue{}および \sharpfalse{}と書くこともできます。
 これらの重要な点はSchemeの条件式
 ({\cf if}、{\cf cond}、{\cf and}、{\cf or}、{\cf when}、{\cf unless}、{\cf do})
-が真\index{true}または偽\index{false}として扱うオブジェクトであるということです。
-用語「真の値」\index{true}(または単に「真」)は
+が真\index{真}または偽\index{偽}として扱うオブジェクトであるということです。
+用語「真の値」\index{真}(または単に「真」)は
 条件式において真として扱われるあらゆるオブジェクトを意味し、
-用語「偽の値」\index{false}(または「偽」)は
+用語「偽の値」\index{偽}(または「偽」)は
 条件式において偽として扱われるあらゆるオブジェクトを意味します。
 
 \vest すべてのSchemeの値のうち %
@@ -1376,7 +1376,7 @@ $0.0^z$の場合も同様ですが不正確な結果になります。
 
 \begin{note}
 他のLisp方言と異なり、
-Schemeでは \schfalse{}と空リスト\index{empty list}はお互いに区別され、
+Schemeでは \schfalse{}と空リスト\index{空リスト}はお互いに区別され、
 またシンボル\ide{nil}とも区別されます。
 \end{note}
 
@@ -1443,7 +1443,7 @@ Schemeでは \schfalse{}と空リスト\index{empty list}はお互いに区別�
 
 ペアは主にリストを表現するために使われます。
 \defining{リスト}は
-空リスト\index{empty list}またはcdrがリストであるペアとして
+空リスト\index{空リスト}またはcdrがリストであるペアとして
 再帰的に定義できます。
 より正確に言うとリストの集合は以下を満たす最小の集合\var{X}として定義されます。
 
@@ -1458,7 +1458,7 @@ Schemeでは \schfalse{}と空リスト\index{empty list}はお互いに区別�
 そのペアのcarが2番目の要素、そのペアのcdrが空リストであるようなものを言います。
 リストの長さは要素の長さ、つまりペアの数と同じです。
 
-空リスト\mainindex{empty list}は独立した型を持つ特殊なオブジェクトです。
+空リスト\mainindex{空リスト}は独立した型を持つ特殊なオブジェクトです。
 それはペアではなく、要素を持たず、その長さはゼロです。
 
 \begin{note}
@@ -1474,7 +1474,7 @@ Schemeのペアの最も汎用的な表記 (外部表現) は
 
 リストに対してはより流線的な記法が使われます。
 単純にリストの要素をスペースで区切って括弧で囲みます。
-空リスト\index{empty list}は{\tt()}と書きます。
+空リスト\index{空リスト}は {\tt()} と書きます。
 例を挙げます。
 
 \begin{scheme}
@@ -1570,7 +1570,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \proto{car}{ pair}{手続き}}
 
 \var{pair}のcarフィールドの内容を返します。
-空リスト\index{empty list}のcarを取ることはエラーであることに注意してください。
+空リスト\index{空リスト}のcarを取ることはエラーであることに注意してください。
 
 \begin{scheme}
 (car '(a b c))          \ev  a
@@ -1666,7 +1666,7 @@ carが\vari{obj}でありcdrが\varii{obj}である新しく割り当てられ�
 \begin{entry}{%
 \proto{null?}{ obj}{手続き}}
 
-\var{obj}が空リスト\index{empty list}であれば \schtrue{}を返し、
+\var{obj}が空リスト\index{空リスト}であれば \schtrue{}を返し、
 そうでなければ \schfalse{}を返します。
 
 \end{entry}
@@ -2203,9 +2203,9 @@ Unicodeの単純な大文字小文字畳み込みアルゴリズム
 \label{stringsection}
 
 文字列は文字の並びです。
-\vest 文字列はダブルクォート({\cf "})で囲まれた文字の並びとして書かれます。
+\vest 文字列はダブルクォート ({\cf "}) で囲まれた文字の並びとして書かれます。
 文字列リテラル内では、
-様々なエスケープシーケンス\mainindex{escape sequence}が特別に解釈されます。
+様々なエスケープシーケンス\mainindex{エスケープシーケンス}が特別に解釈されます。
 エスケープシーケンスは必ず(\backwhack{})で始まります。
 
 \begin{itemize}
@@ -2510,7 +2510,7 @@ b \ev "a12de"%
 \vest ベクタが持つ要素の数をそのベクタの{\em 長さ}と言います。
 この数は非負の整数でベクタの作成時に固定されます。
 ベクタの長さよりも小さい正確な非負の整数をそのベクタの
-{\em 有効なインデックス}\index{valid indexes}と言います。
+{\em 有効なインデックス}\index{有効なインデックス}と言います。
 ベクタの最初の要素のインデックスは0で、
 最後の要素のインデックスはベクタの長さよりも1小さい値です。
 
@@ -2727,7 +2727,7 @@ a \lev \#(1 2 smash smash 5)%
 \vest バイトベクタが持つ要素の数をそのバイトベクタの{\em 長さ}と言います。
 この数は非負の整数で、バイトベクタ作成時に固定されます。
 バイトベクタの長さより小さい正確な非負の整数を、そのバイトベクタの
-{\em 有効なインデックス}\index{valid indexes}と言います。
+{\em 有効なインデックス}\index{有効なインデックス}と言います。
 ベクタ同様にインデックスはゼロから始まります。
 
 バイトベクタは{\tt\#u8(\var{byte} \dotsfoo)}という表記を用いて書きます。
@@ -3117,7 +3117,7 @@ Schemeの他の同様の手続きとは逆に、
 \label{continuations}
 \domain{\var{proc}が引数をひとつ取らない場合はエラーです。}
 手続き{\cf call-with-current-continuation} (または同等の省略形{\cf call/cc}) 
-は現在の継続(後述の論拠を参照)を「脱出手続き」\mainindex{escape procedure}
+は現在の継続(後述の論拠を参照)を「脱出手続き」\mainindex{脱出手続き}
 としてパッケージ化し、それを引数として\var{proc}に渡します。
 脱出手続きはSchemeの手続きで、後ほど呼ばれるとその時点での有効な継続を放棄し、
 代わりに脱出手続き作成時点で有効であった継続を使用します。
@@ -3351,7 +3351,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 例外ハンドラは引数をひとつ取ります。
 システムは現在の例外ハンドラを動的環境で暗黙的に管理しています。
 
-\index{current exception handler}
+\index{現在の例外ハンドラ}
 例外が発生すると現在の例外ハンドラが呼ばれ、
 その例外に関する情報をカプセル化したオブジェクトが渡されます。
 引数をひとつ取る手続きなら何でも例外ハンドラとして用いることができます。
@@ -3582,7 +3582,7 @@ Schemeの例外の概念については\ref{errorsituations}~節を参照して�
 
 ポートは入出力機器を表します。
 Schemeでは入力ポートは要求に応じてデータを供給するSchemeオブジェクトで、
-出力ポートはデータを消費するSchemeオブジェクトです\mainindex{port}。
+出力ポートはデータを消費するSchemeオブジェクトです\mainindex{ポート}。
 入力ポートと出力ポートの型が独立しているかどうかは処理系依存です。
 
 {\em ポート型}によって操作するデータは異なります。

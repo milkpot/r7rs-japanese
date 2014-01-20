@@ -10,7 +10,7 @@ Schemeの正式な構文は\ref{BNF}~節を参照してください。
 \section{識別子}
 \label{syntaxsection}
 
-識別子\mainindex{identifier}は文字、数字、「拡張識別子文字」の任意の並びです。
+識別子\mainindex{識別子}は文字、数字、「拡張識別子文字」の任意の並びです。
 ただし有効な数値で始まっていてはいけません。
 またリスト構文で使う \ide{.} (ピリオドひとつ)は識別子ではありません。
 
@@ -49,8 +49,8 @@ the-word-recursion-has-many-meanings%
 
 \vest Schemeのプログラムでは識別子に2つの用途があります。
 \begin{itemize}
-\item あらゆる識別子は変数\index{variable}として
-あるいは構文キーワード\index{syntactic keyword}として使うことができます
+\item あらゆる識別子は変数\index{変数}として
+あるいは構文キーワード\index{構文キーワード}として使うことができます
 (\ref{variablesection}~節および\ref{macrosection}~節を参照)。
 
 \item 識別子がリテラル(\ref{quote}~節を参照)としてあるいはリテラル内に現れることで
@@ -97,7 +97,7 @@ the-word-recursion-has-many-meanings%
 字句構文にはコメントの形式がいくつかあります。
 コメントはホワイトスペースとまったく同様に扱われます。
 
-セミコロン ({\tt;}) は一行コメントの開始を表します。\mainindex{comment}\mainschindex{;}
+セミコロン ({\tt;}) は一行コメントの開始を表します。\mainindex{コメント}\mainschindex{;}
 このコメントはセミコロンが現れた行の終わりまで続きます。
 
 コメントを表すもうひとつの方法は\hyper{datum}
@@ -107,8 +107,8 @@ the-word-recursion-has-many-meanings%
 このコメントはコメント接頭辞 {\tt \#;}、空白、そして\hyper{datum}から成ります。
 この記法はコードの一部を「コメントアウト」するのに便利です。
 
-ブロックコメントは
-{\tt \#|}\index{#"|@\texttt{\sharpsign\verticalbar}}\index{"|#@\texttt{\verticalbar\sharpsign}}
+ブロックコメントは %
+{\tt \#|}\schindex{\#|}\schindex{|\#}
 および {\tt |\#} の組で表します。
 これはネストできます。
 
