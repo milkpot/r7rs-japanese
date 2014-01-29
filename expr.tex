@@ -9,8 +9,8 @@
 派生式型は意味論上プリミティブでなく、マクロで定義できるものを言います。
 \ref{derivedsection}~節にいくつかの派生式型の適切な構文定義が掲載されています。
 
-{\cf delay}、{\cf delay-force}および{\cf parameterize}式型と密接に関連する手続き
-{\cf force}、{\cf promise?}、{\cf make-promise}および{\cf make-parameter}
+{\cf delay}、{\cf delay-force}および{\cf parameterize}式型と密接に関連している
+手続き{\cf force}、{\cf promise?}、{\cf make-promise}および{\cf make-parameter}
 もこの章で説明しています。
 
 \section{プリミティブ式型}
@@ -508,7 +508,7 @@ else節があればその式が評価され、その最後の結果が{\cf case}
 \end{itemize}
 
 \semantics
-各処理系はインポート可能なライブラリのリストと同様に
+各処理系はインポート可能なライブラリのリストおよび
 存在する機能識別子のリストを管理しています。
 それぞれの\hyper{feature identifier}および{\tt(library \hyper{library name})}を、
 処理系の持つリストにある場合は \schtrue{}、ない場合は \schfalse{}に置き換え、
