@@ -8,9 +8,9 @@ $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
 
 パラメータ{\tt system-derivative}は
 系の状態(状態変数 $y_1, \ldots, y_n$ に対する値のベクタ)を取り
-系の導関数(値 $y_1^\prime, \ldots, y_n^\prime$)を生成する関数です。
+系の微分係数(値 $y_1^\prime, \ldots, y_n^\prime$)を生成する関数です。
 パラメータ{\tt initial-state}は系の初期状態を与え、
-{\tt h}は積分ステップの長さの初期予想値です。
+{\tt h}は積分ステップの長さの初期推定値です。
 
 {\cf integrate-system}の戻り値は系の状態の無限ストリームです。
 
@@ -26,7 +26,7 @@ $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
       states)))%
 \end{schemenoindent}
 
-手続き{\cf runge-kutta-4}は系の状態から系の導関数を生成する関数{\tt f}を取ります。
+手続き{\cf runge-kutta-4}は系の状態から系の微分係数を生成する関数{\tt f}を取ります。
 これは系の状態を取り新しい系の状態を生成する関数を生成します。
 
 \begin{schemenoindent}
@@ -72,7 +72,7 @@ $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
   (elementwise (lambda (x) (* x s))))%
 \end{schemenoindent}
 
-{\cf map-streams}手続きは{\cf map}の類似です。
+{\cf map-streams}手続きは{\cf map}のストリーム版です。
 第1引数(手続き)を第2引数(ストリーム)のすべての要素に適用します。
 
 \begin{schemenoindent}
@@ -91,7 +91,7 @@ $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
 \end{schemenoindent}
 
 \bigskip
-{\cf integrate-system}の使い方として減衰振動子をモデル化した系
+{\cf integrate-system}の使い方として減衰振動をモデル化した系
 $$ C {dv_C \over dt} = -i_L - {v_C \over R}$$\nobreak
 $$ L {di_L \over dt} = v_C$$
 を積分する例を以下に示します。

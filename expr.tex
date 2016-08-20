@@ -104,7 +104,7 @@ quoteする必要はありません。
 例えば上記の例の加算手続きと乗算手続きはbaseライブラリの変数 {\cf +} および {\cf *} の値です。
 \lambdaexp{} (\ref{lambda}~節を参照) を評価することで新しい手続きを作ることができます。
 
-手続きは任意の個数の値を返すことができます(\ref{proceduresection}~節の\ide{values}を参照)。
+手続き呼び出しは任意の個数の値を返すことができます(\ref{proceduresection}~節の\ide{values}を参照)。
 この報告書で定義されている手続きのほとんどは単一の値を返します。
 {\cf apply}のような手続きの場合、引数に渡した手続きを呼び出した戻り値がそのまま返されます。
 例外はそれぞれ個別の説明に記載されています。
@@ -283,7 +283,7 @@ Schemeではエラーです。
 \section{派生式型}
 \label{derivedexps}
 
-この節の構文は\ref{macrosection}~節で述べられてるように健全です。
+この節の構文は\ref{macrosection}~節で述べられてるように衛生的です。
 リファレンス目的のため
 この節で説明している構文のほとんどを前の節で説明したプリミティブ構文に変換する構文定義が
 \ref{derivedsection}~節に掲載されています。
@@ -318,7 +318,7 @@ Schemeではエラーです。
 \hyper{test}が真の値に評価されると、
 その\hyper{clause}の中の残りの\hyper{expression}が順に評価され、
 その\hyper{clause}の中の最後の\hyper{expression}の結果が
-{\cf cond}式全体の値として返されます。
+{\cf cond}式全体の結果として返されます。
 
 選択された\hyper{clause}が\hyper{test}だけで\hyper{expression}を持たない場合、
 \hyper{test}の値が結果として返されます。
@@ -356,7 +356,7 @@ else節があれば、その\hyper{expression}が順に評価され、
 \hyper{key}は任意の式を指定できます。
 それぞれの\hyper{clause}は以下の形です。
 \begin{scheme}
-((\hyperi{datum} \dotsfoo) \hyperi{expression} \hyperii{expression} \dotsfoo)\rm,%
+((\hyperi{datum} \dotsfoo) \hyperi{expression} \hyperii{expression} \dotsfoo)%
 \end{scheme}
 ただしそれぞれの\hyper{datum}は何らかのオブジェクトの外部表現です。
 式の中に同じ\hyper{datum}がふたつ以上ある場合はエラーです。
@@ -518,7 +518,7 @@ Schemeのブーリアン式として評価することによって、
 
 次に一連の\hyper{ce-clause}の\hyper{feature requirement}が %
 \schtrue{}を返すまで順番に評価されます。
-真の値が見つかれば、対応する\hyper{expression}が{\cf begin}に展開されます。
+真の節が見つかれば、対応する\hyper{expression}が{\cf begin}に展開されます。
 残りの節は無視されます。
 どの\hyper{feature requirement}も \schtrue{}に評価されない場合、
 else節があればその\hyper{expression}が含まれます。
@@ -545,7 +545,7 @@ else節があればその\hyper{expression}が含まれます。
 初期値が計算されている間もすべての束縛が有効であり、
 これによって相互再帰を定義することができます。
 {\cf let-values}構文および{\cf let*-values}構文は
-それぞれ{\cf let}および{\cf let*} に似たものですが、
+それぞれ{\cf let}および{\cf let*} に似ていますが、
 多値の式を処理できるよう設計されており、
 返された多値をそれぞれ異なる識別子に束縛できます。
 
@@ -711,7 +711,7 @@ else節があればその\hyper{expression}が含まれます。
 \syntax
 \hyper{mv binding spec}は以下の形を取ります。
 \begin{scheme}
-((\hyperi{formals} \hyperi{init}) \dotsfoo)\rm,%
+((\hyperi{formals} \hyperi{init}) \dotsfoo)%
 \end{scheme}
 
 それぞれの\hyper{init}は式で、
@@ -747,17 +747,17 @@ else節があればその\hyper{expression}が含まれます。
 \syntax
 \hyper{mv binding spec}は以下の形を取ります。
 \begin{scheme}
-((\hyper{formals} \hyper{init}) \dotsfoo)\rm,%
+((\hyper{formals} \hyper{init}) \dotsfoo)%
 \end{scheme}
 \hyper{body}はゼロ個以上の定義に続くひとつ以上の式です。
 \ref{lambda}も参照してください。
 それぞれの\hyper{formals}において同じ変数がふたつ以上現れた場合はエラーです。
 
 \semantics
-{\cf let*-values}構文は{\cf let-values}に似ています。
-\hyper{init}が評価され、左から右に逐次的に束縛が作成されます。
+{\cf let*-values}構文は{\cf let-values}に似ていますが、
+左から右に逐次的に、\hyper{init}が評価され、束縛が作成されます。
 それぞれの\hyper{formals}の束縛の有効範囲は
-\hyper{body}と同様にその\hyper{init}の右側も含まれます。
+\hyper{body}だけでなくその\hyper{init}の右側も含まれます。
 従って2番目の\hyper{init}は最初の束縛の集合が見えて初期化された環境で評価され、
 以下同様です。
 
@@ -782,7 +782,7 @@ Schemeの逐次実行構文は両方とも{\cf begin}という名前ですが、
 \begin{entry}{%
 \proto{begin}{ \hyper{expression or definition} \dotsfoo}{\exprtype}}
 
-この形の{\cf begin}は\hyper{body}の部分、\hyper{program}の最上位、REPL、
+この形の{\cf begin}は\hyper{body}の一部、\hyper{program}の最上位、REPL、
 またはこの形の{\cf begin}に直接ネストしている場合に使うことができます。
 囲んでいる{\cf begin}構文が存在しない場合とまったく同様に、
 内部の式および定義が評価されます。
@@ -1305,7 +1305,7 @@ quasiquote式は式の評価中に実行時に構築された任意の構造に�
 
 
 識別子{\cf quasiquote}、{\cf unquote}、{\cf unquote-splicing}のいずれかが
-上で説明した以外の\hyper{qq template}内の部分に現れた場合はエラーです。
+上で説明した以外の\hyper{qq template}内の位置に現れた場合はエラーです。
 
 \end{entry}
 
@@ -1322,7 +1322,7 @@ quasiquote式は式の評価中に実行時に構築された任意の構造に�
 
 \semantics
 {\cf case-lambda}式は可変個の引数を取る手続きに評価され、
-\lambdaexp{}から返される手続きと同じように字句的スコープを持ちます。
+\lambdaexp{}から返される手続きと同様の字句的スコープを持ちます。
 この手続きが呼ばれると、
 その引数が\hyper{formals}とマッチする最初の\hyper{clause}が選択されます。
 ただしマッチは\lambdaexp{}の\hyper{formals}に対するものと同様に指定されます。
@@ -1363,16 +1363,16 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 
 マクロの実体化はそのマクロの{\em 使用}\index{マクロの使用}と呼ばれます。
 マクロの使用をよりプリミティブな式にどのように変換するかを指定する規則の集合は
-そのマクロの{\em 変換器}\index{マクロ変換器}と呼ばれます。
+そのマクロの{\em 変換子}\index{マクロ変換子}と呼ばれます。
 
 マクロ定義機能はふたつの部分から成ります。
 
 \begin{itemize}
 \item 特定の識別子をマクロキーワードとして確立し、
-それをマクロ変換器に紐付け、
+それをマクロ変換子に紐付け、
 マクロが定義されるスコープを制御するために使う式の集合。
 
-\item マクロ変換器を指定するためのパターン言語。
+\item マクロ変換子を指定するためのパターン言語。
 \end{itemize}
 
 マクロの構文キーワードは変数束縛を覆い隠し、
@@ -1381,22 +1381,22 @@ Schemeのプログラムでは{\em マクロ}と呼ばれる新しい派生式�
 
 \begin{itemize}
 
-\item マクロ変換器が識別子(変数またはキーワード)に対する束縛を挿入した場合、
+\item マクロ変換子が識別子(変数またはキーワード)に対する束縛を挿入した場合、
 その識別子は他の識別子との衝突を避けるためにそのスコープにおいて実質的に改名されます。
 ちなみに大域変数の定義は束縛を導入してもしなくても構いません。
 \ref{defines}~節を参照してください。
 
-\item マクロ変換器が識別子の自由参照を挿入した場合、
-その参照は変換器が指定された場所から見えていた束縛を参照します。
+\item マクロ変換子が識別子の自由参照を挿入した場合、
+その参照は変換子が指定された場所から見えていた束縛を参照します。
 マクロの使用場所のまわりにあるいかなる局所束縛も関係しません。
 
 \end{itemize}
 
 これにより
-パターン言語を用いて定義されたマクロはすべて「健全」かつ「参照透明」であり、
+パターン言語を用いて定義されたマクロはすべて「衛生的」かつ「参照透明」であり、
 Schemeの字句的スコープが保たれます。\cite{Kohlbecker86,
 hygienic,Bawden88,macrosthatwork,syntacticabstraction}
-\mainindex{健全}\mainindex{参照透明}
+\mainindex{衛生的}\mainindex{参照透明}
 
 処理系は他の種類のマクロ機能を提供しても構いません。
 
@@ -1406,7 +1406,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 {\cf let-syntax}および{\cf letrec-syntax}束縛構文は
 {\cf let}および{\cf letrec}に似ていますが、
 値を持つ場所に変数を束縛する代わりに
-構文キーワードをマクロ変換器に束縛します。
+構文キーワードをマクロ変換子に束縛します。
 構文キーワードは{\cf define-syntax}を使って大域的または局所的に束縛することもできます。
 \ref{define-syntax}~節を参照してください。
 
@@ -1425,7 +1425,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 
 \semantics
 {\cf let-syntax}式の構文環境を
-指定した変換器にキーワード\hyper{keyword}を束縛するマクロで拡張することによって得られた構文環境で
+指定した変換子にキーワード\hyper{keyword}を束縛するマクロで拡張することによって得られた構文環境で
 \hyper{body}が展開されます。
 それぞれの\hyper{keyword}の束縛は\hyper{body}をその有効範囲とします。
 
@@ -1454,13 +1454,13 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 {\cf let-syntax}と同じです。
 
 \semantics
-{\cf let-syntax}式の構文環境を
-指定した変換器にキーワード\hyper{keyword}を束縛するマクロで拡張することによって得られた構文環境で
+{\cf letrec-syntax}式の構文環境を
+指定した変換子にキーワード\hyper{keyword}を束縛するマクロで拡張することによって得られた構文環境で
 \hyper{body}が展開されます。
 それぞれの\hyper{keyword}の束縛は
 \hyper{body}と同様に\hyper{transformer spec}もその有効範囲として持ち、
-そのため変換器はその{\cf letrec-syntax}式によって導入されたマクロを使用して
-表現することができます。
+そのため変換子はその{\cf letrec-syntax}式によって導入されたマクロを使用して
+式を書き換えることができます。
 
 \begin{scheme}
 (letrec-syntax
@@ -1534,11 +1534,11 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 そうでなければデフォルトの識別子 {\cf ...} (連続した3つのピリオド) です。\schindex{...}
 
 \semantics {\cf syntax-rules}のインスタンスは
-健全な書き換えルールの並びを指定することによって新しいマクロ変換器を生成します。
-{\cf syntax-rules}で指定された変換器に紐付けられたキーワードのマクロを使用すると
+衛生的な書き換えルールの並びを指定することによって新しいマクロ変換子を生成します。
+{\cf syntax-rules}で指定された変換子に紐付けられたキーワードのマクロを使用すると
 \hyper{syntax rule}内のパターンに対してマッチされます。
 マッチは最も左の\hyper{syntax rule}から行われます。
-マッチが見つかるとそのマクロ使用はテンプレートに従って健全に書き換えられます。
+マッチが見つかるとそのマクロ使用はテンプレートに従って衛生的に書き換えられます。
 
 \hyper{pattern}内に現れる識別子は
 アンダースコア({\cf \_})、
@@ -1628,7 +1628,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 マクロキーワードをその束縛のスコープ内において
 そのパターンのいずれにもマッチしない式で使用することはエラーです。
 
-マクロの使用が\hyper{syntax rule}のマッチしたテンプレートに従って書き換えられる際、
+マクロの使用がマッチした\hyper{syntax rule}のテンプレートに従って書き換えられる際、
 テンプレート内のパターン変数が入力にマッチした要素に置き換えられます。
 識別子\hyper{ellipsis}がひとつ以上後続する部分パターン内に現れたパターン変数は、
 同じ数の\hyper{ellipsis}が後続する部分テンプレート内でだけ使うことができます。
@@ -1671,17 +1671,17 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 
 例えば
 \ide{let}および\ide{cond}が\ref{derivedsection}~節のように定義されている場合、
-それらは健全であり(要求通りです)、以下はエラーとはなりません。
+それらは衛生的であり(要求通りです)、以下はエラーとはなりません。
 
 \begin{scheme}
 (let ((=> \schfalse))
   (cond (\schtrue => 'ok)))           \ev ok%
 \end{scheme}
 
-{\cf cond}のマクロ変換器は %
+{\cf cond}のマクロ変換子は %
 {\cf =>} が局所変数であり、
 従ってそれは式であり、
-マクロ変換器が構文キーワードとして扱うべきbaseライブラリの識別子 {\cf =>} とは異なる
+マクロ変換子が構文キーワードとして扱うべきbaseライブラリの識別子 {\cf =>} とは異なる
 ということを認識します。
 そのため上記の例は以下のように展開されます。
 
@@ -1702,7 +1702,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 
 \end{entry}
 
-\subsection{マクロ変換器のエラー通知}
+\subsection{マクロ変換子のエラー通知}
 
 
 \begin{entry}{%
@@ -1717,7 +1717,7 @@ hygienic,Bawden88,macrosthatwork,syntacticabstraction}
 より説明的なエラーメッセージを提供することができます。
 \hyper{message}は文字列リテラルで、
 \hyper{args}は追加の情報を提供する任意の式です。
-アプリケーションは例外やガードで構文エラーを捕捉できると考えてはいけません。
+アプリケーションは例外ハンドラやガードで構文エラーを捕捉できると考えてはいけません。
 
 \todo{Shinn: This doesn't check all non-identifier cases, think of a better example.}
 
