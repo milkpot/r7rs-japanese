@@ -112,7 +112,7 @@ $\Esem$は式に意味を割り当てる意味関数です。
 \K & \elem & \Con & 定数 (quoteを含む) \\
 \I & \elem & \Ide & 識別子 (変数) \\
 \E & \elem & \Exp & 式\\
-\C & \elem & \Com{} $=$ \Exp & コマンド
+\C & \elem & \Com{} $=$ \Exp & 命令
 \end{tabular}
 
 \setbox0=\hbox{\texttt{\Exp \goesto{}}}  %\tt for spacing
@@ -148,7 +148,7 @@ $\epsilon$ & \elem & \EXP &=& \makebox[0pt][l]{$\SYM+\CHR+\NUM+\PAI+\VEC+\STR+\M
 %          &       & \STV &=& \EXP     & stored values \\
 $\sigma$   & \elem & \STO &=& $\LOC\to(\STV\times\TRU)$ & 記憶装置 \\
 $\rho$     & \elem & \ENV &=& $\Ide\to\LOC$  & 環境 \\
-$\theta$   & \elem & \CC  &=& $\STO\to\ANS$  & コマンドの継続 \\
+$\theta$   & \elem & \CC  &=& $\STO\to\ANS$  & 命令の継続 \\
 $\kappa$   & \elem & \EC  &=& $\arbno{\EXP}\to\CC$ & 式の継続 \\
            &       & \ANS & &                & 答え \\
            &       & \ERR & &                & エラー \\
