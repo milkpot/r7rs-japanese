@@ -1,5 +1,5 @@
 %\vfill\eject
-\section{Formal semantics}
+\section{形式意味論}
 \label{formalsemanticssection}
 
 \bgroup
@@ -34,60 +34,61 @@
 \newcommand{\wrong}[1]{\fun{wrong }\hbox{\rm``#1''}}
 \newcommand{\go}[1]{\hbox{\hspace*{#1em}}}
 
-This section provides a formal denotational semantics for the primitive
-expressions of Scheme and selected built-in procedures.  The concepts
-and notation used here are described in~\cite{Stoy77}; the definition of
-{\cf dynamic-wind} is taken from~\cite{GasbichlerKnauelSperberKelsey2003}.
-The notation is summarized below:
+この節ではSchemeのプリミティブ式およびいくつかの組み込み手続きに対する
+形式的な表示的意味論を掲載します。
+ここで使用する概念および記法は~\cite{Stoy77}で説明されています。
+{\cf dynamic-wind}の定義は~\cite{GasbichlerKnauelSperberKelsey2003}から取っています。
+以下に記法を要約します。
 
 \begin{tabular}{ll}
-$\langle\,\ldots\,\rangle$ & sequence formation \\
-$s \elt k$                 & $k$th member of the sequence $s$ (1-based) \\
-$\#s$                      & length of sequence $s$ \\
-$s \:\S\: t$               & concatenation of sequences $s$ and $t$ \\
-$s \drop k$                & drop the first $k$ members of sequence $s$ \\
-$t \rightarrow a, b$       & McCarthy conditional ``if $t$ then $a$ else $b$'' \\
-$\rho[x/i]$                & substitution ``$\rho$ with $x$ for $i$'' \\
-$x\hbox{ \rm in }{\texttt{D}}$         & injection of $x$ into domain $\texttt{D}$ \\
-$x\,\vert\,\texttt{D}$       & projection of $x$ to domain $\texttt{D}$
+$\langle\,\ldots\,\rangle$ & 並びの形成 \\
+$s \elt k$                 & 並び$s$の$k$番目の要素 (1ベース) \\
+$\#s$                      & 並び$s$の長さ \\
+$s \:\S\: t$               & 並び$s$および$t$の連結 \\
+$s \drop k$                & 並び$s$の最初の$k$個の要素を捨てる \\
+$t \rightarrow a, b$       & マッカーシーの条件式 \\
+                           & 「もし$t$ならば$a$、さもなくば$b$」 \\
+$\rho[x/i]$                & $\rho$の$i$に対応する値を$x$に置換 \\
+$x\hbox{ \rm in }{\texttt{D}}$         & $x$の領域$\texttt{D}$への注入 \\
+$x\,\vert\,\texttt{D}$       & $x$の領域$\texttt{D}$への写像
 \end{tabular}
 
-The reason that expression continuations take sequences of values instead
-of single values is to simplify the formal treatment of procedure calls
-and multiple return values.
+式の継続が単一の値ではなく値の並びを取る理由は、
+手続き呼び出しと複数の戻り値の形式的な扱いをシンプルにするためです。
 
-The boolean flag associated with pairs, vectors, and strings will be true
-for mutable objects and false for immutable objects.
+ペア、ベクタおよび文字列に紐づけられたブーリアンのフラグは、
+可変オブジェクトの場合は真、不変オブジェクトの場合は偽になります。
 
-The order of evaluation within a call is unspecified.  We mimic that
-here by applying arbitrary permutations {\it permute} and {\it
-unpermute}, which must be inverses, to the arguments in a call before
-and after they are evaluated.  This is not quite right since it suggests,
-incorrectly, that the order of evaluation is constant throughout a program (for
-any given number of arguments), but it is a closer approximation to the intended
-semantics than a left-to-right evaluation would be.
+手続き呼び出し式内の評価順序は規定されていません。
+ここでは、適当な置換関数{\it permute}および{\it unpermute}を
+評価の前後で呼び出しの引数に適用することで、それを表しています。
+これらは逆関数でなければなりません。
+これは、プログラム全体で(同じ個数の引数に対しては)
+評価順序が固定されることを暗に意味するわけで、あまり正しくはありません。
+しかし左から右へ評価するよりは、意図している意味論に近い近似です。
 
-The storage allocator {\it new} is implementation-dependent, but it must
-obey the following axiom:  if \hbox{$\fun{new}\:\sigma\:\elem\:\LOC$}, then
-$\sigma\:(\fun{new}\:\sigma\:\vert\:\LOC)\elt 2 = {\it false}$.
+記憶領域の割り当て関数{\it new}は実装依存ですが、
+\hbox{$\fun{new}\:\sigma\:\elem\:\LOC$} ならば
+$\sigma\:(\fun{new}\:\sigma\:\vert\:\LOC)\elt 2 = {\it false}$
+でなければなりません。
 
 \def\P{\hbox{\rm P}}
 \def\I{\hbox{\rm I}}
 \def\Ksem{\hbox{$\cal K$}}
 \def\Esem{\hbox{$\cal E$}}
 
-The definition of $\Ksem$ is omitted because an accurate definition of
-$\Ksem$ would complicate the semantics without being very interesting.
+$\Ksem$の定義は、それほど興味深くないにもかからわず、
+正確に定義すると意味論が複雑化するため、省略しています。
 
-If \P{} is a program in which all variables are defined before being
-referenced or assigned, then the meaning of \P{} is
+あらゆる変数が参照または代入される前に定義済みであるとする場合、
+プログラム\P{}の意味は以下のようになります。
 $$\Esem\sembrack{\hbox{\texttt{((lambda (\arbno{\I}) \P')
 \hyper{undefined} \dotsfoo)}}}$$
-where \arbno{\I} is the sequence of variables defined in \P, $\P'$
-is the sequence of expressions obtained by replacing every definition
-in \P{} by an assignment, \hyper{undefined} is an expression that evaluates
-to \fun{undefined}, and
-$\Esem$ is the semantic function that assigns meaning to expressions.
+ただし、
+\arbno{\I}は\P{}で定義される変数の並び、
+$\P'$は\P{}の全ての定義を代入で置換して得られる式の並び、
+\hyper{undefined}は\fun{undefined}に評価される式、
+$\Esem$は式に意味を割り当てる意味関数です。
 
 %The semantics in this section was translated by machine from an
 %executable version of the semantics written in Scheme itself.
@@ -95,7 +96,7 @@ $\Esem$ is the semantic function that assigns meaning to expressions.
 %going back to the executable version.  -- Will]
 
 
-\subsection{Abstract syntax}
+\subsection{抽象構文}
 
 \def\K{\hbox{\rm K}}
 \def\I{\hbox{\rm I}}
@@ -108,10 +109,10 @@ $\Esem$ is the semantic function that assigns meaning to expressions.
 \def\|{$\vert$}
 
 \begin{tabular}{r@{ }c@{ }l@{\qquad}l}
-\K & \elem & \Con & constants, including quotations \\
-\I & \elem & \Ide & identifiers (variables) \\
-\E & \elem & \Exp & expressions\\
-\C & \elem & \Com{} $=$ \Exp & commands
+\K & \elem & \Con & 定数 (quoteを含む) \\
+\I & \elem & \Ide & 識別子 (変数) \\
+\E & \elem & \Exp & 式\\
+\C & \elem & \Com{} $=$ \Exp & コマンド
 \end{tabular}
 
 \setbox0=\hbox{\texttt{\Exp \goesto{}}}  %\tt for spacing
@@ -125,36 +126,36 @@ $\Esem$ is the semantic function that assigns meaning to expressions.
  \copy1{} (set! \I{} \E)
 \end{grammar}
 
-\subsection{Domain equations}
+\subsection{領域方程式}
 
 \begin{tabular}{@{}r@{ }c@{ }l@{ }l@{ }ll}
-$\alpha$   & \elem & \LOC & &          & locations \\
-$\nu$      & \elem & \NAT & &          & natural numbers \\
-           &       & \TRU &=& $\{$\it false, true$\}$ & booleans \\
-           &       & \SYM & &          & symbols \\
-           &       & \CHR & &          & characters \\
-           &       & \NUM & &          & numbers \\
-           &       & \PAI &=& $\LOC \times \LOC \times \TRU$  & pairs \\
-           &       & \VEC &=& $\arbno{\LOC} \times \TRU$ & vectors \\
-           &       & \STR &=& $\arbno{\LOC} \times \TRU$ & strings \\
+$\alpha$   & \elem & \LOC & &          & 位置 \\
+$\nu$      & \elem & \NAT & &          & 自然数 \\
+           &       & \TRU &=& $\{$\it false, true$\}$ & ブーリアン \\
+           &       & \SYM & &          & シンボル \\
+           &       & \CHR & &          & 文字 \\
+           &       & \NUM & &          & 数値 \\
+           &       & \PAI &=& $\LOC \times \LOC \times \TRU$  & ペア \\
+           &       & \VEC &=& $\arbno{\LOC} \times \TRU$ & ベクタ \\
+           &       & \STR &=& $\arbno{\LOC} \times \TRU$ & 文字列 \\
            &       & \MSC &=& \makebox[0pt][l]{$\{$\it false, true, 
                                 null, undefined, unspecified$\}$} \\
-           &       &      & &          & miscellaneous \\
+           &       &      & &          & その他いろいろ \\
 $\phi$     & \elem & \FUN &=& $\LOC\times(\arbno{\EXP} \to \DP \to \EC \to \CC)$
-                                       & procedure values \\
+                                       & 手続きの値 \\
 $\epsilon$ & \elem & \EXP &=& \makebox[0pt][l]{$\SYM+\CHR+\NUM+\PAI+\VEC+\STR+\MSC+\FUN$}\\
-           &       &      & &          & expressed values \\
+           &       &      & &          & 式の値 \\
 %          &       & \STV &=& \EXP     & stored values \\
-$\sigma$   & \elem & \STO &=& $\LOC\to(\STV\times\TRU)$ & stores \\
-$\rho$     & \elem & \ENV &=& $\Ide\to\LOC$  & environments \\
-$\theta$   & \elem & \CC  &=& $\STO\to\ANS$  & command conts \\
-$\kappa$   & \elem & \EC  &=& $\arbno{\EXP}\to\CC$ & expression conts \\
-           &       & \ANS & &                & answers \\
-           &       & \ERR & &                & errors \\
-$\omega$   & \elem & \DP  &=& $(\FUN \times \FUN \times \DP) + \{\textit{root}\}$ & dynamic points\\
+$\sigma$   & \elem & \STO &=& $\LOC\to(\STV\times\TRU)$ & 記憶装置 \\
+$\rho$     & \elem & \ENV &=& $\Ide\to\LOC$  & 環境 \\
+$\theta$   & \elem & \CC  &=& $\STO\to\ANS$  & コマンドの継続 \\
+$\kappa$   & \elem & \EC  &=& $\arbno{\EXP}\to\CC$ & 式の継続 \\
+           &       & \ANS & &                & 答え \\
+           &       & \ERR & &                & エラー \\
+$\omega$   & \elem & \DP  &=& $(\FUN \times \FUN \times \DP) + \{\textit{root}\}$ & 動的点\\
 \end{tabular}
 
-\subsection{Semantic functions}
+\subsection{意味関数}
 
 \def\Ksem{\hbox{$\cal K$}}
 \def\Esem{\hbox{$\cal E$}}
@@ -171,7 +172,7 @@ $\arbno{\Esem}:$ & $\arbno{\Exp}\to\ENV\to\DP\to\EC\to\CC$ \\
 
 \vspace{1ex}
 
-Definition of \Ksem{} deliberately omitted.
+$\Ksem$の定義は意図的に省略しています。
 
 \begin{semfun}
 \Esem\sembrack{\K} =
@@ -273,8 +274,8 @@ Definition of \Ksem{} deliberately omitted.
      \>\go{1}$\fun{send}\:\fun{unspecified}\:\kappa))
 \end{semfun}
 
-Here and elsewhere, any expressed value other than {\it undefined} may
-be used in place of {\it unspecified}.
+ここでは(他の場所でも)、{\it unspecified}の代わりに
+任意の式の値({\it undefined}を除く)を使用しても構いません。
 
 \begin{semfun}
 \Esem\sembrack{\hbox{\texttt{(\ide{set!} \I{} \E)}}} =$\\
@@ -312,7 +313,7 @@ be used in place of {\it unspecified}.
 
 \egroup  % end smallish
 
-\subsection{Auxiliary functions}
+\subsection{補助関数}
 
 \bgroup\small
 
@@ -333,7 +334,7 @@ be used in place of {\it unspecified}.
 \end{semfun}
 
 \begin{semfun}
-\fun{wrong}  :  \ERR \to \CC    \hbox{\qquad [implementation-dependent]}
+\fun{wrong}  :  \ERR \to \CC    \hbox{\qquad [実装依存]}
 \end{semfun}
 
 \begin{semfun}
@@ -352,7 +353,7 @@ be used in place of {\it unspecified}.
 
 \begin{semfun}
 \fun{new}           :  \STO \to (\LOC + \{ \fun{error} \})
-    \hbox{\qquad [implementation-dependent]}
+    \hbox{\qquad [実装依存]}
 \end{semfun}
 
 \begin{semfun}
@@ -420,12 +421,12 @@ be used in place of {\it unspecified}.
 
 \begin{semfun}
 \fun{permute}       :  \arbno{\Exp} \to \arbno{\Exp}
-    \hbox{\qquad [implementation-dependent]}
+    \hbox{\qquad [実装依存]}
 \end{semfun}
 
 \begin{semfun}
 \fun{unpermute}     :  \arbno{\EXP} \to \arbno{\EXP}
-    \hbox{\qquad [inverse of \fun{permute}]}
+    \hbox{\qquad [\fun{permute}の逆関数]}
 \end{semfun}
 
 \begin{semfun}
@@ -538,12 +539,12 @@ be used in place of {\it unspecified}.
 
 \begin{semfun}
 \fun{cdr}          :  \arbno{\EXP} \to \DP \to \EC \to \CC %$\\$
-\hbox{\qquad [similar to \fun{car}]}
+\hbox{\qquad [\fun{car}と同様]}
 \end{semfun}
 
 \begin{semfun}
 \fun{cdr-internal} :  \EXP \to \EC \to \CC %$\\$
-\hbox{\qquad [similar to \fun{car-internal}]}
+\hbox{\qquad [\fun{car-internal}と同様]}
 \end{semfun}
 
 \schindex{setcar}
